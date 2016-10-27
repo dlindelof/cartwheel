@@ -567,6 +567,82 @@ Bayesian formalism
 Experimental building
 \end_layout
 
+\begin_layout Standard
+The Sargans building shown in Fig.
+ 1 includes four heating circuits, covering 1234 m2, with heating water
+ provided by an oil-fired boiler.
+ The NOLa system was installed in March 2016 on three of the four circuits,
+ generally referred to as Neubau, Büro, and Wohnung, the latter two belonging
+ to the old part of the building (Altbau).
+ The fourth circuit was deemed not to require optimisation, as the zone
+ in question is kept relatively cool.
+\end_layout
+
+\begin_layout Standard
+The oil-fired boiler draws its fuel from two tanks and provides the heating
+ water to all heating circuits.
+ The levels in the tanks are recorded at irregular intervals, such as when
+ either (or both) tank was refilled.
+ The domestic hot water is provided by an independent circuit.
+\end_layout
+
+\begin_layout Standard
+Neurobat’s adaptive model-predictive control algorithm regularly calculates
+ an optimal value for the tempera- ture of the water prepared by the oil
+ boiler.
+ This value cannot be communicated directly to most legacy heating controllers;
+ instead, the NOLa system controls the flow temperature indirectly by modulating
+ the outdoor temperature measured by the heating controllers.
+ Thus, the boiler provides for each circuit a heating water at just the
+ right temperature.
+\end_layout
+
+\begin_layout Standard
+The sensors attached to the NOLa system (including an oil meter) are automatical
+ly sampled several times per hour and stored in a database.
+ The data is used for monitoring in near real time, and for offline data
+ analysis.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename img/sargans_composite.png
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Aerial (top left) and side views of the Altbau (bottom) and Neubau (right)
+ parts of the Sargans building.
+ The Büro and Wohnung circuits belong to the Altbau part.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Results
 \end_layout
