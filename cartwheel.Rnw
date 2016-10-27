@@ -1,0 +1,128 @@
+%% LyX 2.2.0 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[twoside,english,3p]{elsarticle}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\pagestyle{headings}
+\usepackage{xcolor}
+\usepackage{calc}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\PassOptionsToPackage{normalem}{ulem}
+\usepackage{ulem}
+\usepackage{nomencl}
+% the following is useful when we have the old nomencl.sty package
+\providecommand{\printnomenclature}{\printglossary}
+\providecommand{\makenomenclature}{\makeglossary}
+\makenomenclature
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\providecolor{lyxadded}{rgb}{0,0,1}
+\providecolor{lyxdeleted}{rgb}{1,0,0}
+%% Change tracking with ulem
+\DeclareRobustCommand{\lyxadded}[3]{{\color{lyxadded}{}#3}}
+\DeclareRobustCommand{\lyxdeleted}[3]{{\color{lyxdeleted}\sout{#3}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\newcommand{\code}[1]{\texttt{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+% specify here the journal
+\journal{Energy and Buildings}
+
+% use this if you need line numbers
+\usepackage{lineno}
+
+\usepackage{hyperref}
+\usepackage{url}
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+
+\begin{frontmatter}{}
+
+\title{Bayesian evaluation of energy conservation measures: a case study
+with a model-predictive controller for space heating on a commercial
+building}
+
+
+\author[nb]{David~Lindelöf\corref{cor1}}
+
+\ead{david.lindelof@neurobat.net}
+
+\author[nb]{Mohammad~Alisafaee}
+
+\author[nb]{Pierluca~Borsò}
+
+\author[nb]{Christian~Grigis}
+
+\author[nb]{Jean~Viaene}
+
+\author[nb]{Xavier~Mocellin}
+
+\cortext[cor1]{Corresponding author}
+
+\address[nb]{Neurobat AG, Rue de Veyrot 9, 1217 Meyrin, +41 22 552.11.62}
+\begin{abstract}
+Write this last.
+\end{abstract}
+\begin{keyword}
+Bayesian inference \sep heating degree-days\sep base temperature\sep
+balance point temperature\sep total heat loss coefficient\sep heating
+base load
+\end{keyword}
+
+\end{frontmatter}{}
+
+
+\section{Introduction}
+
+<<setup, include=FALSE>>=
+library(homeR)
+
+library(ggplot2)
+theme_set(theme_bw())
+
+opts_chunk$set(include = FALSE, error = FALSE, warning = FALSE, echo = FALSE,
+               dev = "tikz", dev.args = list(pointsize = 10),
+               fig.width = 3.5, fig.height = 3.5, fig.align = "center")
+
+nice <- function(x, n = 1) format(round(x, digits = n), nsmall = n)
+@
+
+\section{Bayesian formalism}
+
+\section{Experimental building}
+
+\section{Results}
+
+\section{Discussion}
+
+\section{Conclusion}
+
+\section*{Acknowledgements}
+
+I am very grateful to Dr Antoine Guillemin and Sohail Malik for their
+helpful review of an early version of this paper, and for their encouragements
+in getting this submitted for publication.
+
+\section*{Implementation notes}
+
+An implementation of this method for the R programming environment
+\citep{Rcore2015} is provided by the \code{bhm()} function in the
+\code{homeR} package, available for download on CRAN \citep{homeR}.
+
+\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+\printnomenclature{}%
+\end{minipage}}
+
+\section*{References}
+
+\bibliographystyle{elsarticle-patch}
+\addcontentsline{toc}{section}{\refname}\bibliography{bibliography}
+
+\end{document}
