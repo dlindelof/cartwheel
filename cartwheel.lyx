@@ -489,10 +489,6 @@ lineno
 
 \end_layout
 
-\begin_layout Section
-Introduction
-\end_layout
-
 \begin_layout Standard
 \begin_inset ERT
 status open
@@ -552,6 +548,201 @@ nice <- function(x, n = 1) format(round(x, digits = n), nsmall = n)
 \begin_layout Plain Layout
 
 @
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Ma2012"
+
+\end_inset
+
+ note that confidence in the effectiveness of energy conservation measures
+ limit their adoption.
+ Trust in computer simulations can only go so far, and more experience with
+ practical case studies are needed.
+ Evaluating the effectiveness of an ECM cannot remain a research project
+ forever; the whole process needs to be streamlined.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+The issue of risk is frequently ignored or overlooked.
+ Here we consider two kinds of risks: 1) the risk that the ECM might not
+ be as effective as advertised, and 2) the risk that, although effective,
+ the benefits will turn out to be difficult to prove.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+Improving the heating system's controller (such as by replacing it with
+ a model-predictive controller) belongs to the ECM category of 
+\begin_inset Quotes eld
+\end_inset
+
+Energy efficient equipment and low energy technologies
+\begin_inset Quotes erd
+\end_inset
+
+, a form of demand side management 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Ma2012"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Aris2015"
+
+\end_inset
+
+: retrofit of a water cooling package unit.
+ Baseline consumption July 2012 to June 2013 modeled as linear combination
+ of occupancy, number of working days and cooling degree-days.
+ Calculates energy avoided from August 2013 to July 2014.
+ t-test finds no statistically significant energy savings.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+Some M&V projects are easier than others; when there is no factors that
+ need adjustment for, for example.
+ Replacing light bulbs in commercial buildings is one such example, where
+ M&V can be done without bothering about any adjustment.
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Lee2000"
+
+\end_inset
+
+
 \end_layout
 
 \end_inset

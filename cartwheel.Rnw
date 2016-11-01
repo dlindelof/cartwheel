@@ -79,9 +79,6 @@ base load
 
 \end{frontmatter}{}
 
-
-\section{Introduction}
-
 <<setup, include=FALSE>>=
 library(homeR)
 
@@ -94,6 +91,45 @@ opts_chunk$set(include = FALSE, error = FALSE, warning = FALSE, echo = FALSE,
 
 nice <- function(x, n = 1) format(round(x, digits = n), nsmall = n)
 @
+
+\section{Introduction}
+
+\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+\citet{Ma2012} note that confidence in the effectiveness of energy
+conservation measures limit their adoption. Trust in computer simulations
+can only go so far, and more experience with practical case studies
+are needed. Evaluating the effectiveness of an ECM cannot remain a
+research project forever; the whole process needs to be streamlined.%
+\end{minipage}}
+
+\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+The issue of risk is frequently ignored or overlooked. Here we consider
+two kinds of risks: 1) the risk that the ECM might not be as effective
+as advertised, and 2) the risk that, although effective, the benefits
+will turn out to be difficult to prove.%
+\end{minipage}}
+
+\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+Improving the heating system's controller (such as by replacing it
+with a model-predictive controller) belongs to the ECM category of
+``Energy efficient equipment and low energy technologies'', a form
+of demand side management \citep{Ma2012}.%
+\end{minipage}}
+
+\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+\citet{Aris2015}: retrofit of a water cooling package unit. Baseline
+consumption July 2012 to June 2013 modeled as linear combination of
+occupancy, number of working days and cooling degree-days. Calculates
+energy avoided from August 2013 to July 2014. t-test finds no statistically
+significant energy savings.%
+\end{minipage}}
+
+\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+Some M\&V projects are easier than others; when there is no factors
+that need adjustment for, for example. Replacing light bulbs in commercial
+buildings is one such example, where M\&V can be done without bothering
+about any adjustment. \citep{Lee2000}%
+\end{minipage}}
 
 \section{Bayesian formalism}
 
