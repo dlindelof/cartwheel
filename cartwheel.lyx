@@ -693,6 +693,49 @@ backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
+Some M&V projects are easier than others; when there is no factors that
+ need adjustment for, for example.
+ Replacing light bulbs in commercial buildings is one such example, where
+ M&V can be done without bothering about any adjustment.
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Lee2000"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Recent assessments
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Aris2015"
@@ -731,18 +774,194 @@ backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
-Some M&V projects are easier than others; when there is no factors that
- need adjustment for, for example.
- Replacing light bulbs in commercial buildings is one such example, where
- M&V can be done without bothering about any adjustment.
- 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "Lee2000"
+key "Cohen1991"
+
+\end_inset
+
+old but relevant: 32 retrofit projects, ranging in size from three to 30
+ 000 houses.
+ Energy normalised by HDD using fixed 65 F.
+ Mix of submetered, utility bills.
+\end_layout
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Ginestet2010"
+
+\end_inset
+
+ applies the IPMVP to an existing building equipped with a new HVAC device.
+ The energy savings are determined by 1) simulation and 2) by retrofitting
+ one room and leaving another one unchanged.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Kaiser2010"
+
+\end_inset
+
+ reports on the results from a large-scale program where 730 households
+ participated, and 150 are chosen at random.
+ Baseline established as linear model in HDD, CDD, relative humidity and
+ energy price.
+ No uncertainties are reported.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Lin2015"
+
+\end_inset
+
+Electricity and gas bill for a 31'000m2 campus whose HVAC equipment was
+ retrofitted.
+ IMPVP option C.
+ Baseline from Sept 2007 to August 2008.
+ Measurement from May 2009 to April 2010.
+ Normalised to outdoor temperature.
+ Savings reported without uncertainty.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Walter2014"
+
+\end_inset
+
+Models electric load as function of time of week and outdoor temperature.
+ Nonlinear dependency on outdoor temperature.
+\end_layout
+
+\begin_layout Plain Layout
+Cross-validation used to quantify uncertainty in baseline estimation.
+\end_layout
+
+\begin_layout Plain Layout
+Having access to full-year of data does not necessarily improve baseline
+ estimates.
+\end_layout
+
+\begin_layout Plain Layout
+17 buildings analysed.
+ Half have 27 months of data, other half 12.
+\end_layout
+
+\begin_layout Plain Layout
+Method is a good indicator for predicting baseline error for a single month
+ (the last one), but uncertainties highly variable from building to building.
+\end_layout
+
+\begin_layout Plain Layout
+Notes that when using the energy avoided (need to check the term) method,
+ the uncertainty is entirely due to the uncertainty in the baseline.
+\end_layout
+
+\begin_layout Plain Layout
+When uncertainty in baseline higher than expected savings, no savings can
+ be proved.
 \end_layout
 
 \end_inset
@@ -752,6 +971,44 @@ key "Lee2000"
 
 \begin_layout Section
 Bayesian formalism
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Quotes eld
+\end_inset
+
+Bayesian inference is the process of fitting a probability model to a set
+ of data and summarizing the result by a probability distribution on the
+ parameters of the model and on unobserved quantities such as predictions
+ for new observations
+\begin_inset Quotes erd
+\end_inset
+
+ (BDA3)
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section

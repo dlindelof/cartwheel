@@ -117,6 +117,15 @@ of demand side management \citep{Ma2012}.%
 \end{minipage}}
 
 \noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+Some M\&V projects are easier than others; when there is no factors
+that need adjustment for, for example. Replacing light bulbs in commercial
+buildings is one such example, where M\&V can be done without bothering
+about any adjustment. \citep{Lee2000}%
+\end{minipage}}
+
+\subsection*{Recent assessments}
+
+\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
 \citet{Aris2015}: retrofit of a water cooling package unit. Baseline
 consumption July 2012 to June 2013 modeled as linear combination of
 occupancy, number of working days and cooling degree-days. Calculates
@@ -125,13 +134,62 @@ significant energy savings.%
 \end{minipage}}
 
 \noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
-Some M\&V projects are easier than others; when there is no factors
-that need adjustment for, for example. Replacing light bulbs in commercial
-buildings is one such example, where M\&V can be done without bothering
-about any adjustment. \citep{Lee2000}%
+\citep{Cohen1991}old but relevant: 32 retrofit projects, ranging
+in size from three to 30 000 houses. Energy normalised by HDD using
+fixed 65 F. Mix of submetered, utility bills.%
+\end{minipage}}
+
+\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+\citep{Ginestet2010} applies the IPMVP to an existing building equipped
+with a new HVAC device. The energy savings are determined by 1) simulation
+and 2) by retrofitting one room and leaving another one unchanged.%
+\end{minipage}}
+
+\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+\citep{Kaiser2010} reports on the results from a large-scale program
+where 730 households participated, and 150 are chosen at random. Baseline
+established as linear model in HDD, CDD, relative humidity and energy
+price. No uncertainties are reported.%
+\end{minipage}}
+
+\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+\citep{Lin2015}Electricity and gas bill for a 31'000m2 campus whose
+HVAC equipment was retrofitted. IMPVP option C. Baseline from Sept
+2007 to August 2008. Measurement from May 2009 to April 2010. Normalised
+to outdoor temperature. Savings reported without uncertainty.%
+\end{minipage}}
+
+\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+\citep{Walter2014}Models electric load as function of time of week
+and outdoor temperature. Nonlinear dependency on outdoor temperature.
+
+Cross-validation used to quantify uncertainty in baseline estimation.
+
+Having access to full-year of data does not necessarily improve baseline
+estimates.
+
+17 buildings analysed. Half have 27 months of data, other half 12.
+
+Method is a good indicator for predicting baseline error for a single
+month (the last one), but uncertainties highly variable from building
+to building.
+
+Notes that when using the energy avoided (need to check the term)
+method, the uncertainty is entirely due to the uncertainty in the
+baseline.
+
+When uncertainty in baseline higher than expected savings, no savings
+can be proved.%
 \end{minipage}}
 
 \section{Bayesian formalism}
+
+\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+``Bayesian inference is the process of fitting a probability model
+to a set of data and summarizing the result by a probability distribution
+on the parameters of the model and on unobserved quantities such as
+predictions for new observations'' (BDA3)%
+\end{minipage}}
 
 \section{Experimental building}
 
