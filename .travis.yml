@@ -1,0 +1,5 @@
+language: r
+cache: packages
+script:
+- Rscript -e "library(knitr); knit('cartwheel.Rnw', encoding = 'latin1')"
+- pdflatex cartwheel.tex
