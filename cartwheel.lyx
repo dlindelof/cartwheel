@@ -710,6 +710,47 @@ key "Lee2000"
 \end_inset
 
 
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Xia2013"
+
+\end_inset
+
+An attempt to provide a rigorous footing to M&V, so it escapes its image
+ of an "an inaccurate science: an engineering practice relying heavily on
+ professional judge- ment"
+\end_layout
+
+\begin_layout Plain Layout
+Attempt to formulate optimal M&V plan.
+\end_layout
+
+\begin_layout Plain Layout
+No attempt to formulate uncertainty in savings estimates.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
