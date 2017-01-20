@@ -1,5 +1,7 @@
 language: r
 cache: packages
+before_install:
+  tlmgr install elsarticle
 script:
 - Rscript -e "library(knitr); knit('cartwheel.Rnw', encoding = 'latin1')"
 - pdflatex cartwheel.tex
