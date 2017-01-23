@@ -7,6 +7,4 @@ script:
 - pdflatex cartwheel.tex
 addons:
   artifacts:
-    s3_region: "London"
-    paths:
-    - cartwheel.pdf
+    s3_region: "london"
