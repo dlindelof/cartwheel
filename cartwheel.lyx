@@ -374,7 +374,43 @@ nb
 \end_layout
 
 \begin_layout Abstract
-Write this last.
+Retrofitting existing buildings to improve their energy efficiency is an
+ investment that most building owners do eventually consider.
+ Faced with a variety of options, ranging from trivial (replacing light
+ bulbs) to major projects (better façade insulation), an owner will want
+ to know which energy conservation measure is likely to yield the highest
+ return on investment—and with what confidence.
+ Moreover, once the measure has been applied, the owner will want to know
+ how well it performs and whether their money was well spent—also known
+ as Measurement & Verification.
+\end_layout
+
+\begin_layout Abstract
+But conventional M&V mandates the establishment of a pre-measure baseline,
+ normally requiring the instrumentation of the building during a year or
+ more, driving the costs of M&V to sometimes unacceptable levels.
+ Furthermore, a typical M&V study will report a single number for the measure's
+ efficiency, ignoring (and failing to report) any uncertainty surrounding
+ that estimate.
+\end_layout
+
+\begin_layout Abstract
+To solve these two problems (expensive establishment of a baseline and absence
+ of uncertainty in the reported efficiency), we have developed a method,
+ based on Bayesian statistics, that will 1) rely on historic utility bills
+ and climate data to establish a baseline, and 2) estimate the post-retrofit
+ energy savings and report them together with suitable confidence intervals.
+\end_layout
+
+\begin_layout Abstract
+We have applied this method after installing, in March 2016, a commercial
+ model-predictive controller for space heating for a medium-sized office
+ building in Switzerland.
+ The baseline was established from historic oil tank refill records.
+ 55 days after installing the controller, the energy efficiency improvement
+ of the building was assessed and found to have improved by 26.8%, with 18.4
+ percentage points standard error.
+ 
 \end_layout
 
 \begin_layout Keywords
@@ -557,6 +593,55 @@ nice <- function(x, n = 1) format(round(x, digits = n), nsmall = n)
 
 \begin_layout Section
 Introduction
+\end_layout
+
+\begin_layout Standard
+Many energy conservation measures (ECM) exist to reduce the consumption
+ of energy in existing buildings, but vary widely in effectiveness.
+ Faced with a variety of options, ranging from trivial (replacing light
+ bulbs) to major projects (better façade insulation), an owner will want
+ to know which energy conservation measure is likely to yield the highest
+ return on investment—and with what confidence.
+ Moreover, once the measure has been applied, the owner will want to know
+ how well it performs and whether their money was well spent—also known
+ as Measurement & Verification.
+ But conventional M&V mandates the establishment of a pre-measure baseline,
+ normally requiring the instrumentation of the building during a year or
+ more, driving the costs of M&V to sometimes unacceptable levels.
+ Furthermore, a typical M&V study will report a single number for the measure's
+ efficiency, ignoring (and failing to report) any uncertainty surrounding
+ that estimate.
+\end_layout
+
+\begin_layout Standard
+This is a recurring problem for large companies in Switzerland that have
+ publicly committed themselves to reducing their greenhouse gas emissions.
+ The majority of these emissions can be traced to large portfolios of legacy
+ buildings, in particular to the fossil fuels used for heating.
+ Reducing the heating energy for legacy buildings (while maintaining user
+ comfort) will help such companies achieve their objectives—provided those
+ energy savings can be proven.
+ Given a choice between ECMs, a facility manager will frequently favor those
+ perceived as being of relatively low-risk, even when their effectiveness
+ might be less attractive.
+\end_layout
+
+\begin_layout Standard
+There is no widely-accepted method to select an ECM for a particular project,
+ and a lack of confidence in their effectiveness limits their adoption 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Ma2012"
+
+\end_inset
+
+.
+ As a discipline, we must show building owners that assessing the effectiveness
+ of ECMs is not a research project anymore but a well-stream
+\end_layout
+
+\begin_layout Subsection
+The need to quantify uncertainties when assessing the effectiveness of ECM
 \end_layout
 
 \begin_layout Standard
@@ -758,25 +843,22 @@ Recent assessments
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "black"
-backgroundcolor "none"
-status open
+A Scopus search for the 
+\begin_inset Quotes eld
+\end_inset
 
-\begin_layout Plain Layout
+IPMVP
+\begin_inset Quotes erd
+\end_inset
+
+ term in a document's title, abstract or keywords, limited to publication
+ date from 2010 to present, yields 37 documents.
+ Of these, just 3 study the energy efficiency of an ECM without resorting
+ to computer simulation.
+ They were:
+\end_layout
+
+\begin_layout Itemize
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Aris2015"
@@ -790,68 +872,7 @@ key "Aris2015"
  t-test finds no statistically significant energy savings.
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Box Boxed
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "black"
-backgroundcolor "none"
-status open
-
-\begin_layout Plain Layout
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Cohen1991"
-
-\end_inset
-
-old but relevant: 32 retrofit projects, ranging in size from three to 30
- 000 houses.
- Energy normalised by HDD using fixed 65 F.
- Mix of submetered, utility bills.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Box Boxed
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "black"
-backgroundcolor "none"
-status open
-
-\begin_layout Plain Layout
+\begin_layout Itemize
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Ginestet2010"
@@ -863,31 +884,7 @@ key "Ginestet2010"
  one room and leaving another one unchanged.
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Box Boxed
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "black"
-backgroundcolor "none"
-status open
-
-\begin_layout Plain Layout
+\begin_layout Itemize
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Kaiser2010"
@@ -901,31 +898,24 @@ key "Kaiser2010"
  No uncertainties are reported.
 \end_layout
 
-\end_inset
-
-
+\begin_layout Standard
+Other retrofir assessments found in the literature include:
 \end_layout
 
-\begin_layout Standard
-\begin_inset Box Boxed
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "black"
-backgroundcolor "none"
-status open
+\begin_layout Itemize
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Cohen1991"
 
-\begin_layout Plain Layout
+\end_inset
+
+old but relevant: 32 retrofit projects, ranging in size from three to 30
+ 000 houses.
+ Energy normalised by HDD using fixed 65 F.
+ Mix of submetered, utility bills.
+\end_layout
+
+\begin_layout Itemize
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Lin2015"
@@ -941,31 +931,7 @@ Electricity and gas bill for a 31'000m2 campus whose HVAC equipment was
  Savings reported without uncertainty.
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
 \begin_layout Standard
-\begin_inset Box Boxed
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "black"
-backgroundcolor "none"
-status open
-
-\begin_layout Plain Layout
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Walter2014"
@@ -976,38 +942,33 @@ Models electric load as function of time of week and outdoor temperature.
  Nonlinear dependency on outdoor temperature.
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 Cross-validation used to quantify uncertainty in baseline estimation.
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 Having access to full-year of data does not necessarily improve baseline
  estimates.
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 17 buildings analysed.
  Half have 27 months of data, other half 12.
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 Method is a good indicator for predicting baseline error for a single month
  (the last one), but uncertainties highly variable from building to building.
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 Notes that when using the energy avoided (need to check the term) method,
  the uncertainty is entirely due to the uncertainty in the baseline.
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 When uncertainty in baseline higher than expected savings, no savings can
  be proved.
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
@@ -1142,58 +1103,6 @@ Discussion
 
 \begin_layout Section
 Conclusion
-\end_layout
-
-\begin_layout Section*
-Acknowledgements
-\end_layout
-
-\begin_layout Standard
-I am very grateful to Dr Antoine Guillemin and Sohail Malik for their helpful
- review of an early version of this paper, and for their encouragements
- in getting this submitted for publication.
-\end_layout
-
-\begin_layout Section*
-Implementation notes
-\end_layout
-
-\begin_layout Standard
-An implementation of this method for the R programming environment 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Rcore2015"
-
-\end_inset
-
- is provided by the 
-\begin_inset Flex Code
-status open
-
-\begin_layout Plain Layout
-bhm()
-\end_layout
-
-\end_inset
-
- function in the 
-\begin_inset Flex Code
-status open
-
-\begin_layout Plain Layout
-homeR
-\end_layout
-
-\end_inset
-
- package, available for download on CRAN 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "homeR"
-
-\end_inset
-
-.
 \end_layout
 
 \begin_layout Standard
