@@ -8,3 +8,6 @@ file. To generate the LaTeX file, run
 Rscript -e "library(knitr); knit('cartwheel.Rnw')"
 ```
 
+The PDF is built automatically by Travis and published to S3. The most recent version
+of this paper can always be downloaded here: https://s3.eu-west-2.amazonaws.com/cartwheel-lindelof/cartwheel.pdf
+
