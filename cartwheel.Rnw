@@ -26,9 +26,6 @@
 \DeclareRobustCommand{\lyxadded}[3]{{\color{lyxadded}{}#3}}
 \DeclareRobustCommand{\lyxdeleted}[3]{{\color{lyxdeleted}\sout{#3}}}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
-\newcommand{\code}[1]{\texttt{#1}}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 % specify here the journal
 \journal{Energy and Buildings}
@@ -69,7 +66,37 @@ building}
 
 \address[nb]{Neurobat AG, Rue de Veyrot 9, 1217 Meyrin, +41 22 552.11.62}
 \begin{abstract}
-Write this last.
+Retrofitting existing buildings to improve their energy efficiency
+is an investment that most building owners do eventually consider.
+Faced with a variety of options, ranging from trivial (replacing light
+bulbs) to major projects (better façade insulation), an owner will
+want to know which energy conservation measure is likely to yield
+the highest return on investment\textemdash and with what confidence.
+Moreover, once the measure has been applied, the owner will want to
+know how well it performs and whether their money was well spent\textemdash also
+known as Measurement \& Verification.
+
+But conventional M\&V mandates the establishment of a pre-measure
+baseline, normally requiring the instrumentation of the building during
+a year or more, driving the costs of M\&V to sometimes unacceptable
+levels. Furthermore, a typical M\&V study will report a single number
+for the measure's efficiency, ignoring (and failing to report) any
+uncertainty surrounding that estimate.
+
+To solve these two problems (expensive establishment of a baseline
+and absence of uncertainty in the reported efficiency), we have developed
+a method, based on Bayesian statistics, that will 1) rely on historic
+utility bills and climate data to establish a baseline, and 2) estimate
+the post-retrofit energy savings and report them together with suitable
+confidence intervals.
+
+We have applied this method after installing, in March 2016, a commercial
+model-predictive controller for space heating for a medium-sized office
+building in Switzerland. The baseline was established from historic
+oil tank refill records. 55 days after installing the controller,
+the energy efficiency improvement of the building was assessed and
+found to have improved by 26.8\%, with 18.4 percentage points standard
+error. 
 \end{abstract}
 \begin{keyword}
 Bayesian inference \sep heating degree-days\sep base temperature\sep
@@ -93,6 +120,42 @@ nice <- function(x, n = 1) format(round(x, digits = n), nsmall = n)
 @
 
 \section{Introduction}
+
+Many energy conservation measures (ECM) exist to reduce the consumption
+of energy in existing buildings, but vary widely in effectiveness.
+Faced with a variety of options, ranging from trivial (replacing light
+bulbs) to major projects (better façade insulation), an owner will
+want to know which energy conservation measure is likely to yield
+the highest return on investment\textemdash and with what confidence.
+Moreover, once the measure has been applied, the owner will want to
+know how well it performs and whether their money was well spent\textemdash also
+known as Measurement \& Verification. But conventional M\&V mandates
+the establishment of a pre-measure baseline, normally requiring the
+instrumentation of the building during a year or more, driving the
+costs of M\&V to sometimes unacceptable levels. Furthermore, a typical
+M\&V study will report a single number for the measure's efficiency,
+ignoring (and failing to report) any uncertainty surrounding that
+estimate.
+
+This is a recurring problem for large companies in Switzerland that
+have publicly committed themselves to reducing their greenhouse gas
+emissions. The majority of these emissions can be traced to large
+portfolios of legacy buildings, in particular to the fossil fuels
+used for heating. Reducing the heating energy for legacy buildings
+(while maintaining user comfort) will help such companies achieve
+their objectives\textemdash provided those energy savings can be proven.
+Given a choice between ECMs, a facility manager will frequently favor
+those perceived as being of relatively low-risk, even when their effectiveness
+might be less attractive.
+
+There is no widely-accepted method to select an ECM for a particular
+project, and a lack of confidence in their effectiveness limits their
+adoption \citep{Ma2012}. As a discipline, we must show building owners
+that assessing the effectiveness of ECMs is not a research project
+anymore but a well-stream
+
+\subsection{The need to quantify uncertainties when assessing the effectiveness
+of ECM}
 
 \noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
 \citet{Ma2012} note that confidence in the effectiveness of energy
@@ -121,45 +184,47 @@ Some M\&V projects are easier than others; when there is no factors
 that need adjustment for, for example. Replacing light bulbs in commercial
 buildings is one such example, where M\&V can be done without bothering
 about any adjustment. \citep{Lee2000}%
+\end{minipage}}%
+\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+\citep{Xia2013}An attempt to provide a rigorous footing to M\&V,
+so it escapes its image of an \textquotedbl{}an inaccurate science:
+an engineering practice relying heavily on professional judge- ment\textquotedbl{}
+
+Attempt to formulate optimal M\&V plan.
+
+No attempt to formulate uncertainty in savings estimates.%
 \end{minipage}}
 
 \subsection*{Recent assessments}
 
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
-\citet{Aris2015}: retrofit of a water cooling package unit. Baseline
+A Scopus search for the ``IPMVP'' term in a document's title, abstract
+or keywords, limited to publication date from 2010 to present, yields
+37 documents. Of these, just 3 study the energy efficiency of an ECM
+without resorting to computer simulation. They were:
+\begin{itemize}
+\item \citet{Aris2015}: retrofit of a water cooling package unit. Baseline
 consumption July 2012 to June 2013 modeled as linear combination of
 occupancy, number of working days and cooling degree-days. Calculates
 energy avoided from August 2013 to July 2014. t-test finds no statistically
-significant energy savings.%
-\end{minipage}}
-
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
-\citep{Cohen1991}old but relevant: 32 retrofit projects, ranging
-in size from three to 30 000 houses. Energy normalised by HDD using
-fixed 65 F. Mix of submetered, utility bills.%
-\end{minipage}}
-
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
-\citep{Ginestet2010} applies the IPMVP to an existing building equipped
+significant energy savings.
+\item \citep{Ginestet2010} applies the IPMVP to an existing building equipped
 with a new HVAC device. The energy savings are determined by 1) simulation
-and 2) by retrofitting one room and leaving another one unchanged.%
-\end{minipage}}
-
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
-\citep{Kaiser2010} reports on the results from a large-scale program
+and 2) by retrofitting one room and leaving another one unchanged.
+\item \citep{Kaiser2010} reports on the results from a large-scale program
 where 730 households participated, and 150 are chosen at random. Baseline
 established as linear model in HDD, CDD, relative humidity and energy
-price. No uncertainties are reported.%
-\end{minipage}}
-
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
-\citep{Lin2015}Electricity and gas bill for a 31'000m2 campus whose
+price. No uncertainties are reported.
+\end{itemize}
+Other retrofir assessments found in the literature include:
+\begin{itemize}
+\item \citep{Cohen1991}old but relevant: 32 retrofit projects, ranging
+in size from three to 30 000 houses. Energy normalised by HDD using
+fixed 65 F. Mix of submetered, utility bills.
+\item \citep{Lin2015}Electricity and gas bill for a 31'000m2 campus whose
 HVAC equipment was retrofitted. IMPVP option C. Baseline from Sept
 2007 to August 2008. Measurement from May 2009 to April 2010. Normalised
-to outdoor temperature. Savings reported without uncertainty.%
-\end{minipage}}
-
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+to outdoor temperature. Savings reported without uncertainty.
+\end{itemize}
 \citep{Walter2014}Models electric load as function of time of week
 and outdoor temperature. Nonlinear dependency on outdoor temperature.
 
@@ -179,8 +244,7 @@ method, the uncertainty is entirely due to the uncertainty in the
 baseline.
 
 When uncertainty in baseline higher than expected savings, no savings
-can be proved.%
-\end{minipage}}
+can be proved.
 
 \section{Bayesian formalism}
 
@@ -235,18 +299,6 @@ belong to the Altbau part.}
 \section{Discussion}
 
 \section{Conclusion}
-
-\section*{Acknowledgements}
-
-I am very grateful to Dr Antoine Guillemin and Sohail Malik for their
-helpful review of an early version of this paper, and for their encouragements
-in getting this submitted for publication.
-
-\section*{Implementation notes}
-
-An implementation of this method for the R programming environment
-\citep{Rcore2015} is provided by the \code{bhm()} function in the
-\code{homeR} package, available for download on CRAN \citep{homeR}.
 
 \noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
 \printnomenclature{}%
