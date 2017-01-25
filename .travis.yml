@@ -4,10 +4,15 @@ before_install: tlmgr install elsarticle nomencl
 script:
 - Rscript -e "library(knitr); knit('cartwheel.Rnw', encoding = 'latin1')"
 - pdflatex cartwheel.tex
-addons:
-  artifacts:
-    paths: cartwheel.pdf
-    s3_region: eu-west-2
+- mkdir build && mv cartwheel.pdf build
 deploy:
   provider: s3
+  access_key_id: AKIAJBPZTJJD4HXW6VEA
+  secret_access_key:
+    secure: 2ubSS0tYCLUrF9E0edf39i8QzheAWHV4/QDjJy5D8EYy+aD4MVwEX+Elr+AyBX+HHtzDOKNP57oSL2jeLdxFiTC2KNvUzLM7NDBoj+6HLks5uDg3SHMKzcyQ0nLo82WZL0HvBLa3XiTOMdeVXqFOIfhudRgTB5dyat/qIj8HkZlXb4F062Q5qtlkow/D2tnHUkrX+BMuDyBKPc/VcrlfsD4wvML7AM+USEjoestmWcjXCWPusdQwhDnkMxKnWOv3eRQszt60XxpP5WkWGR3SSVgwpUoLpjAyE9iitTDNJc1MATGgq8KS79Ht5NK4WSFU4r/C9VX+NMfen7WWL2VMdCBoar5Aeo5GKR8hXiB+YMDI0shETke7/+BAFg0qKGzOHshDYAMeeNtKf05X8Hzjk2lRCYf88iFxITdBzfEIGHoW0KAfvx6oHgIfz7NPxedWSkSXc+WJyxIK0XU9n/G5wu2q35aSkc/08mAaluZYDX0yMcZ7NTNBvY7Kcdd6GvRa8Bf1NEAzc7WrHPxcz+0XnNX3jFriMVUBZF9YHPNN666hqJ7JelPgJCRghhDsTiFgij41kNV6i8ZiC7x2uT23XERjqPGzJNd3wnvabpzv4YmwBou826cIBq/orC+r1syTDyIPpTqzDlsfDoHYerzCS+axd2JP3sBolRDzektFdrg=
+  bucket: cartwheel-lindelof
+  region: eu-west-2
   acl: public_read
+  local_dir: build
+  on:
+    repo: dlindelof/cartwheel
