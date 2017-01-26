@@ -26,6 +26,9 @@
 \DeclareRobustCommand{\lyxadded}[3]{{\color{lyxadded}{}#3}}
 \DeclareRobustCommand{\lyxdeleted}[3]{{\color{lyxdeleted}\sout{#3}}}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\newcommand{\code}[1]{\texttt{#1}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 % specify here the journal
 \journal{Energy and Buildings}
@@ -110,9 +113,11 @@ base load
 library(homeR)
 
 library(ggplot2)
+library(lubridate)
+library(reshape2)
 theme_set(theme_bw())
 
-opts_chunk$set(include = FALSE, error = FALSE, warning = FALSE, echo = FALSE,
+opts_chunk$set(error = FALSE, warning = FALSE, echo = FALSE,
                dev = "tikz", dev.args = list(pointsize = 10),
                fig.width = 3.5, fig.height = 3.5, fig.align = "center")
 
@@ -184,7 +189,8 @@ Some M\&V projects are easier than others; when there is no factors
 that need adjustment for, for example. Replacing light bulbs in commercial
 buildings is one such example, where M\&V can be done without bothering
 about any adjustment. \citep{Lee2000}%
-\end{minipage}}%
+\end{minipage}}
+
 \noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
 \citep{Xia2013}An attempt to provide a rigorous footing to M\&V,
 so it escapes its image of an \textquotedbl{}an inaccurate science:
@@ -195,7 +201,11 @@ Attempt to formulate optimal M\&V plan.
 No attempt to formulate uncertainty in savings estimates.%
 \end{minipage}}
 
-\subsection*{Recent assessments}
+\subsection{The IPMVP on uncertainties}
+
+The International Protocol for TK is the gold standard of M\&V processes. 
+
+\subsection{Recent assessments}
 
 A Scopus search for the ``IPMVP'' term in a document's title, abstract
 or keywords, limited to publication date from 2010 to present, yields
@@ -272,12 +282,12 @@ was refilled. The domestic hot water is provided by an independent
 circuit.
 
 Neurobat\textquoteright s adaptive model-predictive control algorithm
-regularly calculates an optimal value for the tempera- ture of the
-water prepared by the oil boiler. This value cannot be communicated
-directly to most legacy heating controllers; instead, the NOLa system
-controls the flow temperature indirectly by modulating the outdoor
-temperature measured by the heating controllers. Thus, the boiler
-provides for each circuit a heating water at just the right temperature.
+regularly calculates an optimal value for the temperature of the water
+prepared by the oil boiler. This value cannot be communicated directly
+to most legacy heating controllers; instead, the NOLa system controls
+the flow temperature indirectly by modulating the outdoor temperature
+measured by the heating controllers. Thus, the boiler provides for
+each circuit a heating water at just the right temperature.
 
 The sensors attached to the NOLa system (including an oil meter) are
 automatically sampled several times per hour and stored in a database.
@@ -293,6 +303,113 @@ belong to the Altbau part.}
 
 \end{figure}
 
+
+\section{Bayesian energy model}
+
+The energy consumed by a building is rarely constant but varies over
+time due to so-called routine factors (expected to vary, such as the
+climate) and non-routine factors (normally constant, such as the function
+of the building). These factors must be accounted for when assessing
+the effectiveness of an ECM. This is normally done by establishing
+a model for the energy use before and after the installation of the
+ECM, as we do here.
+
+Under normal conditions, the daily heating demand of a building will
+balance the building's heat loss. The daily losses $Q_{d}$ can be
+taken as proportional to the positive difference between the average
+outdoor temperature and the building's \emph{base temperature}: $Q_{d}=K\times(t_{\text{b}}-\overline{t_{\text{out}}}_{d})^{+}$
+where the base temperature $t_{\text{b}}$ of a building is defined
+as the outdoor temperature above which all heat losses are compensated
+by the sun and other free gains. $K$ is the building's \emph{total
+heat loss coefficient}, the quantity of extra heat required per day
+to maintain indoor comfort for each extra degree of cold. It is the
+most important metric when assessing the efficacy of a new heating
+control algorithm.
+
+Over a period $p$ of several days, the total heating load will be
+\[
+Q_{p}=\sum_{d\in p}Q_{d}=K\times DD_{p}
+\]
+where $DD_{p}=\sum_{d\in p}(t_{\text{b}}-\overline{t_{\text{out}}}_{d})^{+}$
+is the number of \emph{degree-days at base temperature $t_{\text{b}}$}
+during that period. $Q_{p}$ is frequently available as utility bills
+or energy meter readouts, while $DD_{p}$ must be calculated from
+historic weather data.
+
+Installing an ECM such as the NOL\textsuperscript{a} will alter the
+building's total heat loss coefficient by a factor $\rho$, and also
+possibly shift the base temperature if the indoor setpoints are not
+exactly identical before and after the installation: 
+\[
+K_{\mathrm{pre}}\rightarrow K_{\mathrm{post}}=\rho\times K_{\mathrm{pre}}
+\]
+\[
+t_{\text{b},\text{pre}}\rightarrow t_{\text{b},\mathrm{post}}=\Delta t_{\text{b}}+t_{\text{b},\mathrm{pre}}
+\]
+Our task is to estimate the heat loss coefficients before and after
+the installation, and their ratio $\rho$. The lower $\rho$ is, the
+higher the energy savings. The relative energy savings in percent
+will be given by $100\times(1-\rho)$.
+
+The analysis of the historic weather and oil consumption data will
+be explained in the following sections, followed by the analysis of
+the new consumption data. 
+
+\section{Historic weather and oil consumption data}
+
+The International Performance Measurement and Verification Protocol
+(IPMVP) requires an auditor to establish the performance of the building
+before the installation of the ECM (the \emph{baseline} period) and
+after (the \emph{reporting} period). Unlike traditional IPMVP projects,
+this pilot building is challenging because daily oil consumption readouts
+were available only after the installation of the NOL\textsuperscript{a}.
+The energy savings must therefore be derived from heterogenous sources
+of data: manual oil level readouts before the installation, and automated
+daily oil readouts after. Traditional analysis methods have trouble
+dealing with such situations, especially for estimating a building's
+base temperature from historic utility bills. We have developed a
+method based on Bayesian statistical methods, that can deal with such
+data and derive the heat loss coefficient before and after the installation.
+The details are out of scope of this report, but the full method is
+described in a paper submitted for publication in an upcoming issue
+of Energy \& Buildings, and recently accepted pending minor revisions.
+The algorithm has been implemented as the \code{bhm()} function in
+Neurobat's \code{homeR} R package, freely available from CRAN \citep{homeR}
+.
+
+\subsection{Weather data}
+
+The historic weather data (going back to 2011) is obtained from {[}MeteoSuisse{]}(http://www.meteosuisse.admin.ch/home.html),
+who provides a file with average daily temperatures measured in Bad
+Ragaz (about 6 km from Sargans) and Vaduz (about 10 km). The relative
+positions of the pilot building in Sargans and of the Bad Ragaz and
+Vaduz weather stations are shown in Fig. \textbackslash{}ref\{fig:stations\}
+in the Appendix. The data from the stations is shown against time
+in Fig. \textbackslash{}ref\{fig:PlotClimate\}. A scatterplot of the
+temperatures from Bad Ragaz against those from Vaduz is shown in Fig.
+\textbackslash{}ref\{fig:ScatterPlotClimate\}. There are no obvious
+differences between the two weather stations. From here onwards, we
+use the data from Bad Ragaz. 
+
+<<>>=
+climate2 <- read.table("data/RAD_VAD.txt",
+  skip = 10,
+  na.strings = "32767",
+  colClasses = c(V1 = "factor"))
+climate2 <- transform(climate2, Date = as.Date(ymd(paste(V2, V3, V4, sep = "-"))))
+climate2 <- subset(climate2, select = c(1, 8, 7))
+names(climate2) <- c("Station", "Date", "Temperature")
+levels(climate2$Station) <- c("Bad Ragaz", "Vaduz")
+climate <- climate2
+climate.wide <- dcast(climate, Date ~ Station) 
+@
+
+<<PlotClimate, fig.cap="Historic outdoor temperature measured at nearby weather stations. There is no obvious disagreement between the stations.", fig.width=5, fig.height=3>>=
+ggplot(climate, aes(Date, Temperature, color = Station)) +
+	geom_line() +
+	xlim(as.Date("2010-12-20"), as.Date("2016-04-30")) +
+	theme(legend.position="top")
+@
 
 \section{Results}
 

@@ -550,6 +550,16 @@ library(ggplot2)
 
 \begin_layout Plain Layout
 
+library(lubridate)
+\end_layout
+
+\begin_layout Plain Layout
+
+library(reshape2)
+\end_layout
+
+\begin_layout Plain Layout
+
 theme_set(theme_bw())
 \end_layout
 
@@ -559,7 +569,7 @@ theme_set(theme_bw())
 
 \begin_layout Plain Layout
 
-opts_chunk$set(include = FALSE, error = FALSE, warning = FALSE, echo = FALSE,
+opts_chunk$set(error = FALSE, warning = FALSE, echo = FALSE,
 \end_layout
 
 \begin_layout Plain Layout
@@ -795,6 +805,9 @@ key "Lee2000"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Box Boxed
 position "t"
 hor_pos "c"
@@ -838,7 +851,16 @@ No attempt to formulate uncertainty in savings estimates.
 
 \end_layout
 
-\begin_layout Subsection*
+\begin_layout Subsection
+The IPMVP on uncertainties
+\end_layout
+
+\begin_layout Standard
+The International Protocol for TK is the gold standard of M&V processes.
+ 
+\end_layout
+
+\begin_layout Subsection
 Recent assessments
 \end_layout
 
@@ -1038,8 +1060,7 @@ The oil-fired boiler draws its fuel from two tanks and provides the heating
 
 \begin_layout Standard
 Neurobat’s adaptive model-predictive control algorithm regularly calculates
- an optimal value for the tempera- ture of the water prepared by the oil
- boiler.
+ an optimal value for the temperature of the water prepared by the oil boiler.
  This value cannot be communicated directly to most legacy heating controllers;
  instead, the NOLa system controls the flow temperature indirectly by modulating
  the outdoor temperature measured by the heating controllers.
@@ -1086,6 +1107,351 @@ Aerial (top left) and side views of the Altbau (bottom) and Neubau (right)
 
 \begin_layout Plain Layout
 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Bayesian energy model
+\end_layout
+
+\begin_layout Standard
+The energy consumed by a building is rarely constant but varies over time
+ due to so-called routine factors (expected to vary, such as the climate)
+ and non-routine factors (normally constant, such as the function of the
+ building).
+ These factors must be accounted for when assessing the effectiveness of
+ an ECM.
+ This is normally done by establishing a model for the energy use before
+ and after the installation of the ECM, as we do here.
+\end_layout
+
+\begin_layout Standard
+Under normal conditions, the daily heating demand of a building will balance
+ the building's heat loss.
+ The daily losses 
+\begin_inset Formula $Q_{d}$
+\end_inset
+
+ can be taken as proportional to the positive difference between the average
+ outdoor temperature and the building's 
+\emph on
+base temperature
+\emph default
+: 
+\begin_inset Formula $Q_{d}=K\times(t_{\text{b}}-\overline{t_{\text{out}}}_{d})^{+}$
+\end_inset
+
+ where the base temperature 
+\begin_inset Formula $t_{\text{b}}$
+\end_inset
+
+ of a building is defined as the outdoor temperature above which all heat
+ losses are compensated by the sun and other free gains.
+ 
+\begin_inset Formula $K$
+\end_inset
+
+ is the building's 
+\emph on
+total heat loss coefficient
+\emph default
+, the quantity of extra heat required per day to maintain indoor comfort
+ for each extra degree of cold.
+ It is the most important metric when assessing the efficacy of a new heating
+ control algorithm.
+\end_layout
+
+\begin_layout Standard
+Over a period 
+\begin_inset Formula $p$
+\end_inset
+
+ of several days, the total heating load will be 
+\begin_inset Formula 
+\[
+Q_{p}=\sum_{d\in p}Q_{d}=K\times DD_{p}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $DD_{p}=\sum_{d\in p}(t_{\text{b}}-\overline{t_{\text{out}}}_{d})^{+}$
+\end_inset
+
+ is the number of 
+\emph on
+degree-days at base temperature 
+\begin_inset Formula $t_{\text{b}}$
+\end_inset
+
+
+\emph default
+ during that period.
+ 
+\begin_inset Formula $Q_{p}$
+\end_inset
+
+ is frequently available as utility bills or energy meter readouts, while
+ 
+\begin_inset Formula $DD_{p}$
+\end_inset
+
+ must be calculated from historic weather data.
+\end_layout
+
+\begin_layout Standard
+Installing an ECM such as the NOL
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+a
+\end_layout
+
+\end_inset
+
+ will alter the building's total heat loss coefficient by a factor 
+\begin_inset Formula $\rho$
+\end_inset
+
+, and also possibly shift the base temperature if the indoor setpoints are
+ not exactly identical before and after the installation: 
+\begin_inset Formula 
+\[
+K_{\mathrm{pre}}\rightarrow K_{\mathrm{post}}=\rho\times K_{\mathrm{pre}}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+t_{\text{b},\text{pre}}\rightarrow t_{\text{b},\mathrm{post}}=\Delta t_{\text{b}}+t_{\text{b},\mathrm{pre}}
+\]
+
+\end_inset
+
+Our task is to estimate the heat loss coefficients before and after the
+ installation, and their ratio 
+\begin_inset Formula $\rho$
+\end_inset
+
+.
+ The lower 
+\begin_inset Formula $\rho$
+\end_inset
+
+ is, the higher the energy savings.
+ The relative energy savings in percent will be given by 
+\begin_inset Formula $100\times(1-\rho)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The analysis of the historic weather and oil consumption data will be explained
+ in the following sections, followed by the analysis of the new consumption
+ data.
+ 
+\end_layout
+
+\begin_layout Section
+Historic weather and oil consumption data
+\end_layout
+
+\begin_layout Standard
+The International Performance Measurement and Verification Protocol (IPMVP)
+ requires an auditor to establish the performance of the building before
+ the installation of the ECM (the 
+\emph on
+baseline
+\emph default
+ period) and after (the 
+\emph on
+reporting
+\emph default
+ period).
+ Unlike traditional IPMVP projects, this pilot building is challenging because
+ daily oil consumption readouts were available only after the installation
+ of the NOL
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+a
+\end_layout
+
+\end_inset
+
+.
+ The energy savings must therefore be derived from heterogenous sources
+ of data: manual oil level readouts before the installation, and automated
+ daily oil readouts after.
+ Traditional analysis methods have trouble dealing with such situations,
+ especially for estimating a building's base temperature from historic utility
+ bills.
+ We have developed a method based on Bayesian statistical methods, that
+ can deal with such data and derive the heat loss coefficient before and
+ after the installation.
+ The details are out of scope of this report, but the full method is described
+ in a paper submitted for publication in an upcoming issue of Energy & Buildings
+, and recently accepted pending minor revisions.
+ The algorithm has been implemented as the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+bhm()
+\end_layout
+
+\end_inset
+
+ function in Neurobat's 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+homeR
+\end_layout
+
+\end_inset
+
+ R package, freely available from CRAN 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "homeR"
+
+\end_inset
+
+ .
+\end_layout
+
+\begin_layout Subsection
+Weather data
+\end_layout
+
+\begin_layout Standard
+The historic weather data (going back to 2011) is obtained from [MeteoSuisse](ht
+tp://www.meteosuisse.admin.ch/home.html), who provides a file with average daily
+ temperatures measured in Bad Ragaz (about 6 km from Sargans) and Vaduz
+ (about 10 km).
+ The relative positions of the pilot building in Sargans and of the Bad
+ Ragaz and Vaduz weather stations are shown in Fig.
+ 
+\backslash
+ref{fig:stations} in the Appendix.
+ The data from the stations is shown against time in Fig.
+ 
+\backslash
+ref{fig:PlotClimate}.
+ A scatterplot of the temperatures from Bad Ragaz against those from Vaduz
+ is shown in Fig.
+ 
+\backslash
+ref{fig:ScatterPlotClimate}.
+ There are no obvious differences between the two weather stations.
+ From here onwards, we use the data from Bad Ragaz.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Chunk
+status open
+
+\begin_layout Plain Layout
+
+climate2 <- read.table("data/RAD_VAD.txt",
+\end_layout
+
+\begin_layout Plain Layout
+
+  skip = 10,
+\end_layout
+
+\begin_layout Plain Layout
+
+  na.strings = "32767",
+\end_layout
+
+\begin_layout Plain Layout
+
+  colClasses = c(V1 = "factor"))
+\end_layout
+
+\begin_layout Plain Layout
+
+climate2 <- transform(climate2, Date = as.Date(ymd(paste(V2, V3, V4, sep
+ = "-"))))
+\end_layout
+
+\begin_layout Plain Layout
+
+climate2 <- subset(climate2, select = c(1, 8, 7))
+\end_layout
+
+\begin_layout Plain Layout
+
+names(climate2) <- c("Station", "Date", "Temperature")
+\end_layout
+
+\begin_layout Plain Layout
+
+levels(climate2$Station) <- c("Bad Ragaz", "Vaduz")
+\end_layout
+
+\begin_layout Plain Layout
+
+climate <- climate2
+\end_layout
+
+\begin_layout Plain Layout
+
+climate.wide <- dcast(climate, Date ~ Station) 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<PlotClimate, fig.cap="Historic outdoor temperature measured at nearby weather
+ stations.
+ There is no obvious disagreement between the stations.", fig.width=5, fig.height=3
+>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+ggplot(climate, aes(Date, Temperature, color = Station)) +
+\end_layout
+
+\begin_layout Plain Layout
+
+	geom_line() +
+\end_layout
+
+\begin_layout Plain Layout
+
+	xlim(as.Date("2010-12-20"), as.Date("2016-04-30")) +
+\end_layout
+
+\begin_layout Plain Layout
+
+	theme(legend.position="top")
+\end_layout
+
+\begin_layout Plain Layout
+
+@
 \end_layout
 
 \end_inset
