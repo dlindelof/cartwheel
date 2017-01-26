@@ -3,7 +3,10 @@ cache: packages
 before_install: tlmgr install elsarticle nomencl
 script:
 - Rscript -e "library(knitr); knit('cartwheel.Rnw', encoding = 'latin1')"
-- pdflatex cartwheel.tex
+- pdflatex cartwheel
+- bibtex cartwheel
+- pdflatex cartwheel
+- pdflatex cartwheel
 - mkdir build && mv cartwheel.pdf build
 deploy:
   provider: s3
