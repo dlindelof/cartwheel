@@ -1,5 +1,5 @@
 Package: placeholder
 Title: Does not matter.
 Version: 0.0.1
-Imports: homeR, knitr, ggplot2
+Imports: homeR, knitr, lubridate, ggplot2
 
