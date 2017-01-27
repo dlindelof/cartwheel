@@ -114,13 +114,17 @@ library(homeR)
 
 library(ggplot2)
 library(lubridate)
+library(plyr)
 library(reshape2)
+library(zoo)
+
 theme_set(theme_bw())
 
 opts_chunk$set(error = FALSE, warning = FALSE, echo = FALSE,
                dev = "tikz", dev.args = list(pointsize = 10),
                fig.width = 3.5, fig.height = 3.5, fig.align = "center")
 
+source("inference3.R")
 nice <- function(x, n = 1) format(round(x, digits = n), nsmall = n)
 @
 
@@ -410,6 +414,126 @@ ggplot(climate, aes(Date, Temperature, color = Station)) +
 	xlim(as.Date("2010-12-20"), as.Date("2016-04-30")) +
 	theme(legend.position="top")
 @
+
+<<ClimateScatterPlot, fig.cap="Comparison of Bad Ragaz and Vaduz temperatures.", fig.width=4>>=
+ggplot(climate.wide, aes(`Bad Ragaz`, Vaduz)) + geom_point(size = 1) + coord_fixed() 
+@
+
+\subsection{Baseline oil consumption}
+
+The historic oil consumption data consists in a sheet of paper used
+to log the readouts of the oil levels in the boiler's tanks. A copy
+of the original paper is shown in Fig. \textbackslash{}ref\{fig:readouts\}
+in the Appendix. We import it in a form suitable for data analysis.
+
+<<>>=
+oilReadingsDf <- read.table(text = "
+Date        Tank1  Tank2
+2011-02-03   7500  13300
+2011-05-25   5500  13000
+2011-10-25   4000  13000
+2011-11-25  10700     NA
+2012-02-23  10500   3300
+2012-04-10  10000    500
+2012-05-02     NA  11100
+2012-05-27   8000  10500
+2013-01-15  10000  10300
+2013-03-06  10000   5200
+2013-06-17  10000   5000
+2013-08-15   9500      0
+2013-08-15  13450  12500
+2013-11-27  13437   8800
+2014-07-25   9500    500
+2014-09-24   9000    500
+2014-09-24   9000  12500
+2014-11-18   7000  12500
+2014-11-18   9100  12500
+2014-12-03   7400  12500
+2015-02-10     NA  12400
+2015-03-25      0   7500
+2015-06-10  13200  10000
+2015-12-15  13200   3500
+2016-03-08   8500     NA
+",
+                          header = TRUE,
+                          colClasses = c(Date = "Date"))
+oilReadings <- zoo(oilReadingsDf[,-1], order.by = oilReadingsDf$Date)
+oilReadings <- transform(oilReadings, Total = Tank1 + Tank2)
+oilReadings
+@
+
+There are log entries (for example 2012-05-02) when one tank was filled
+without recording its level before the refill. In such instances it
+is impossible to know how much oil was used during the preceding period.
+We therefore restrict this data to the 12 periods \emph{during which
+neither tank level increased}.
+
+Each period is matched with its historic weather data, yielding a
+list of mean daily outdoor temperatures for each day of that period.
+We obtain the following:
+
+<<>>=
+oilConsumptionPeriods <- data.frame(from = head(index(oilReadings), -1),
+                                    to = tail(index(oilReadings), -1),
+                                    oil = - diff(as.numeric(oilReadings$Total)))
+# Find periods during which neither tank was filled
+oilConsumptionPeriods <- with(oilReadings,
+                              oilConsumptionPeriods[diff(as.numeric(Tank1)) <= 0 &
+                                                      diff(as.numeric(Tank2)) <= 0, ])
+oilConsumptionPeriods <- na.omit(oilConsumptionPeriods)
+oilConsumptionPeriods <- transform(oilConsumptionPeriods,
+                                   nDays = to - from)
+@
+
+<<>>=
+climate.zoo <- zoo(subset(climate.wide, select = -Date), climate.wide$Date)
+tempInInterval <- function(climate, from, to) {
+  as.numeric(window(climate, start = from, end = to))
+}
+oilConsumptionPeriods <-
+  adply(oilConsumptionPeriods,
+        .margin = 1,
+        .fun = mutate,
+        meanTemps = I(list(tempInInterval(climate.zoo$`Bad Ragaz`, from, to))))
+oilConsumptionPeriods$meanTemp <- sapply(oilConsumptionPeriods$meanTemps, mean, na.rm = TRUE)
+oilConsumptionPeriods$meanTemps <- lapply(oilConsumptionPeriods$meanTemps,
+                                          function(x) {
+                                            x[is.na(x)] <- mean(x, na.rm = TRUE)
+                                            x})
+print(subset(oilConsumptionPeriods, select = -meanTemps), row.names = FALSE)
+@
+
+<<>>=
+load("data/readings.RData.gz")
+sargans <- do.call(merge, readings)
+@
+
+<<>>=
+dailyOil <- aggregate(readings$sargans003$Oil1_volume1, function(x) floor_date(x, "day"), function(x) diff(range(x)))
+index(dailyOil) <- as.Date(index(dailyOil), tz = "CET")
+dailyOil <- merge(dailyOil, na.omit(climate.zoo$`Bad Ragaz`), all = FALSE)
+names(dailyOil) <- c("Oil", "MeanTemp")
+@
+
+<<>>=
+goodPeriods <- with(oilConsumptionPeriods[-c(5, 6), ],
+	data.frame(Energy = oil,
+		DailyMeans = I(meanTemps),
+		When = "PRE"))
+goodPeriods <- with(window(dailyOil, start = "2016-04-01"),
+	rbind(goodPeriods,
+		data.frame(Energy = Oil, DailyMeans = MeanTemp, When = "POST")))
+goodPeriods <- goodPeriods[rownames(goodPeriods) != "2016-04-06",]
+@
+
+<<>>=
+params <- estimateParameters(goodPeriods)
+@
+
+<<>>=
+list2env(params$params, envir = .GlobalEnv)
+@
+
 
 \section{Results}
 
