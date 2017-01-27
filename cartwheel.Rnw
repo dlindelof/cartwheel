@@ -125,7 +125,7 @@ opts_chunk$set(error = FALSE, warning = FALSE, echo = FALSE,
                fig.width = 3.5, fig.height = 3.5, fig.align = "center")
 
 source("inference3.R")
-nice <- function(x, n = 1) format(round(x, digits = n), nsmall = n)
+p <- function(x) formatC(x, digits = 1, format = 'f') 
 @
 
 \section{Introduction}
@@ -534,6 +534,57 @@ params <- estimateParameters(goodPeriods)
 list2env(params$params, envir = .GlobalEnv)
 @
 
+Note that two records in the oil readouts are probably erroneous and
+should be excluded from the analysis: 
+\begin{enumerate}
+\item From 2013-03-06 to 2013-06-17 (103 days): 200 L, or about 2 L per
+day
+\item From 2013-06-17 to 2013-08-15 (59 days): 5500 L, or about 100 L per
+day during summer
+\end{enumerate}
+The building's base temperature and heat loss coefficient are estimated
+from this data using our method. We obtain $t_{\text{b}}=\Sexpr{p(baseTempPre)}\pm\Sexpr{p(sqrt(params[["covariance"]][2,2]))}$
+C, and $K_{\mathrm{pre}}=\Sexpr{p(Kpre)}\pm\Sexpr{p(sqrt(params[["covariance"]][1,1]))}$
+L/C.
+
+Now that we have the building's base temperature, we can validate
+it by calculating the number of degree days for each oil consumption
+period and plotting the oil consumed during each period against the
+degree days of that period. If the base temperature is correct, we
+should obtain points lying on a straight line that goes through the
+origin. We show this in Fig. \textbackslash{}ref\{fig:oilvsdd\}, where
+for comparison we do the same with degree days calculated with different
+official standards. The Bayesian method yields the best results. The
+relationship between the oil consumption and the degree days using
+the estimated base temperature is satisfactorily linear, with the
+exception of the two outliers identified above (not plotted), and
+possibly a third point with 2300 liters of oil for about 750 degree
+days. 
+
+<<OilVsDD, fig.cap="Oil consumption vs heating degree days, calculated with different base temperatures. The Bayesian base temperature yields the highest coefficient of determination $R^2$, showing that it fits the data best.">>=
+DD <- function(dailyTemps, base) sum(pos(base - dailyTemps))
+before.dd <- subset(goodPeriods, When == "PRE")
+before.dd$Bayesian <- sapply(before.dd$DailyMeans, DD, baseTempPre)
+before.dd$ASHRAE <- sapply(before.dd$DailyMeans, DD, 18.3)
+before.dd[["SIA 380:2015"]] <- sapply(before.dd$DailyMeans, DD, 12)
+before.dd[["Carbon Trust"]] <- sapply(before.dd$DailyMeans, DD, 15.5)
+before.dd[["SIA 381/3"]] <- sapply(before.dd$DailyMeans, function(x) sum(ifelse(x < 12, 20 - x, 0)))
+before.dd.long <- melt(before.dd, 
+	id.vars = "Energy", 
+	measure.vars = c("Bayesian", "ASHRAE", "SIA 380:2015", "Carbon Trust", "SIA 381/3"),
+	variable.name = "Base",
+    value.name = "Degree days")
+before.rsq <- ddply(before.dd.long, 
+	.(Base), 
+	function(x) summary(lm(Energy ~ `Degree days`, x))$r.squared) 
+before.rsq$label <- format(before.rsq$V1, di = 3)
+ggplot(before.dd.long, aes(`Degree days`, Energy)) +
+	geom_point() +
+	facet_wrap(~ Base) +
+	geom_smooth(method = "lm", formula = y ~ x, se = FALSE) + 
+	geom_text(data = before.rsq, aes(1200, 2500, label = paste("italic(R)^2=='", label, "'"), hjust = 0), parse = TRUE, size = rel(3)) +
+	ylab("Oil [L]")
+@
 
 \section{Results}
 

@@ -607,7 +607,7 @@ source("inference3.R")
 
 \begin_layout Plain Layout
 
-nice <- function(x, n = 1) format(round(x, digits = n), nsmall = n)
+p <- function(x) formatC(x, digits = 1, format = 'f') 
 \end_layout
 
 \begin_layout Plain Layout
@@ -1977,6 +1977,189 @@ status open
 \begin_layout Plain Layout
 
 list2env(params$params, envir = .GlobalEnv)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that two records in the oil readouts are probably erroneous and should
+ be excluded from the analysis: 
+\end_layout
+
+\begin_layout Enumerate
+From 2013-03-06 to 2013-06-17 (103 days): 200 L, or about 2 L per day
+\end_layout
+
+\begin_layout Enumerate
+From 2013-06-17 to 2013-08-15 (59 days): 5500 L, or about 100 L per day
+ during summer
+\end_layout
+
+\begin_layout Standard
+The building's base temperature and heat loss coefficient are estimated
+ from this data using our method.
+ We obtain 
+\begin_inset Formula $t_{\text{b}}=\Sexpr{p(baseTempPre)}\pm\Sexpr{p(sqrt(params[["covariance"]][2,2]))}$
+\end_inset
+
+ C, and 
+\begin_inset Formula $K_{\mathrm{pre}}=\Sexpr{p(Kpre)}\pm\Sexpr{p(sqrt(params[["covariance"]][1,1]))}$
+\end_inset
+
+ L/C.
+\end_layout
+
+\begin_layout Standard
+Now that we have the building's base temperature, we can validate it by
+ calculating the number of degree days for each oil consumption period and
+ plotting the oil consumed during each period against the degree days of
+ that period.
+ If the base temperature is correct, we should obtain points lying on a
+ straight line that goes through the origin.
+ We show this in Fig.
+ 
+\backslash
+ref{fig:oilvsdd}, where for comparison we do the same with degree days calculate
+d with different official standards.
+ The Bayesian method yields the best results.
+ The relationship between the oil consumption and the degree days using
+ the estimated base temperature is satisfactorily linear, with the exception
+ of the two outliers identified above (not plotted), and possibly a third
+ point with 2300 liters of oil for about 750 degree days.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<OilVsDD, fig.cap="Oil consumption vs heating degree days, calculated with
+ different base temperatures.
+ The Bayesian base temperature yields the highest coefficient of determination
+ $R^2$, showing that it fits the data best.">>=
+\end_layout
+
+\begin_layout Plain Layout
+
+DD <- function(dailyTemps, base) sum(pos(base - dailyTemps))
+\end_layout
+
+\begin_layout Plain Layout
+
+before.dd <- subset(goodPeriods, When == "PRE")
+\end_layout
+
+\begin_layout Plain Layout
+
+before.dd$Bayesian <- sapply(before.dd$DailyMeans, DD, baseTempPre)
+\end_layout
+
+\begin_layout Plain Layout
+
+before.dd$ASHRAE <- sapply(before.dd$DailyMeans, DD, 18.3)
+\end_layout
+
+\begin_layout Plain Layout
+
+before.dd[["SIA 380:2015"]] <- sapply(before.dd$DailyMeans, DD, 12)
+\end_layout
+
+\begin_layout Plain Layout
+
+before.dd[["Carbon Trust"]] <- sapply(before.dd$DailyMeans, DD, 15.5)
+\end_layout
+
+\begin_layout Plain Layout
+
+before.dd[["SIA 381/3"]] <- sapply(before.dd$DailyMeans, function(x) sum(ifelse(x
+ < 12, 20 - x, 0)))
+\end_layout
+
+\begin_layout Plain Layout
+
+before.dd.long <- melt(before.dd, 
+\end_layout
+
+\begin_layout Plain Layout
+
+	id.vars = "Energy", 
+\end_layout
+
+\begin_layout Plain Layout
+
+	measure.vars = c("Bayesian", "ASHRAE", "SIA 380:2015", "Carbon Trust", "SIA
+ 381/3"),
+\end_layout
+
+\begin_layout Plain Layout
+
+	variable.name = "Base",
+\end_layout
+
+\begin_layout Plain Layout
+
+    value.name = "Degree days")
+\end_layout
+
+\begin_layout Plain Layout
+
+before.rsq <- ddply(before.dd.long, 
+\end_layout
+
+\begin_layout Plain Layout
+
+	.(Base), 
+\end_layout
+
+\begin_layout Plain Layout
+
+	function(x) summary(lm(Energy ~ `Degree days`, x))$r.squared) 
+\end_layout
+
+\begin_layout Plain Layout
+
+before.rsq$label <- format(before.rsq$V1, di = 3)
+\end_layout
+
+\begin_layout Plain Layout
+
+ggplot(before.dd.long, aes(`Degree days`, Energy)) +
+\end_layout
+
+\begin_layout Plain Layout
+
+	geom_point() +
+\end_layout
+
+\begin_layout Plain Layout
+
+	facet_wrap(~ Base) +
+\end_layout
+
+\begin_layout Plain Layout
+
+	geom_smooth(method = "lm", formula = y ~ x, se = FALSE) + 
+\end_layout
+
+\begin_layout Plain Layout
+
+	geom_text(data = before.rsq, aes(1200, 2500, label = paste("italic(R)^2=='",
+ label, "'"), hjust = 0), parse = TRUE, size = rel(3)) +
+\end_layout
+
+\begin_layout Plain Layout
+
+	ylab("Oil [L]")
+\end_layout
+
+\begin_layout Plain Layout
+
+@
 \end_layout
 
 \end_inset
