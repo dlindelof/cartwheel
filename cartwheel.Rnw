@@ -61,9 +61,9 @@ building}
 
 \author[nb]{Christian~Grigis}
 
-\author[nb]{Jean~Viaene}
-
 \author[nb]{Xavier~Mocellin}
+
+\author[nb]{Jean~Viaene}
 
 \cortext[cor1]{Corresponding author}
 
@@ -114,8 +114,10 @@ library(homeR)
 
 library(ggplot2)
 library(lubridate)
+library(MCMCpack)
 library(plyr)
 library(reshape2)
+library(xtable)
 library(zoo)
 
 theme_set(theme_bw())
@@ -586,11 +588,204 @@ ggplot(before.dd.long, aes(`Degree days`, Energy)) +
 	ylab("Oil [L]")
 @
 
+\section{Reporting period}
+
+After the installation of the two NOL\textsuperscript{a} systems,
+we had access to daily oil consumption data thanks to an oil counter.
+With this data we can correlate the oil consumption with the outdoor
+temperature on a daily basis, instead of having to wait until the
+next oil tank refill. That relationship is shown in Fig. \textbackslash{}ref\{fig:Signature\}. 
+
+<<Signature, fig.cap="Daily oil consumption vs daily average outdoor temperatures. A linear fit is shown with its confidence bands.">>=
+signature <- qplot(as.numeric(DailyMeans), 
+	Energy,
+	data = subset(goodPeriods, When == "POST"),
+	xlab = "Mean outdoor temperature [C]",
+	ylab = "Oil [L]") +
+	geom_smooth(method = "lm")
+signature
+@
+
+Each point in this plot represents one day, and we restrict the data
+to dates after 1st April 2016 when a mislabeling of the existing heating
+system was identified and corrected. The post-installation total heat
+loss coefficient $K_{\mathrm{post}}$ is the slope of the linear regression
+through these points, since each point represents one day of oil consumption
+and they all are lower than the base temperature. We obtain $K_{\mathrm{post}}=\Sexpr{p(Kpost)}\pm\Sexpr{p(sqrt(params[['covariance']][4,4]))}$
+L/C, or about 30\% less than the pre-installation total heat loss
+coefficient $K_{\mathrm{pre}}$.
+
 \section{Results}
+
+<<cache=TRUE>>=
+metropfun <- function(x, periods)
+  do.call(loglikelihood, args = c(list(periods), as.list(c(x[1:2], 0, x[3:5]))))
+metropfun3 <- function(x, periods)
+  do.call(loglikelihood, args = c(list(periods), as.list(c(x[1:2], 0, x[3:6]))))
+#m <- MCMCmetrop1R(metropfun, c(U, baseTemp, sigma, rho, DbaseTemp), seed = 1345, tune = 1.3, periods = goodPeriods)
+m3 <- MCMCmetrop1R(metropfun3, c(Kpre, baseTempPre, sigmaPre, Kpost, baseTempPost, sigmaPost), seed = 1345, tune = 1.3, periods = goodPeriods)
+m <- m3
+m <- cbind(m, 1 - m[, 4] / m[, 1])
+colnames(m) <- c("Kpre", "baseTempPre", "sigmaPre", "Kpost", "baseTempPost", "sigmaPost", "savings")
+@
+
+<<>>=
+HDIofMCMC <- function(samples, credMass = 0.95) {
+  sortedSamples <- sort(samples)
+  nInCI <- ceiling(credMass * length(samples))
+  nCandidateCI <- length(samples) - nInCI
+  CIWidths <- rep(0, nCandidateCI)
+  for (i in 1:nCandidateCI) {
+    CIWidths[i] <- sortedSamples[i + nInCI] - sortedSamples[i]
+  }
+  HDImin <- sortedSamples[which.min(CIWidths)]
+  HDImax <- sortedSamples[which.min(CIWidths) + nInCI]
+  c(HDImin, HDImax)
+}
+@
+
+<<>>=
+rhoCI <- HDIofMCMC(m[, 'Kpost'] / m[, 'Kpre'], 0.67)
+rho <- mean(rhoCI)
+Drho <- diff(rhoCI) / 2
+@
+
+<<>>=
+rhocdf <- ecdf(m[, 'savings'])
+savingsPercent <- 100 * (1 - rho)
+savingsError <- 100 * Drho
+@
+
+The increase in energy efficiency resulting from the NOL\textsuperscript{a}
+installation can now be evaluated, defined as $(1-K_{\mathrm{post}}/K_{\mathrm{pre}})$.
+But our Bayesian method does not compute point estimates; instead,
+it computes how \emph{probable} the energy savings are given the data;
+or rather, it computes the \emph{probability density} for each possible
+value of those savings. A histogram of that probability density is
+shown in Fig. \textbackslash{}ref\{fig:RhoDensity\}. The majority
+of that histogram is positive, indicating positive energy savings.
+Any statement about the energy savings can now be made with its associated
+confidence. For example, 75\% of the mass of this histogram lies to
+the right of 14\% energy savings; this can be reported by saying that
+the energy savings are at least 14\% with 75\% probability. The `best'
+estimate of the final energy savings is obtained by finding the narrowest
+range of energy savings such that they encompass $N$\% of the mass
+of the histogram, also known as the $N$\% credible interval, for
+any desired value for $N$. Since one standard error of a normal distribution
+corresponds to a 67\% credible interval, we will report the energy
+savings with the same value for $N$. We obtain:
+\begin{center}
+Relative savings = $\Sexpr{p(savingsPercent)}\pm\Sexpr{p(savingsError)}$
+(67\% credible interval).
+\par\end{center}
+
+An uncertainty of $\Sexpr{p(savingsError)}$\% may sound large and
+it is tempting to try and reduce that error by letting the experiment
+run longer. But letting the experiment run longer will only reduce
+the error on the post-installation heat loss coefficient $K_{\text{post}}$;
+there is nothing we can do about the error on the pre-installation
+heat loss coefficient $K_{\text{pre}}$, which dominates the total
+error on the final energy savings. The absolute error on the savings,
+which are equal to the absolute error on $\rho$, have a lower limit
+given by the relative error on $K_{\text{pre}}$: $\Delta\rho\geq\rho\times\Delta K_{\text{pre}}/K_{\text{pre}}$.
+In our case, $\rho=\Sexpr{p(rho)}$, $\Delta K_{\text{pre}}=\Sexpr{p(sd(m[,'Kpre']))}$,
+$K_{\text{pre}}=\Sexpr{p(mean(m[,'Kpre']))}$ and therefore $\Delta\rho\geq\Sexpr{p(mean(m[,'Kpost']/m[,'Kpre'])*sd(m[,'Kpre'])/mean(m[,'Kpre']))}$,
+very close to the current uncertainty of $\Sexpr{p(savingsError)}$\%.
+After $\Sexpr{nrow(subset(goodPeriods,When='POST'))}$ days of measurements
+after the installation, our accuracy is almost as good as it will
+ever get. 
+
+<<RhoDensity, fig.cap="Probability density distribution for the relative energy savings in percent. The red line indicates the best estimate and the blue bars indicate the 67\\% credible interval.">>=
+q <- qplot(100 * m[, 'savings'], y = ..density.., geom = "histogram", xlab = "Relative energy savings [\\%]", ylab = "Probability density")
+q +
+  geom_vline(xintercept = savingsPercent, color = "red", lwd = 2) +
+  annotate("segment", x = savingsPercent - savingsError, xend = savingsPercent + savingsError,
+           y = 0.007, yend = 0.007, colour = "blue", lwd = 2, arrow = arrow(ends = "both", angle = 90, length = unit(.2, "cm"))) +
+  xlim(-100, 100)
+@
+
+With this probability density one can answer any question about the
+energy savings on that building, such as \textquotedbl{}What are the
+most likely energy savings?\textquotedbl{}, \textquotedbl{}What energy
+savings can I expect on average?\textquotedbl{}, or \textquotedbl{}How
+likely am I to achieve energy savings of at least 20\%?\textquotedbl{}.
+The latter kind of questions are answered in Table \textbackslash{}ref\{tab:probs\},
+showing, for any level of energy savings, how likely one is to achieve
+at least that level. 
+
+<<results = 'asis'>>=
+savingsProbability <- data.frame(Savings = seq(0, 40, by = 5))
+savingsProbability$Probability <- 100 * (1 - rhocdf(savingsProbability$Savings / 100))
+names(savingsProbability) <- c("Savings [%]", "Probability [%]")
+print(xtable(savingsProbability, label = "tab:probs", caption = "Probability that the true energy savings are higher than a given level."), include.rownames = FALSE, comment = FALSE)
+@
+
+The following caveats should, however, be kept in mind:
+\begin{itemize}
+\item We have assumed that the building's base temperature and heat loss
+coefficient have remained constant from 2011\textendash 2015.
+\item We have assumed that a linear relationship holds between the oil consumption
+and the average outdoor temperature post-installation, but the plot
+above suggests a good deal of variance that must be attributed to
+other factors than the outdoor temperature. We have anectodal evidence
+that this happens on other Neurobat-controlled sites. We conjecture
+that the solar irradiance plays a more important part in a building's
+energy signature when it is controlled by Neurobat than with a heating-curve
+based controller.
+\item Fig. \textbackslash{}ref\{fig:Signature\} suggests that the building's
+base temperature may have shifted upwards after the installation of
+the NOL\textsuperscript{a} systems. This happens when the temperature
+setpoint programmed on the NOL\textsuperscript{a} is higher than
+the average temperature kept by the original heating system. But historic
+indoor temperatures are rarely available, and the NOL\textsuperscript{a}
+installer relies on the temperature setpoint programmed on the original
+heating system\textemdash which can be very different from the temperature
+really desired by the user. This does not invalidate the above analysis,
+but the building manager should consider adjusting those setpoints
+to fully reap the energy savings.
+\end{itemize}
 
 \section{Discussion}
 
 \section{Conclusion}
+
+Model-predictive control of space heating has reduced the oil consumption
+of the Sargans building by almost a third\textemdash the equivalent
+of having walls about 40\% thicker, at a fraction of the cost of traditional
+insulation. According to the building's Object Manager, the users
+are satisfied with the comfort provided by NOL\textasciicircum{}a\textasciicircum{}
+and has received no complaints, whether from tenants or employees.
+
+This pilot installation has satisfactorily demonstrated the potential
+of the Neurobat technology for non-residential buildings, where several
+heating circuits, fed by the same boiler, need to be optimised simultaneously. 
+
+\section*{Appendix}
+
+\subsection*{Map of the Sargans area}
+
+The map in Fig. \textbackslash{}ref\{fig:stations\} shows the location
+of Sargans and of the closest weather stations in Bad Ragaz and Vaduz.
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.8\textwidth]{img/map}
+\par\end{centering}
+\caption{Relative positions of Sargans and the two weather stations}
+
+\end{figure}
+
+
+\subsection*{Original oil readouts}
+
+Fig. \textbackslash{}ref\{fig:readouts\} shows the original oil readouts,
+from which the pre-installation energy performance was derived. 
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.8\textwidth]{img/oil}
+\par\end{centering}
+\caption{The original manual oil level readouts}
+
+\end{figure}
 
 \noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
 \printnomenclature{}%
