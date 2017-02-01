@@ -635,15 +635,31 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-Many energy conservation measures (ECM) exist to reduce the consumption
- of energy in existing buildings, but vary widely in effectiveness.
+Many energy conservation measures (ECM
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "ECM"
+description "Energy Conservation Measure"
+
+\end_inset
+
+) exist to reduce the consumption of energy in existing buildings, but vary
+ widely in effectiveness.
  Faced with a variety of options, ranging from trivial (replacing light
  bulbs) to major projects (better façade insulation), an owner will want
  to know which energy conservation measure is likely to yield the highest
  return on investment—and with what confidence.
  Moreover, once the measure has been applied, the owner will want to know
  how well it performs and whether their money was well spent—also known
- as Measurement & Verification.
+ as Measurement & Verification
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "M&V"
+description "Measurement & Verification"
+
+\end_inset
+
+.
  But conventional M&V mandates the establishment of a pre-measure baseline,
  normally requiring the instrumentation of the building during a year or
  more, driving the costs of M&V to sometimes unacceptable levels.
@@ -684,25 +700,13 @@ The need to quantify uncertainties when assessing the effectiveness of ECM
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "black"
-backgroundcolor "none"
-status open
+The issue of risk is frequently ignored or overlooked.
+ Here we consider two kinds of risks: 1) the risk that the ECM might not
+ be as effective as advertised, and 2) the risk that, although effective,
+ the benefits will turn out to be difficult to prove.
+\end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Ma2012"
@@ -715,65 +719,7 @@ key "Ma2012"
  practical case studies are needed.
  Evaluating the effectiveness of an ECM cannot remain a research project
  forever; the whole process needs to be streamlined.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Box Boxed
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "black"
-backgroundcolor "none"
-status open
-
-\begin_layout Plain Layout
-The issue of risk is frequently ignored or overlooked.
- Here we consider two kinds of risks: 1) the risk that the ECM might not
- be as effective as advertised, and 2) the risk that, although effective,
- the benefits will turn out to be difficult to prove.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Box Boxed
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "black"
-backgroundcolor "none"
-status open
-
-\begin_layout Plain Layout
-Improving the heating system's controller (such as by replacing it with
+ Improving the heating system's controller (such as by replacing it with
  a model-predictive controller) belongs to the ECM category of 
 \begin_inset Quotes eld
 \end_inset
@@ -782,102 +728,43 @@ Energy efficient equipment and low energy technologies
 \begin_inset Quotes erd
 \end_inset
 
-, a form of demand side management 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "Ma2012"
-
-\end_inset
-
-.
-\end_layout
-
-\end_inset
-
-
+, a form of demand side management.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "black"
-backgroundcolor "none"
-status open
-
-\begin_layout Plain Layout
 Some M&V projects are easier than others; when there is no factors that
  need adjustment for, for example.
  Replacing light bulbs in commercial buildings is one such example, where
- M&V can be done without bothering about any adjustment.
- 
+ M&V can be done without bothering about any adjustment 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Lee2000"
 
 \end_inset
 
-
-\end_layout
-
-\end_inset
-
-
+.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "black"
-backgroundcolor "none"
-status open
-
-\begin_layout Plain Layout
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Xia2013"
 
 \end_inset
 
-An attempt to provide a rigorous footing to M&V, so it escapes its image
- of an "an inaccurate science: an engineering practice relying heavily on
- professional judge- ment"
-\end_layout
-
-\begin_layout Plain Layout
-Attempt to formulate optimal M&V plan.
-\end_layout
-
-\begin_layout Plain Layout
-No attempt to formulate uncertainty in savings estimates.
-\end_layout
-
+: an attempt to provide a rigorous footing to M&V, so it escapes its image
+ of an 
+\begin_inset Quotes eld
 \end_inset
 
+an inaccurate science: an engineering practice relying heavily on professional
+ judgement
+\begin_inset Quotes erd
+\end_inset
 
+.
+ Attempt to formulate optimal M&V plan.
+ No attempt to formulate uncertainty in savings estimates.
 \end_layout
 
 \begin_layout Subsection
@@ -950,7 +837,7 @@ key "Kaiser2010"
 \end_layout
 
 \begin_layout Standard
-Other retrofir assessments found in the literature include:
+Other retrofit assessments found in the literature include:
 \end_layout
 
 \begin_layout Itemize
@@ -960,7 +847,7 @@ key "Cohen1991"
 
 \end_inset
 
-old but relevant: 32 retrofit projects, ranging in size from three to 30
+ old but relevant: 32 retrofit projects, ranging in size from three to 30
  000 houses.
  Energy normalised by HDD using fixed 65 F.
  Mix of submetered, utility bills.
@@ -973,7 +860,7 @@ key "Lin2015"
 
 \end_inset
 
-Electricity and gas bill for a 31'000m2 campus whose HVAC equipment was
+ Electricity and gas bill for a 31'000m2 campus whose HVAC equipment was
  retrofitted.
  IMPVP option C.
  Baseline from Sept 2007 to August 2008.
@@ -982,33 +869,21 @@ Electricity and gas bill for a 31'000m2 campus whose HVAC equipment was
  Savings reported without uncertainty.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Walter2014"
 
 \end_inset
 
-Models electric load as function of time of week and outdoor temperature.
+ Models electric load as function of time of week and outdoor temperature.
  Nonlinear dependency on outdoor temperature.
-\end_layout
-
-\begin_layout Standard
-Cross-validation used to quantify uncertainty in baseline estimation.
-\end_layout
-
-\begin_layout Standard
-Having access to full-year of data does not necessarily improve baseline
+ Cross-validation used to quantify uncertainty in baseline estimation.
+ Having access to full-year of data does not necessarily improve baseline
  estimates.
-\end_layout
-
-\begin_layout Standard
-17 buildings analysed.
+ 17 buildings analysed.
  Half have 27 months of data, other half 12.
-\end_layout
-
-\begin_layout Standard
-Method is a good indicator for predicting baseline error for a single month
+ Method is a good indicator for predicting baseline error for a single month
  (the last one), but uncertainties highly variable from building to building.
 \end_layout
 
@@ -1070,11 +945,38 @@ Experimental building
 
 \begin_layout Standard
 The Sargans building shown in Fig.
- 1 includes four heating circuits, covering 1234 m2, with heating water
- provided by an oil-fired boiler.
- The NOLa system was installed in March 2016 on three of the four circuits,
- generally referred to as Neubau, Büro, and Wohnung, the latter two belonging
- to the old part of the building (Altbau).
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:composite"
+
+\end_inset
+
+ includes four heating circuits, covering TK m
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+, with heating water provided by an oil-fired boiler.
+ The NOL
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+a
+\end_layout
+
+\end_inset
+
+ system was installed in March 2016 on three of the four circuits, commonly
+ referred to as Neubau, Büro, and Wohnung, the latter two belonging to the
+ old part of the building (Altbau).
  The fourth circuit was deemed not to require optimisation, as the zone
  in question is kept relatively cool.
 \end_layout
@@ -1091,15 +993,33 @@ The oil-fired boiler draws its fuel from two tanks and provides the heating
 Neurobat’s adaptive model-predictive control algorithm regularly calculates
  an optimal value for the temperature of the water prepared by the oil boiler.
  This value cannot be communicated directly to most legacy heating controllers;
- instead, the NOLa system controls the flow temperature indirectly by modulating
- the outdoor temperature measured by the heating controllers.
+ instead, the NOL
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+a
+\end_layout
+
+\end_inset
+
+ system controls the flow temperature indirectly by shifting the outdoor
+ temperature measured by the heating controllers.
  Thus, the boiler provides for each circuit a heating water at just the
  right temperature.
 \end_layout
 
 \begin_layout Standard
-The sensors attached to the NOLa system (including an oil meter) are automatical
-ly sampled several times per hour and stored in a database.
+The sensors attached to the NOL
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+a
+\end_layout
+
+\end_inset
+
+ system (including an oil meter) are automatically sampled several times
+ per hour and stored in a database.
  The data is used for monitoring in near real time, and for offline data
  analysis.
 \end_layout
@@ -1135,6 +1055,12 @@ Aerial (top left) and side views of the Altbau (bottom) and Neubau (right)
 \end_layout
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:composite"
+
+\end_inset
+
 
 \end_layout
 
@@ -1150,8 +1076,8 @@ Bayesian energy model
 \begin_layout Standard
 The energy consumed by a building is rarely constant but varies over time
  due to so-called routine factors (expected to vary, such as the climate)
- and non-routine factors (normally constant, such as the function of the
- building).
+ and non-routine factors (normally constant, such as the indoor temperature
+ setpoint or the function of the building).
  These factors must be accounted for when assessing the effectiveness of
  an ECM.
  This is normally done by establishing a model for the energy use before

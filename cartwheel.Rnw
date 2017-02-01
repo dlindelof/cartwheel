@@ -132,21 +132,21 @@ p <- function(x) formatC(x, digits = 1, format = 'f')
 
 \section{Introduction}
 
-Many energy conservation measures (ECM) exist to reduce the consumption
-of energy in existing buildings, but vary widely in effectiveness.
-Faced with a variety of options, ranging from trivial (replacing light
-bulbs) to major projects (better façade insulation), an owner will
-want to know which energy conservation measure is likely to yield
-the highest return on investment\textemdash and with what confidence.
-Moreover, once the measure has been applied, the owner will want to
-know how well it performs and whether their money was well spent\textemdash also
-known as Measurement \& Verification. But conventional M\&V mandates
-the establishment of a pre-measure baseline, normally requiring the
-instrumentation of the building during a year or more, driving the
-costs of M\&V to sometimes unacceptable levels. Furthermore, a typical
-M\&V study will report a single number for the measure's efficiency,
-ignoring (and failing to report) any uncertainty surrounding that
-estimate.
+Many energy conservation measures (ECM\nomenclature{ECM}{Energy Conservation Measure})
+exist to reduce the consumption of energy in existing buildings, but
+vary widely in effectiveness. Faced with a variety of options, ranging
+from trivial (replacing light bulbs) to major projects (better façade
+insulation), an owner will want to know which energy conservation
+measure is likely to yield the highest return on investment\textemdash and
+with what confidence. Moreover, once the measure has been applied,
+the owner will want to know how well it performs and whether their
+money was well spent\textemdash also known as Measurement \& Verification\nomenclature{M&V}{Measurement & Verification}.
+But conventional M\&V mandates the establishment of a pre-measure
+baseline, normally requiring the instrumentation of the building during
+a year or more, driving the costs of M\&V to sometimes unacceptable
+levels. Furthermore, a typical M\&V study will report a single number
+for the measure's efficiency, ignoring (and failing to report) any
+uncertainty surrounding that estimate.
 
 This is a recurring problem for large companies in Switzerland that
 have publicly committed themselves to reducing their greenhouse gas
@@ -168,44 +168,31 @@ anymore but a well-stream
 \subsection{The need to quantify uncertainties when assessing the effectiveness
 of ECM}
 
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+The issue of risk is frequently ignored or overlooked. Here we consider
+two kinds of risks: 1) the risk that the ECM might not be as effective
+as advertised, and 2) the risk that, although effective, the benefits
+will turn out to be difficult to prove.
+
 \citet{Ma2012} note that confidence in the effectiveness of energy
 conservation measures limit their adoption. Trust in computer simulations
 can only go so far, and more experience with practical case studies
 are needed. Evaluating the effectiveness of an ECM cannot remain a
-research project forever; the whole process needs to be streamlined.%
-\end{minipage}}
-
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
-The issue of risk is frequently ignored or overlooked. Here we consider
-two kinds of risks: 1) the risk that the ECM might not be as effective
-as advertised, and 2) the risk that, although effective, the benefits
-will turn out to be difficult to prove.%
-\end{minipage}}
-
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+research project forever; the whole process needs to be streamlined.
 Improving the heating system's controller (such as by replacing it
 with a model-predictive controller) belongs to the ECM category of
 ``Energy efficient equipment and low energy technologies'', a form
-of demand side management \citep{Ma2012}.%
-\end{minipage}}
+of demand side management.
 
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
 Some M\&V projects are easier than others; when there is no factors
 that need adjustment for, for example. Replacing light bulbs in commercial
 buildings is one such example, where M\&V can be done without bothering
-about any adjustment. \citep{Lee2000}%
-\end{minipage}}
+about any adjustment \citep{Lee2000}.
 
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
-\citep{Xia2013}An attempt to provide a rigorous footing to M\&V,
-so it escapes its image of an \textquotedbl{}an inaccurate science:
-an engineering practice relying heavily on professional judge- ment\textquotedbl{}
-
-Attempt to formulate optimal M\&V plan.
-
-No attempt to formulate uncertainty in savings estimates.%
-\end{minipage}}
+\citep{Xia2013}: an attempt to provide a rigorous footing to M\&V,
+so it escapes its image of an ``an inaccurate science: an engineering
+practice relying heavily on professional judgement''. Attempt to
+formulate optimal M\&V plan. No attempt to formulate uncertainty in
+savings estimates.
 
 \subsection{The IPMVP on uncertainties}
 
@@ -231,30 +218,24 @@ where 730 households participated, and 150 are chosen at random. Baseline
 established as linear model in HDD, CDD, relative humidity and energy
 price. No uncertainties are reported.
 \end{itemize}
-Other retrofir assessments found in the literature include:
+Other retrofit assessments found in the literature include:
 \begin{itemize}
-\item \citep{Cohen1991}old but relevant: 32 retrofit projects, ranging
+\item \citep{Cohen1991} old but relevant: 32 retrofit projects, ranging
 in size from three to 30 000 houses. Energy normalised by HDD using
 fixed 65 F. Mix of submetered, utility bills.
-\item \citep{Lin2015}Electricity and gas bill for a 31'000m2 campus whose
+\item \citep{Lin2015} Electricity and gas bill for a 31'000m2 campus whose
 HVAC equipment was retrofitted. IMPVP option C. Baseline from Sept
 2007 to August 2008. Measurement from May 2009 to April 2010. Normalised
 to outdoor temperature. Savings reported without uncertainty.
-\end{itemize}
-\citep{Walter2014}Models electric load as function of time of week
+\item \citep{Walter2014} Models electric load as function of time of week
 and outdoor temperature. Nonlinear dependency on outdoor temperature.
-
 Cross-validation used to quantify uncertainty in baseline estimation.
-
 Having access to full-year of data does not necessarily improve baseline
-estimates.
-
-17 buildings analysed. Half have 27 months of data, other half 12.
-
-Method is a good indicator for predicting baseline error for a single
-month (the last one), but uncertainties highly variable from building
-to building.
-
+estimates. 17 buildings analysed. Half have 27 months of data, other
+half 12. Method is a good indicator for predicting baseline error
+for a single month (the last one), but uncertainties highly variable
+from building to building.
+\end{itemize}
 Notes that when using the energy avoided (need to check the term)
 method, the uncertainty is entirely due to the uncertainty in the
 baseline.
@@ -273,10 +254,11 @@ predictions for new observations'' (BDA3)%
 
 \section{Experimental building}
 
-The Sargans building shown in Fig. 1 includes four heating circuits,
-covering 1234 m2, with heating water provided by an oil-fired boiler.
-The NOLa system was installed in March 2016 on three of the four circuits,
-generally referred to as Neubau, Büro, and Wohnung, the latter two
+The Sargans building shown in Fig.~\ref{fig:composite} includes
+four heating circuits, covering TK m\textsuperscript{2}, with heating
+water provided by an oil-fired boiler. The NOL\textsuperscript{a}
+system was installed in March 2016 on three of the four circuits,
+commonly referred to as Neubau, Büro, and Wohnung, the latter two
 belonging to the old part of the building (Altbau). The fourth circuit
 was deemed not to require optimisation, as the zone in question is
 kept relatively cool.
@@ -290,15 +272,15 @@ circuit.
 Neurobat\textquoteright s adaptive model-predictive control algorithm
 regularly calculates an optimal value for the temperature of the water
 prepared by the oil boiler. This value cannot be communicated directly
-to most legacy heating controllers; instead, the NOLa system controls
-the flow temperature indirectly by modulating the outdoor temperature
-measured by the heating controllers. Thus, the boiler provides for
-each circuit a heating water at just the right temperature.
+to most legacy heating controllers; instead, the NOL\textsuperscript{a}
+system controls the flow temperature indirectly by shifting the outdoor
+temperature measured by the heating controllers. Thus, the boiler
+provides for each circuit a heating water at just the right temperature.
 
-The sensors attached to the NOLa system (including an oil meter) are
-automatically sampled several times per hour and stored in a database.
-The data is used for monitoring in near real time, and for offline
-data analysis.
+The sensors attached to the NOL\textsuperscript{a} system (including
+an oil meter) are automatically sampled several times per hour and
+stored in a database. The data is used for monitoring in near real
+time, and for offline data analysis.
 
 \begin{figure}
 \includegraphics[width=0.8\columnwidth]{img/sargans_composite}
@@ -307,6 +289,7 @@ data analysis.
 (right) parts of the Sargans building. The Büro and Wohnung circuits
 belong to the Altbau part.}
 
+\label{fig:composite}
 \end{figure}
 
 
@@ -314,11 +297,11 @@ belong to the Altbau part.}
 
 The energy consumed by a building is rarely constant but varies over
 time due to so-called routine factors (expected to vary, such as the
-climate) and non-routine factors (normally constant, such as the function
-of the building). These factors must be accounted for when assessing
-the effectiveness of an ECM. This is normally done by establishing
-a model for the energy use before and after the installation of the
-ECM, as we do here.
+climate) and non-routine factors (normally constant, such as the indoor
+temperature setpoint or the function of the building). These factors
+must be accounted for when assessing the effectiveness of an ECM.
+This is normally done by establishing a model for the energy use before
+and after the installation of the ECM, as we do here.
 
 Under normal conditions, the daily heating demand of a building will
 balance the building's heat loss. The daily losses $Q_{d}$ can be
@@ -788,6 +771,7 @@ from which the pre-installation energy performance was derived.
 \end{figure}
 
 \noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+\settowidth{\nomlabelwidth}{M&V}
 \printnomenclature{}%
 \end{minipage}}
 
