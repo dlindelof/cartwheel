@@ -140,7 +140,7 @@ insulation), an owner will want to know which energy conservation
 measure is likely to yield the highest return on investment\textemdash and
 with what confidence. Moreover, once the measure has been applied,
 the owner will want to know how well it performs and whether their
-money was well spent\textemdash also known as Measurement \& Verification\nomenclature{M&V}{Measurement & Verification}.
+money was well spent\textemdash also known as Measurement \& Verification.
 But conventional M\&V mandates the establishment of a pre-measure
 baseline, normally requiring the instrumentation of the building during
 a year or more, driving the costs of M\&V to sometimes unacceptable
@@ -223,10 +223,11 @@ Other retrofit assessments found in the literature include:
 \item \citep{Cohen1991} old but relevant: 32 retrofit projects, ranging
 in size from three to 30 000 houses. Energy normalised by HDD using
 fixed 65 F. Mix of submetered, utility bills.
-\item \citep{Lin2015} Electricity and gas bill for a 31'000m2 campus whose
-HVAC equipment was retrofitted. IMPVP option C. Baseline from Sept
-2007 to August 2008. Measurement from May 2009 to April 2010. Normalised
-to outdoor temperature. Savings reported without uncertainty.
+\item \citep{Lin2015} Electricity and gas bill for a 31'000\,m\textsuperscript{2}
+campus whose HVAC equipment was retrofitted. IMPVP option C. Baseline
+from Sept 2007 to August 2008. Measurement from May 2009 to April
+2010. Normalised to outdoor temperature. Savings reported without
+uncertainty.
 \item \citep{Walter2014} Models electric load as function of time of week
 and outdoor temperature. Nonlinear dependency on outdoor temperature.
 Cross-validation used to quantify uncertainty in baseline estimation.
@@ -368,7 +369,7 @@ Neurobat's \code{homeR} R package, freely available from CRAN \citep{homeR}
 
 \subsection{Weather data}
 
-The historic weather data (going back to 2011) is obtained from {[}MeteoSuisse{]}(http://www.meteosuisse.admin.ch/home.html),
+The historic weather data (going back to 2011) is obtained from \citet{meteosuisse2016},
 who provides a file with average daily temperatures measured in Bad
 Ragaz (about 6 km from Sargans) and Vaduz (about 10 km). The relative
 positions of the pilot building in Sargans and of the Bad Ragaz and
@@ -771,7 +772,7 @@ from which the pre-installation energy performance was derived.
 \end{figure}
 
 \noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
-\settowidth{\nomlabelwidth}{M&V}
+\settowidth{\nomlabelwidth}{ECM}
 \printnomenclature{}%
 \end{minipage}}
 

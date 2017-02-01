@@ -651,15 +651,7 @@ description "Energy Conservation Measure"
  return on investment—and with what confidence.
  Moreover, once the measure has been applied, the owner will want to know
  how well it performs and whether their money was well spent—also known
- as Measurement & Verification
-\begin_inset CommandInset nomenclature
-LatexCommand nomenclature
-symbol "M&V"
-description "Measurement & Verification"
-
-\end_inset
-
-.
+ as Measurement & Verification.
  But conventional M&V mandates the establishment of a pre-measure baseline,
  normally requiring the instrumentation of the building during a year or
  more, driving the costs of M&V to sometimes unacceptable levels.
@@ -860,8 +852,20 @@ key "Lin2015"
 
 \end_inset
 
- Electricity and gas bill for a 31'000m2 campus whose HVAC equipment was
- retrofitted.
+ Electricity and gas bill for a 31'000
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+ campus whose HVAC equipment was retrofitted.
  IMPVP option C.
  Baseline from Sept 2007 to August 2008.
  Measurement from May 2009 to April 2010.
@@ -1289,10 +1293,15 @@ Weather data
 \end_layout
 
 \begin_layout Standard
-The historic weather data (going back to 2011) is obtained from [MeteoSuisse](ht
-tp://www.meteosuisse.admin.ch/home.html), who provides a file with average daily
- temperatures measured in Bad Ragaz (about 6 km from Sargans) and Vaduz
- (about 10 km).
+The historic weather data (going back to 2011) is obtained from 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "meteosuisse2016"
+
+\end_inset
+
+, who provides a file with average daily temperatures measured in Bad Ragaz
+ (about 6 km from Sargans) and Vaduz (about 10 km).
  The relative positions of the pilot building in Sargans and of the Bad
  Ragaz and Vaduz weather stations are shown in Fig.
  
