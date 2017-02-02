@@ -51,13 +51,13 @@ with a model-predictive controller for space heating on a commercial
 building}
 
 
-\author[nb]{David~Lindelöf\corref{cor1}}
+\author[nb]{David~Lindel?f\corref{cor1}}
 
 \ead{david.lindelof@neurobat.net}
 
 \author[nb]{Mohammad~Alisafaee}
 
-\author[nb]{Pierluca~Borsò}
+\author[nb]{Pierluca~Bors?}
 
 \author[nb]{Christian~Grigis}
 
@@ -72,7 +72,7 @@ building}
 Retrofitting existing buildings to improve their energy efficiency
 is an investment that most building owners do eventually consider.
 Faced with a variety of options, ranging from trivial (replacing light
-bulbs) to major projects (better façade insulation), an owner will
+bulbs) to major projects (better fa?ade insulation), an owner will
 want to know which energy conservation measure is likely to yield
 the highest return on investment\textemdash and with what confidence.
 Moreover, once the measure has been applied, the owner will want to
@@ -135,7 +135,7 @@ p <- function(x) formatC(x, digits = 1, format = 'f')
 Many energy conservation measures (ECM\nomenclature{ECM}{Energy Conservation Measure})
 exist to reduce the consumption of energy in existing buildings, but
 vary widely in effectiveness. Faced with a variety of options, ranging
-from trivial (replacing light bulbs) to major projects (better façade
+from trivial (replacing light bulbs) to major projects (better fa?ade
 insulation), an owner will want to know which energy conservation
 measure is likely to yield the highest return on investment\textemdash and
 with what confidence. Moreover, once the measure has been applied,
@@ -259,7 +259,7 @@ The Sargans building shown in Fig.~\ref{fig:composite} includes
 four heating circuits, covering TK m\textsuperscript{2}, with heating
 water provided by an oil-fired boiler. The NOL\textsuperscript{a}
 system was installed in March 2016 on three of the four circuits,
-commonly referred to as Neubau, Büro, and Wohnung, the latter two
+commonly referred to as Neubau, B?ro, and Wohnung, the latter two
 belonging to the old part of the building (Altbau). The fourth circuit
 was deemed not to require optimisation, as the zone in question is
 kept relatively cool.
@@ -287,7 +287,7 @@ time, and for offline data analysis.
 \includegraphics[width=0.8\columnwidth]{img/sargans_composite}
 
 \caption{Aerial (top left) and side views of the Altbau (bottom) and Neubau
-(right) parts of the Sargans building. The Büro and Wohnung circuits
+(right) parts of the Sargans building. The B?ro and Wohnung circuits
 belong to the Altbau part.}
 
 \label{fig:composite}
@@ -409,8 +409,8 @@ ggplot(climate.wide, aes(`Bad Ragaz`, Vaduz)) + geom_point(size = 1) + coord_fix
 
 The historic oil consumption data consists in a sheet of paper used
 to log the readouts of the oil levels in the boiler's tanks. A copy
-of the original paper is shown in Fig. \textbackslash{}ref\{fig:readouts\}
-in the Appendix. We import it in a form suitable for data analysis.
+of the original paper is shown in Fig.~\ref{fig:readouts} in the
+Appendix. We import it in a form suitable for data analysis.
 
 <<>>=
 oilReadingsDf <- read.table(text = "
@@ -538,14 +538,13 @@ it by calculating the number of degree days for each oil consumption
 period and plotting the oil consumed during each period against the
 degree days of that period. If the base temperature is correct, we
 should obtain points lying on a straight line that goes through the
-origin. We show this in Fig. \textbackslash{}ref\{fig:oilvsdd\}, where
-for comparison we do the same with degree days calculated with different
-official standards. The Bayesian method yields the best results. The
-relationship between the oil consumption and the degree days using
-the estimated base temperature is satisfactorily linear, with the
-exception of the two outliers identified above (not plotted), and
-possibly a third point with 2300 liters of oil for about 750 degree
-days. 
+origin. We show this in Fig.~\ref{fig:OilVsDD}, where for comparison
+we do the same with degree days calculated with different official
+standards. The Bayesian method yields the best results. The relationship
+between the oil consumption and the degree days using the estimated
+base temperature is satisfactorily linear, with the exception of the
+two outliers identified above (not plotted), and possibly a third
+point with 2300 liters of oil for about 750 degree days. 
 
 <<OilVsDD, fig.cap="Oil consumption vs heating degree days, calculated with different base temperatures. The Bayesian base temperature yields the highest coefficient of determination $R^2$, showing that it fits the data best.">>=
 DD <- function(dailyTemps, base) sum(pos(base - dailyTemps))
@@ -578,7 +577,7 @@ After the installation of the two NOL\textsuperscript{a} systems,
 we had access to daily oil consumption data thanks to an oil counter.
 With this data we can correlate the oil consumption with the outdoor
 temperature on a daily basis, instead of having to wait until the
-next oil tank refill. That relationship is shown in Fig. \textbackslash{}ref\{fig:Signature\}. 
+next oil tank refill. That relationship is shown in Fig.~\ref{fig:Signature}. 
 
 <<Signature, fig.cap="Daily oil consumption vs daily average outdoor temperatures. A linear fit is shown with its confidence bands.">>=
 signature <- qplot(as.numeric(DailyMeans), 
@@ -646,16 +645,16 @@ But our Bayesian method does not compute point estimates; instead,
 it computes how \emph{probable} the energy savings are given the data;
 or rather, it computes the \emph{probability density} for each possible
 value of those savings. A histogram of that probability density is
-shown in Fig. \textbackslash{}ref\{fig:RhoDensity\}. The majority
-of that histogram is positive, indicating positive energy savings.
-Any statement about the energy savings can now be made with its associated
-confidence. For example, 75\% of the mass of this histogram lies to
-the right of 14\% energy savings; this can be reported by saying that
-the energy savings are at least 14\% with 75\% probability. The `best'
-estimate of the final energy savings is obtained by finding the narrowest
-range of energy savings such that they encompass $N$\% of the mass
-of the histogram, also known as the $N$\% credible interval, for
-any desired value for $N$. Since one standard error of a normal distribution
+shown in Fig.~\ref{fig:RhoDensity}. The majority of that histogram
+is positive, indicating positive energy savings. Any statement about
+the energy savings can now be made with its associated confidence.
+For example, 75\% of the mass of this histogram lies to the right
+of 14\% energy savings; this can be reported by saying that the energy
+savings are at least 14\% with 75\% probability. The `best' estimate
+of the final energy savings is obtained by finding the narrowest range
+of energy savings such that they encompass $N$\% of the mass of the
+histogram, also known as the $N$\% credible interval, for any desired
+value for $N$. Since one standard error of a normal distribution
 corresponds to a 67\% credible interval, we will report the energy
 savings with the same value for $N$. We obtain:
 \begin{center}
@@ -693,11 +692,11 @@ energy savings on that building, such as \textquotedbl{}What are the
 most likely energy savings?\textquotedbl{}, \textquotedbl{}What energy
 savings can I expect on average?\textquotedbl{}, or \textquotedbl{}How
 likely am I to achieve energy savings of at least 20\%?\textquotedbl{}.
-The latter kind of questions are answered in Table \textbackslash{}ref\{tab:probs\},
+The latter kind of questions are answered in Table~\ref{tab:probs},
 showing, for any level of energy savings, how likely one is to achieve
 at least that level. 
 
-<<results = 'asis'>>=
+<<results='asis'>>=
 savingsProbability <- data.frame(Savings = seq(0, 40, by = 5))
 savingsProbability$Probability <- 100 * (1 - rhocdf(savingsProbability$Savings / 100))
 names(savingsProbability) <- c("Savings [%]", "Probability [%]")
@@ -716,17 +715,16 @@ that this happens on other Neurobat-controlled sites. We conjecture
 that the solar irradiance plays a more important part in a building's
 energy signature when it is controlled by Neurobat than with a heating-curve
 based controller.
-\item Fig. \textbackslash{}ref\{fig:Signature\} suggests that the building's
-base temperature may have shifted upwards after the installation of
-the NOL\textsuperscript{a} systems. This happens when the temperature
-setpoint programmed on the NOL\textsuperscript{a} is higher than
-the average temperature kept by the original heating system. But historic
-indoor temperatures are rarely available, and the NOL\textsuperscript{a}
-installer relies on the temperature setpoint programmed on the original
-heating system\textemdash which can be very different from the temperature
-really desired by the user. This does not invalidate the above analysis,
-but the building manager should consider adjusting those setpoints
-to fully reap the energy savings.
+\item Fig. suggests that the building's base temperature may have shifted
+upwards after the installation of the NOL\textsuperscript{a} systems.
+This happens when the temperature setpoint programmed on the NOL\textsuperscript{a}
+is higher than the average temperature kept by the original heating
+system. But historic indoor temperatures are rarely available, and
+the NOL\textsuperscript{a} installer relies on the temperature setpoint
+programmed on the original heating system\textemdash which can be
+very different from the temperature really desired by the user. This
+does not invalidate the above analysis, but the building manager should
+consider adjusting those setpoints to fully reap the energy savings.
 \end{itemize}
 
 \section{Discussion}
@@ -737,7 +735,7 @@ Model-predictive control of space heating has reduced the oil consumption
 of the Sargans building by almost a third\textemdash the equivalent
 of having walls about 40\% thicker, at a fraction of the cost of traditional
 insulation. According to the building's Object Manager, the users
-are satisfied with the comfort provided by NOL\textasciicircum{}a\textasciicircum{}
+are satisfied with the comfort provided by NOL\textsuperscript{a}
 and has received no complaints, whether from tenants or employees.
 
 This pilot installation has satisfactorily demonstrated the potential
@@ -748,27 +746,30 @@ heating circuits, fed by the same boiler, need to be optimised simultaneously.
 
 \subsection*{Map of the Sargans area}
 
-The map in Fig. \textbackslash{}ref\{fig:stations\} shows the location
-of Sargans and of the closest weather stations in Bad Ragaz and Vaduz.
+The map in Fig.~\ref{fig:stations} shows the location of Sargans
+and of the closest weather stations in Bad Ragaz and Vaduz.
+
 \begin{figure}
 \begin{centering}
 \includegraphics[width=0.8\textwidth]{img/map}
 \par\end{centering}
 \caption{Relative positions of Sargans and the two weather stations}
+\label{fig:stations}
 
 \end{figure}
 
 
 \subsection*{Original oil readouts}
 
-Fig. \textbackslash{}ref\{fig:readouts\} shows the original oil readouts,
-from which the pre-installation energy performance was derived. 
+Fig.~\ref{fig:readouts} shows the original oil readouts, from which
+the pre-installation energy performance was derived.
+
 \begin{figure}
 \begin{centering}
 \includegraphics[width=0.8\textwidth]{img/oil}
 \par\end{centering}
 \caption{The original manual oil level readouts}
-
+\label{fig:readouts}
 \end{figure}
 
 \noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%

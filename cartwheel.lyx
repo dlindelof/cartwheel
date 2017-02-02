@@ -1457,9 +1457,17 @@ Baseline oil consumption
 The historic oil consumption data consists in a sheet of paper used to log
  the readouts of the oil levels in the boiler's tanks.
  A copy of the original paper is shown in Fig.
- 
-\backslash
-ref{fig:readouts} in the Appendix.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:readouts"
+
+\end_inset
+
+ in the Appendix.
  We import it in a form suitable for data analysis.
 \end_layout
 
@@ -1965,10 +1973,18 @@ Now that we have the building's base temperature, we can validate it by
  If the base temperature is correct, we should obtain points lying on a
  straight line that goes through the origin.
  We show this in Fig.
- 
-\backslash
-ref{fig:oilvsdd}, where for comparison we do the same with degree days calculate
-d with different official standards.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:OilVsDD"
+
+\end_inset
+
+, where for comparison we do the same with degree days calculated with different
+ official standards.
  The Bayesian method yields the best results.
  The relationship between the oil consumption and the degree days using
  the estimated base temperature is satisfactorily linear, with the exception
@@ -2130,9 +2146,17 @@ a
  With this data we can correlate the oil consumption with the outdoor temperatur
 e on a daily basis, instead of having to wait until the next oil tank refill.
  That relationship is shown in Fig.
- 
-\backslash
-ref{fig:Signature}.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Signature"
+
+\end_inset
+
+.
  
 \end_layout
 
@@ -2428,9 +2452,17 @@ probability density
 \emph default
  for each possible value of those savings.
  A histogram of that probability density is shown in Fig.
- 
-\backslash
-ref{fig:RhoDensity}.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:RhoDensity"
+
+\end_inset
+
+.
  The majority of that histogram is positive, indicating positive energy
  savings.
  Any statement about the energy savings can now be made with its associated
@@ -2601,10 +2633,19 @@ With this probability density one can answer any question about the energy
  savings on that building, such as "What are the most likely energy savings?",
  "What energy savings can I expect on average?", or "How likely am I to
  achieve energy savings of at least 20%?".
- The latter kind of questions are answered in Table 
-\backslash
-ref{tab:probs}, showing, for any level of energy savings, how likely one
- is to achieve at least that level.
+ The latter kind of questions are answered in Table
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:probs"
+
+\end_inset
+
+, showing, for any level of energy savings, how likely one is to achieve
+ at least that level.
  
 \end_layout
 
@@ -2614,7 +2655,7 @@ status open
 
 \begin_layout Plain Layout
 
-<<results = 'asis'>>=
+<<results='asis'>>=
 \end_layout
 
 \begin_layout Plain Layout
@@ -2673,10 +2714,8 @@ We have assumed that a linear relationship holds between the oil consumption
 
 \begin_layout Itemize
 Fig.
- 
-\backslash
-ref{fig:Signature} suggests that the building's base temperature may have
- shifted upwards after the installation of the NOL
+ suggests that the building's base temperature may have shifted upwards
+ after the installation of the NOL
 \begin_inset script superscript
 
 \begin_layout Plain Layout
@@ -2725,8 +2764,16 @@ Model-predictive control of space heating has reduced the oil consumption
  of the Sargans building by almost a third—the equivalent of having walls
  about 40% thicker, at a fraction of the cost of traditional insulation.
  According to the building's Object Manager, the users are satisfied with
- the comfort provided by NOL^a^ and has received no complaints, whether
- from tenants or employees.
+ the comfort provided by NOL
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+a
+\end_layout
+
+\end_inset
+
+ and has received no complaints, whether from tenants or employees.
 \end_layout
 
 \begin_layout Standard
@@ -2746,10 +2793,21 @@ Map of the Sargans area
 
 \begin_layout Standard
 The map in Fig.
- 
-\backslash
-ref{fig:stations} shows the location of Sargans and of the closest weather
- stations in Bad Ragaz and Vaduz.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:stations"
+
+\end_inset
+
+ shows the location of Sargans and of the closest weather stations in Bad
+ Ragaz and Vaduz.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -2777,6 +2835,13 @@ Relative positions of Sargans and the two weather stations
 \end_inset
 
 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:stations"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -2794,11 +2859,21 @@ Original oil readouts
 
 \begin_layout Standard
 Fig.
- 
-\backslash
-ref{fig:readouts} shows the original oil readouts, from which the pre-installati
-on energy performance was derived.
- 
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:readouts"
+
+\end_inset
+
+ shows the original oil readouts, from which the pre-installation energy
+ performance was derived.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -2826,9 +2901,12 @@ The original manual oil level readouts
 \end_inset
 
 
-\end_layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:readouts"
 
-\begin_layout Plain Layout
+\end_inset
+
 
 \end_layout
 
