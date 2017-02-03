@@ -51,13 +51,13 @@ with a model-predictive controller for space heating on a commercial
 building}
 
 
-\author[nb]{David~Lindel?f\corref{cor1}}
+\author[nb]{David~Lindelöf\corref{cor1}}
 
 \ead{david.lindelof@neurobat.net}
 
 \author[nb]{Mohammad~Alisafaee}
 
-\author[nb]{Pierluca~Bors?}
+\author[nb]{Pierluca~Borsò}
 
 \author[nb]{Christian~Grigis}
 
@@ -72,7 +72,7 @@ building}
 Retrofitting existing buildings to improve their energy efficiency
 is an investment that most building owners do eventually consider.
 Faced with a variety of options, ranging from trivial (replacing light
-bulbs) to major projects (better fa?ade insulation), an owner will
+bulbs) to major projects (better façade insulation), an owner will
 want to know which energy conservation measure is likely to yield
 the highest return on investment\textemdash and with what confidence.
 Moreover, once the measure has been applied, the owner will want to
@@ -135,7 +135,7 @@ p <- function(x) formatC(x, digits = 1, format = 'f')
 Many energy conservation measures (ECM\nomenclature{ECM}{Energy Conservation Measure})
 exist to reduce the consumption of energy in existing buildings, but
 vary widely in effectiveness. Faced with a variety of options, ranging
-from trivial (replacing light bulbs) to major projects (better fa?ade
+from trivial (replacing light bulbs) to major projects (better façade
 insulation), an owner will want to know which energy conservation
 measure is likely to yield the highest return on investment\textemdash and
 with what confidence. Moreover, once the measure has been applied,
@@ -259,7 +259,7 @@ The Sargans building shown in Fig.~\ref{fig:composite} includes
 four heating circuits, covering TK m\textsuperscript{2}, with heating
 water provided by an oil-fired boiler. The NOL\textsuperscript{a}
 system was installed in March 2016 on three of the four circuits,
-commonly referred to as Neubau, B?ro, and Wohnung, the latter two
+commonly referred to as Neubau, Büro, and Wohnung, the latter two
 belonging to the old part of the building (Altbau). The fourth circuit
 was deemed not to require optimisation, as the zone in question is
 kept relatively cool.
@@ -287,7 +287,7 @@ time, and for offline data analysis.
 \includegraphics[width=0.8\columnwidth]{img/sargans_composite}
 
 \caption{Aerial (top left) and side views of the Altbau (bottom) and Neubau
-(right) parts of the Sargans building. The B?ro and Wohnung circuits
+(right) parts of the Sargans building. The Büro and Wohnung circuits
 belong to the Altbau part.}
 
 \label{fig:composite}
@@ -305,9 +305,11 @@ This is normally done by establishing a model for the energy use before
 and after the installation of the ECM, as we do here.
 
 Under normal conditions, the daily heating demand of a building will
-balance the building's heat loss. The daily losses $Q_{d}$ can be
-taken as proportional to the positive difference between the average
-outdoor temperature and the building's \emph{base temperature}: $Q_{d}=K\times(t_{\text{b}}-\overline{t_{\text{out}}}_{d})^{+}$
+balance the building's heat loss. The daily losses $Q_{d}$ on a day
+$d$ can be modeled as a random variable drawn from a Gaussian distribution,
+whose mean is proportional to the positive difference between the
+average outdoor temperature and the building's \emph{base temperature}:
+$Q_{d}=K\times(t_{\text{b}}-\overline{t_{\text{out}}}_{d})^{+}+\mathcal{N}(0,\sigma^{2})$
 where the base temperature $t_{\text{b}}$ of a building is defined
 as the outdoor temperature above which all heat losses are compensated
 by the sun and other free gains. $K$ is the building's \emph{total
@@ -316,15 +318,29 @@ to maintain indoor comfort for each extra degree of cold. It is the
 most important metric when assessing the efficacy of a new heating
 control algorithm.
 
-Over a period $p$ of several days, the total heating load will be
+Over a period $p$ made up of $n_{p}$ days, the total heating load
+will be 
 \[
-Q_{p}=\sum_{d\in p}Q_{d}=K\times DD_{p}
+Q_{p}=\sum_{d\in p}Q_{d}=K\times DD_{p}+\mathcal{N}(0,n_{p}\sigma^{2})
 \]
 where $DD_{p}=\sum_{d\in p}(t_{\text{b}}-\overline{t_{\text{out}}}_{d})^{+}$
 is the number of \emph{degree-days at base temperature $t_{\text{b}}$}
 during that period. $Q_{p}$ is frequently available as utility bills
 or energy meter readouts, while $DD_{p}$ must be calculated from
-historic weather data.
+historic weather data and the building's estimated base temperature.
+
+Letting $D$ stand for the set of reporting periods (for example,
+a set of monthly gas utility bills, or a list of oil tank level readouts),
+Bayesian inference consists in establishing the probability density
+function for the coefficients $\{K,\theta_{\text{b}},\sigma\}$ conditioned
+on the information $D$, noted as $p(\{K,\theta_{\text{b}},\sigma\}\mid D)$.
+A method to carry out this inference has been presented by \citep{Lindelof2016}
+and implemented by the \code{bhm()} function in the \code{homeR}
+R package \citep{homeR}. Unlike that prior work, where the focus
+was on the determination of a building's base temperature, here we
+will be more concerned with $K$, the building's heat loss coefficient.
+We will use the pdf computed for this set of parameters to make inferences
+about the parameter $K$ before and after the retrofit.
 
 Installing an ECM such as the NOL\textsuperscript{a} will alter the
 building's total heat loss coefficient by a factor $\rho$, and also
@@ -336,10 +352,24 @@ K_{\mathrm{pre}}\rightarrow K_{\mathrm{post}}=\rho\times K_{\mathrm{pre}}
 \[
 t_{\text{b},\text{pre}}\rightarrow t_{\text{b},\mathrm{post}}=\Delta t_{\text{b}}+t_{\text{b},\mathrm{pre}}
 \]
-Our task is to estimate the heat loss coefficients before and after
-the installation, and their ratio $\rho$. The lower $\rho$ is, the
-higher the energy savings. The relative energy savings in percent
-will be given by $100\times(1-\rho)$.
+A shift in the building's base temperature $\theta_{\text{b}}$ was
+considered as unavoidable, since nothing was known about the normal
+indoor temperature setpoints before the retrofit. It was therefore
+agreed that the efficacy of the ECM would be entirely quantified by
+the ratio $\rho$ between the pre- and post-installation heat loss
+coefficients. The lower $\rho$ is, the higher the energy savings.
+The relative energy savings in percent will be given by $100\times(1-\rho)$.
+
+Hardcore Bayesians would now write a full probability model involving
+all the pre- and post-installation parameters, work out the joint
+posterior probability density function, draw samples from that function
+and make inferences. There's nothing wrong with this, but we believe
+the pre- and post-installation parameters should be taken as being
+independent; for example, 
+
+Formally speaking, the task consists in establishing $p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}},K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D)$
+where $D$ now stands for the union of the pre- and post-installation
+data $D_{\text{pre}}$ and $D_{\text{post}}$.
 
 The analysis of the historic weather and oil consumption data will
 be explained in the following sections, followed by the analysis of
