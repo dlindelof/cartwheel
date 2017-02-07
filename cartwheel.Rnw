@@ -365,11 +365,40 @@ all the pre- and post-installation parameters, work out the joint
 posterior probability density function, draw samples from that function
 and make inferences. There's nothing wrong with this, but we believe
 the pre- and post-installation parameters should be taken as being
-independent; for example, 
+independent; for example, the pre-retrofit heating loss coefficient
+$K_{\text{pre}}$ should be considered as completely independent from
+its post-retrofit counterpart $K_{\text{post}}$, and the same holds
+for the base temperature $\theta_{\text{b}}$. (It could be argued
+that we expect the post-retrofit heating loss coefficient to be smaller
+that the pre-retrofit one; but full objectivity requires us to consider
+the pre- and post-conditions as perfectly exchangeable. And the only
+relationship between the two that satisfies full exchangeability is
+one of full independence.) But if the pre- and post-retrofit parameters
+are independent, then we are effectively dealing with two independent
+experiments: one before the installation, and one after. The Bayesian
+analysis can therefore be simplified by considering separately the
+pre- and post-conditions.
 
-Formally speaking, the task consists in establishing $p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}},K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D)$
+(One could argue that the measurement noise $\sigma$ should \emph{not}
+be considered as independent; in fact, it would be reasonable to consider
+it as the same before and after the retrofit. We would normally agree
+with that; but $\sigma$expresses not only the daily inherent variability
+in energy consumption of the building: it also includes measurement
+errors. Since the oil consumption has been measured with two completely
+different methods before and after the retrofit, we prefer to treat
+$\sigma_{\text{pre}}$ and $\sigma_{\text{post}}$ as two independent
+parameters.)
+
+Putting it together formally, the task consists in establishing $p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}},K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D)$
 where $D$ now stands for the union of the pre- and post-installation
-data $D_{\text{pre}}$ and $D_{\text{post}}$.
+data $D_{\text{pre}}$ and $D_{\text{post}}$. If we assume that the
+parameters before and after the retrofit are independent, we have
+\begin{align*}
+p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}},K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D) & = & p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}}\}\mid D)\times p(\{K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D)\\
+ & = & p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}}\}\mid D_{\text{pre}})\times p(\{K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D_{\text{post}})
+\end{align*}
+where each term on the right-hand side can be computed by the method
+proposed by \citet{Lindelof2016}.
 
 The analysis of the historic weather and oil consumption data will
 be explained in the following sections, followed by the analysis of
@@ -403,13 +432,12 @@ The historic weather data (going back to 2011) is obtained from \citet{meteosuis
 who provides a file with average daily temperatures measured in Bad
 Ragaz (about 6 km from Sargans) and Vaduz (about 10 km). The relative
 positions of the pilot building in Sargans and of the Bad Ragaz and
-Vaduz weather stations are shown in Fig. \textbackslash{}ref\{fig:stations\}
-in the Appendix. The data from the stations is shown against time
-in Fig. \textbackslash{}ref\{fig:PlotClimate\}. A scatterplot of the
-temperatures from Bad Ragaz against those from Vaduz is shown in Fig.
-\textbackslash{}ref\{fig:ScatterPlotClimate\}. There are no obvious
-differences between the two weather stations. From here onwards, we
-use the data from Bad Ragaz. 
+Vaduz weather stations are shown in Fig.~\ref{fig:stations} in the
+Appendix. The data from the stations is shown against time in Fig.~\ref{fig:PlotClimate}.
+A scatterplot of the temperatures from Bad Ragaz against those from
+Vaduz is shown in Fig.~\ref{fig:ScatterPlotClimate}. There are no
+obvious differences between the two weather stations. From here onwards,
+we use the data from Bad Ragaz. 
 
 <<>>=
 climate2 <- read.table("data/RAD_VAD.txt",
