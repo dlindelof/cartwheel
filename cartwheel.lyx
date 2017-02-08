@@ -12,6 +12,7 @@
 % use this if you need line numbers
 \usepackage{lineno}
 
+\usepackage{booktabs}
 \usepackage{hyperref}
 \usepackage{url}
 \end_preamble
@@ -1687,6 +1688,20 @@ status open
 
 \begin_layout Plain Layout
 
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+results='asis'
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
 oilReadingsDf <- read.table(text = "
 \end_layout
 
@@ -1837,17 +1852,32 @@ Date        Tank1  Tank2
 
 \begin_layout Plain Layout
 
+oilReadingsDf <- transform(oilReadingsDf, Total = Tank1 + Tank2)
+\end_layout
+
+\begin_layout Plain Layout
+
 oilReadings <- zoo(oilReadingsDf[,-1], order.by = oilReadingsDf$Date)
 \end_layout
 
 \begin_layout Plain Layout
 
-oilReadings <- transform(oilReadings, Total = Tank1 + Tank2)
+print(xtable(oilReadingsDf), booktabs = TRUE)
 \end_layout
 
 \begin_layout Plain Layout
 
-oilReadings
+#stargazer(oilReadingsDf, summary = FALSE,
+\end_layout
+
+\begin_layout Plain Layout
+
+#		  align = TRUE, rownames = FALSE,
+\end_layout
+
+\begin_layout Plain Layout
+
+#     	 title = "Oil tank levels manual readouts")
 \end_layout
 
 \end_inset

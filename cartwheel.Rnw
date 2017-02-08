@@ -36,6 +36,7 @@
 % use this if you need line numbers
 \usepackage{lineno}
 
+\usepackage{booktabs}
 \usepackage{hyperref}
 \usepackage{url}
 
@@ -470,7 +471,8 @@ to log the readouts of the oil levels in the boiler's tanks. A copy
 of the original paper is shown in Fig.~\ref{fig:readouts} in the
 Appendix. We import it in a form suitable for data analysis.
 
-<<>>=
+<<results='asis'>>=
+
 oilReadingsDf <- read.table(text = "
 Date        Tank1  Tank2
 2011-02-03   7500  13300
@@ -501,9 +503,12 @@ Date        Tank1  Tank2
 ",
                           header = TRUE,
                           colClasses = c(Date = "Date"))
+oilReadingsDf <- transform(oilReadingsDf, Total = Tank1 + Tank2)
 oilReadings <- zoo(oilReadingsDf[,-1], order.by = oilReadingsDf$Date)
-oilReadings <- transform(oilReadings, Total = Tank1 + Tank2)
-oilReadings
+print(xtable(oilReadingsDf), booktabs = TRUE)
+#stargazer(oilReadingsDf, summary = FALSE,
+#		  align = TRUE, rownames = FALSE,
+#     	 title = "Oil tank levels manual readouts")
 @
 
 There are log entries (for example 2012-05-02) when one tank was filled
