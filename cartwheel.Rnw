@@ -505,10 +505,13 @@ Date        Tank1  Tank2
                           colClasses = c(Date = "Date"))
 oilReadingsDf <- transform(oilReadingsDf, Total = Tank1 + Tank2)
 oilReadings <- zoo(oilReadingsDf[,-1], order.by = oilReadingsDf$Date)
-print(xtable(oilReadingsDf), booktabs = TRUE)
-#stargazer(oilReadingsDf, summary = FALSE,
-#		  align = TRUE, rownames = FALSE,
-#     	 title = "Oil tank levels manual readouts")
+betweenReadings <- (function(x) diff(x) / diff(range(x))) (as.numeric(oilReadingsDf$Date))
+
+# workaround for https://r-forge.r-project.org/tracker/?func=detail&group_id=1228&aid=6465&atid=4864
+print(x = xtable(transform(oilReadingsDf, Date = as.character(Date))),
+      booktabs = TRUE,
+      include.rownames = FALSE,
+      add.to.row = list(pos = as.list(1:(nrow(oilReadingsDf)-1)), command = paste('[', 50*betweenReadings, "mm]", sep='')))
 @
 
 There are log entries (for example 2012-05-02) when one tank was filled

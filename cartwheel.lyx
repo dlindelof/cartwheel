@@ -1862,22 +1862,39 @@ oilReadings <- zoo(oilReadingsDf[,-1], order.by = oilReadingsDf$Date)
 
 \begin_layout Plain Layout
 
-print(xtable(oilReadingsDf), booktabs = TRUE)
+betweenReadings <- (function(x) diff(x) / diff(range(x))) (as.numeric(oilReadings
+Df$Date))
 \end_layout
 
 \begin_layout Plain Layout
 
-#stargazer(oilReadingsDf, summary = FALSE,
 \end_layout
 
 \begin_layout Plain Layout
 
-#		  align = TRUE, rownames = FALSE,
+# workaround for https://r-forge.r-project.org/tracker/?func=detail&group_id=1228&
+aid=6465&atid=4864
 \end_layout
 
 \begin_layout Plain Layout
 
-#     	 title = "Oil tank levels manual readouts")
+print(x = xtable(transform(oilReadingsDf, Date = as.character(Date))),
+\end_layout
+
+\begin_layout Plain Layout
+
+      booktabs = TRUE,
+\end_layout
+
+\begin_layout Plain Layout
+
+      include.rownames = FALSE,
+\end_layout
+
+\begin_layout Plain Layout
+
+      add.to.row = list(pos = as.list(1:(nrow(oilReadingsDf)-1)), command =
+ paste('[', 50*betweenReadings, "mm]", sep='')))
 \end_layout
 
 \end_inset
