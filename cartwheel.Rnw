@@ -6,6 +6,7 @@
 \pagestyle{headings}
 \usepackage{xcolor}
 \usepackage{calc}
+\usepackage{textcomp}
 \usepackage{mathtools}
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -196,6 +197,43 @@ formulate optimal M\&V plan. No attempt to formulate uncertainty in
 savings estimates.
 
 \subsection{The IPMVP on uncertainties}
+
+The IPMVP documents common terms and methods to evaluate performance
+of efficiency projects.
+
+Measurement and Verification\textquotedblright{} (M\&V) is the process
+of using measurement to reliably determine actual savings 4 created
+within an individual facility by an energy management program.
+
+Where judgements are made about uncertain quantities, M\&V procedures
+should be designed to under-estimate savings. 
+
+Similarly the word Energy Conservation Measure (ECM) will commonly
+be used to mean measures to improve efficiency or conserve energy
+or water, or manage demand. 
+
+Establish the users' acceptable savings accuracy during the M\&V Planning
+process. 
+
+The objective of M\&V is to reliably determine energy savings. In
+order for savings reports to be reliable, they need to have a reasonable
+level of uncertainty. 
+
+In order to communicate savings in a statistically valid manner, savings
+need to be expressed along with their associated confidence and precision
+levels.
+
+Specifically, the savings need to be larger than twice the standard
+error (see definition in Appendix B-1.3) of the baseline value. 
+
+Though there is no universal standard for a minimum acceptable R 2
+value, 0.75 is often considered a reasonable indicator of a good causal
+relationship amongst the energy and independent variables. The R 2
+test should only be used as an initial check. Models should not be
+rejected or accepted solely on the basis of R 2 . 
+
+The conventional approach is to design sampling to achieve a 90\%
+confidence level and \textpm 10\% precision. 
 
 The International Protocol for TK is the gold standard of M\&V processes. 
 
@@ -469,7 +507,7 @@ ggplot(climate.wide, aes(`Bad Ragaz`, Vaduz)) + geom_point(size = 1) + coord_fix
 The historic oil consumption data consists in a sheet of paper used
 to log the readouts of the oil levels in the boiler's tanks. A copy
 of the original paper is shown in Fig.~\ref{fig:readouts} in the
-Appendix. We import it in a form suitable for data analysis.
+Appendix. The cleaned version is shown in Table~\ref{tab:oilReadouts}.
 
 <<results='asis'>>=
 
@@ -507,8 +545,10 @@ oilReadingsDf <- transform(oilReadingsDf, Total = Tank1 + Tank2)
 oilReadings <- zoo(oilReadingsDf[,-1], order.by = oilReadingsDf$Date)
 betweenReadings <- (function(x) diff(x) / diff(range(x))) (as.numeric(oilReadingsDf$Date))
 
-# workaround for https://r-forge.r-project.org/tracker/?func=detail&group_id=1228&aid=6465&atid=4864
-print(x = xtable(transform(oilReadingsDf, Date = as.character(Date))),
+# call to as.character is a workaround for https://r-forge.r-project.org/tracker/?func=detail&group_id=1228&aid=6465&atid=4864
+print(xtable(transform(oilReadingsDf, Date = as.character(Date)),
+			 caption = "Transcribed oil level readouts. White space has been added between rows proportional to the time elapsed between two readings.",
+			 label = "tab:oilReadouts"),
       booktabs = TRUE,
       include.rownames = FALSE,
       add.to.row = list(pos = as.list(1:(nrow(oilReadingsDf)-1)), command = paste('[', 50*betweenReadings, "mm]", sep='')))
