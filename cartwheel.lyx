@@ -731,91 +731,83 @@ The International Performance Measurement and Verification Protocol
 \end_layout
 
 \begin_layout Standard
-The International Performance Measurement and Verification Protocol is a
- widely recognized set of guidelines
+The International Performance Measurement and Verification Protocol 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "evo2012"
+
+\end_inset
+
+ is a widely recognized framework for conducting M&V projects.
+ It provides a set of guidelines and documents common terms and methods
+ for such projects.
+ Energy savings are to be determined by first establishing the building's
+ pre-retrofit baseline energy demand.
+ After the installation, the energy demand is measured again, resulting
+ in a so-called reporting period demand.
+ Energy savings are calculated from the difference between the basline and
+ reporting period demand, taking also in to account external factors that
+ influence the energy demand:
+\begin_inset Formula 
+\[
+\text{Savings}=(\text{Baseline-period demand - Reporting-period demand)}\pm\text{Adjustments}
+\]
+
+\end_inset
+
+ The IPMVP leaves no doubt on the need for quantifiable uncertainties:
 \end_layout
 
-\begin_layout Standard
-The IPMVP documents common terms and methods to evaluate performance of
- efficiency projects.
-\end_layout
-
-\begin_layout Standard
-Measurement and Verification” (M&V) is the process of using measurement
- to reliably determine actual savings 4 created within an individual facility
- by an energy management program.
-\end_layout
-
-\begin_layout Standard
-Where judgements are made about uncertain quantities, M&V procedures should
- be designed to under-estimate savings.
- 
-\end_layout
-
-\begin_layout Standard
-Similarly the word Energy Conservation Measure (ECM) will commonly be used
- to mean measures to improve efficiency or conserve energy or water, or
- manage demand.
- 
-\end_layout
-
-\begin_layout Standard
-Establish the users' acceptable savings accuracy during the M&V Planning
- process.
- 
-\end_layout
-
-\begin_layout Standard
-The objective of M&V is to reliably determine energy savings.
- In order for savings reports to be reliable, they need to have a reasonable
- level of uncertainty.
- 
-\end_layout
-
-\begin_layout Standard
+\begin_layout Quote
 In order to communicate savings in a statistically valid manner, savings
  need to be expressed along with their associated confidence and precision
  levels.
-\end_layout
-
-\begin_layout Standard
-Specifically, the savings need to be larger than twice the standard error
- (see definition in Appendix B-1.3) of the baseline value.
  
-\end_layout
-
-\begin_layout Standard
-Though there is no universal standard for a minimum acceptable R 2 value,
- 0.75 is often considered a reasonable indicator of a good causal relationship
- amongst the energy and independent variables.
- The R 2 test should only be used as an initial check.
- Models should not be rejected or accepted solely on the basis of R 2 .
- 
-\end_layout
-
-\begin_layout Standard
-The conventional approach is to design sampling to achieve a 90% confidence
- level and ±10% precision.
- 
-\end_layout
-
-\begin_layout Standard
-The International Protocol for TK is the gold standard of M&V processes.
- 
-\end_layout
-
-\begin_layout Standard
-Some M&V projects are easier than others; when there is no factors that
- need adjustment for, for example.
- Replacing light bulbs in commercial buildings is one such example, where
- M&V can be done without bothering about any adjustment 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "Lee2000"
+after "p. 88"
+key "evo2012"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Indeed the whole point of M&V projects is to 
+\emph on
+reliably
+\emph default
+ determine energy savings.
+ Although the definition of 
+\begin_inset Quotes eld
+\end_inset
+
+reliably
+\begin_inset Quotes erd
+\end_inset
+
+ rests ultimately on the user of the M&V report, the IPMVP suggests that
+ savings, to be statistically significant, should be at least twice the
+ standard error of the baseline energy consumption 
+\begin_inset CommandInset citation
+LatexCommand citep
+after "p. 88"
+key "evo2012"
 
 \end_inset
 
 .
+ (When some sampling is used to estimate the basline demand, the sampling
+ should be designed to yield a ±10% relative precision and 90% confidence
+ level.)
+\end_layout
+
+\begin_layout Standard
+But ultimately, the IPMVP recognises that the user of the M&V report is
+ the party responsible for establishing acceptable savings accuracy during
+ the M&V Planning process.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -854,7 +846,7 @@ key "Aris2015"
 
 \begin_layout Itemize
 \begin_inset CommandInset citation
-LatexCommand citep
+LatexCommand citet
 key "Ginestet2010"
 
 \end_inset
@@ -866,7 +858,7 @@ key "Ginestet2010"
 
 \begin_layout Itemize
 \begin_inset CommandInset citation
-LatexCommand citep
+LatexCommand citet
 key "Kaiser2010"
 
 \end_inset
@@ -884,7 +876,7 @@ Other retrofit assessments found in the literature include:
 
 \begin_layout Itemize
 \begin_inset CommandInset citation
-LatexCommand citep
+LatexCommand citet
 key "Cohen1991"
 
 \end_inset
@@ -897,7 +889,7 @@ key "Cohen1991"
 
 \begin_layout Itemize
 \begin_inset CommandInset citation
-LatexCommand citep
+LatexCommand citet
 key "Lin2015"
 
 \end_inset
@@ -925,7 +917,7 @@ m
 
 \begin_layout Itemize
 \begin_inset CommandInset citation
-LatexCommand citep
+LatexCommand citet
 key "Walter2014"
 
 \end_inset
@@ -1009,7 +1001,7 @@ reference "fig:composite"
 
 \end_inset
 
- includes four heating circuits, covering TK m
+ includes four heating circuits, covering about 2'700–2'800 m
 \begin_inset script superscript
 
 \begin_layout Plain Layout
@@ -1033,6 +1025,25 @@ a
  old part of the building (Altbau).
  The fourth circuit was deemed not to require optimisation, as the zone
  in question is kept relatively cool.
+ The total surface covered by NOL
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+a
+\end_layout
+
+\end_inset
+
+ is about 1'300–1'400 m
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -1098,6 +1109,7 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\align center
 \begin_inset Graphics
 	filename img/sargans_composite.png
 	width 80col%
@@ -1169,7 +1181,11 @@ Under normal conditions, the daily heating demand of a building will balance
 base temperature
 \emph default
 : 
-\begin_inset Formula $Q_{d}=K\times(t_{\text{b}}-\overline{t_{\text{out}}}_{d})^{+}+\mathcal{N}(0,\sigma^{2})$
+\begin_inset Formula 
+\begin{equation}
+Q_{d}=K\times(t_{\text{b}}-\overline{t_{\text{out}}}_{d})^{+}+\mathcal{N}(0,\sigma^{2})
+\end{equation}
+
 \end_inset
 
  where the base temperature 
@@ -1203,9 +1219,9 @@ Over a period
 
  days, the total heating load will be 
 \begin_inset Formula 
-\[
-Q_{p}=\sum_{d\in p}Q_{d}=K\times DD_{p}+\mathcal{N}(0,n_{p}\sigma^{2})
-\]
+\begin{equation}
+Q_{p}=\sum_{d\in p}Q_{d}=K\times DD_{p}+\mathcal{N}(0,n_{p}\sigma^{2})\label{eq:Qp}
+\end{equation}
 
 \end_inset
 
@@ -1233,6 +1249,36 @@ degree-days at base temperature
 
  must be calculated from historic weather data and the building's estimated
  base temperature.
+\end_layout
+
+\begin_layout Standard
+The set of utility bills (or energy meters readouts) 
+\begin_inset Formula $Q_{p}$
+\end_inset
+
+ constitutes the data we have at hand, while Eq.
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Qp"
+
+\end_inset
+
+ is a probability model from which that data is drawn.
+ Bayesian inference consists now in 
+\begin_inset Quotes eld
+\end_inset
+
+fitting a probability model to a set of data and summarizing the result
+ by a probability distribution on the parameters of the model and on unobserved
+ quantities such as predictions for new observations
+\begin_inset Quotes erd
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Standard

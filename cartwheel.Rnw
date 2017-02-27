@@ -183,51 +183,36 @@ energy savings but also their accuracy and confidence.
 \subsection{The International Performance Measurement and Verification Protocol}
 
 The International Performance Measurement and Verification Protocol
-is a widely recognized set of guidelines
-
-The IPMVP documents common terms and methods to evaluate performance
-of efficiency projects.
-
-Measurement and Verification\textquotedblright{} (M\&V) is the process
-of using measurement to reliably determine actual savings 4 created
-within an individual facility by an energy management program.
-
-Where judgements are made about uncertain quantities, M\&V procedures
-should be designed to under-estimate savings. 
-
-Similarly the word Energy Conservation Measure (ECM) will commonly
-be used to mean measures to improve efficiency or conserve energy
-or water, or manage demand. 
-
-Establish the users' acceptable savings accuracy during the M\&V Planning
-process. 
-
-The objective of M\&V is to reliably determine energy savings. In
-order for savings reports to be reliable, they need to have a reasonable
-level of uncertainty. 
-
+\citep{evo2012} is a widely recognized framework for conducting M\&V
+projects. It provides a set of guidelines and documents common terms
+and methods for such projects. Energy savings are to be determined
+by first establishing the building's pre-retrofit baseline energy
+demand. After the installation, the energy demand is measured again,
+resulting in a so-called reporting period demand. Energy savings are
+calculated from the difference between the basline and reporting period
+demand, taking also in to account external factors that influence
+the energy demand:
+\[
+\text{Savings}=(\text{Baseline-period demand - Reporting-period demand)}\pm\text{Adjustments}
+\]
+ The IPMVP leaves no doubt on the need for quantifiable uncertainties:
+\begin{quote}
 In order to communicate savings in a statistically valid manner, savings
 need to be expressed along with their associated confidence and precision
-levels.
+levels. \citep[p. 88]{evo2012}
+\end{quote}
+Indeed the whole point of M\&V projects is to \emph{reliably} determine
+energy savings. Although the definition of ``reliably'' rests ultimately
+on the user of the M\&V report, the IPMVP suggests that savings, to
+be statistically significant, should be at least twice the standard
+error of the baseline energy consumption \citep[p. 88]{evo2012}.
+(When some sampling is used to estimate the basline demand, the sampling
+should be designed to yield a \textpm 10\% relative precision and
+90\% confidence level.)
 
-Specifically, the savings need to be larger than twice the standard
-error (see definition in Appendix B-1.3) of the baseline value. 
-
-Though there is no universal standard for a minimum acceptable R 2
-value, 0.75 is often considered a reasonable indicator of a good causal
-relationship amongst the energy and independent variables. The R 2
-test should only be used as an initial check. Models should not be
-rejected or accepted solely on the basis of R 2 . 
-
-The conventional approach is to design sampling to achieve a 90\%
-confidence level and \textpm 10\% precision. 
-
-The International Protocol for TK is the gold standard of M\&V processes. 
-
-Some M\&V projects are easier than others; when there is no factors
-that need adjustment for, for example. Replacing light bulbs in commercial
-buildings is one such example, where M\&V can be done without bothering
-about any adjustment \citep{Lee2000}.
+But ultimately, the IPMVP recognises that the user of the M\&V report
+is the party responsible for establishing acceptable savings accuracy
+during the M\&V Planning process. 
 
 \subsection{Recent assessments}
 
@@ -241,25 +226,25 @@ consumption July 2012 to June 2013 modeled as linear combination of
 occupancy, number of working days and cooling degree-days. Calculates
 energy avoided from August 2013 to July 2014. t-test finds no statistically
 significant energy savings.
-\item \citep{Ginestet2010} applies the IPMVP to an existing building equipped
+\item \citet{Ginestet2010} applies the IPMVP to an existing building equipped
 with a new HVAC device. The energy savings are determined by 1) simulation
 and 2) by retrofitting one room and leaving another one unchanged.
-\item \citep{Kaiser2010} reports on the results from a large-scale program
+\item \citet{Kaiser2010} reports on the results from a large-scale program
 where 730 households participated, and 150 are chosen at random. Baseline
 established as linear model in HDD, CDD, relative humidity and energy
 price. No uncertainties are reported.
 \end{itemize}
 Other retrofit assessments found in the literature include:
 \begin{itemize}
-\item \citep{Cohen1991} old but relevant: 32 retrofit projects, ranging
+\item \citet{Cohen1991} old but relevant: 32 retrofit projects, ranging
 in size from three to 30 000 houses. Energy normalised by HDD using
 fixed 65 F. Mix of submetered, utility bills.
-\item \citep{Lin2015} Electricity and gas bill for a 31'000\,m\textsuperscript{2}
+\item \citet{Lin2015} Electricity and gas bill for a 31'000\,m\textsuperscript{2}
 campus whose HVAC equipment was retrofitted. IMPVP option C. Baseline
 from Sept 2007 to August 2008. Measurement from May 2009 to April
 2010. Normalised to outdoor temperature. Savings reported without
 uncertainty.
-\item \citep{Walter2014} Models electric load as function of time of week
+\item \citet{Walter2014} Models electric load as function of time of week
 and outdoor temperature. Nonlinear dependency on outdoor temperature.
 Cross-validation used to quantify uncertainty in baseline estimation.
 Having access to full-year of data does not necessarily improve baseline
@@ -287,13 +272,14 @@ predictions for new observations'' (BDA3)%
 \section{Experimental building}
 
 The Sargans building shown in Fig.~\ref{fig:composite} includes
-four heating circuits, covering TK m\textsuperscript{2}, with heating
-water provided by an oil-fired boiler. The NOL\textsuperscript{a}
+four heating circuits, covering about 2'700\textendash 2'800 m\textsuperscript{2},
+with heating water provided by an oil-fired boiler. The NOL\textsuperscript{a}
 system was installed in March 2016 on three of the four circuits,
 commonly referred to as Neubau, Büro, and Wohnung, the latter two
 belonging to the old part of the building (Altbau). The fourth circuit
 was deemed not to require optimisation, as the zone in question is
-kept relatively cool.
+kept relatively cool. The total surface covered by NOL\textsuperscript{a}
+is about 1'300\textendash 1'400 m\textsuperscript{2}.
 
 The oil-fired boiler draws its fuel from two tanks and provides the
 heating water to all heating circuits. The levels in the tanks are
@@ -320,8 +306,9 @@ stored in a database. The data is used for monitoring in near real
 time, and for offline data analysis.
 
 \begin{figure}
+\begin{centering}
 \includegraphics[width=0.8\columnwidth]{img/sargans_composite}
-
+\par\end{centering}
 \caption{Aerial (top left) and side views of the Altbau (bottom) and Neubau
 (right) parts of the Sargans building. The Büro and Wohnung circuits
 belong to the Altbau part.}
@@ -345,8 +332,10 @@ balance the building's heat loss. The daily losses $Q_{d}$ on a day
 $d$ can be modeled as a random variable drawn from a Gaussian distribution,
 whose mean is proportional to the positive difference between the
 average outdoor temperature and the building's \emph{base temperature}:
-$Q_{d}=K\times(t_{\text{b}}-\overline{t_{\text{out}}}_{d})^{+}+\mathcal{N}(0,\sigma^{2})$
-where the base temperature $t_{\text{b}}$ of a building is defined
+\begin{equation}
+Q_{d}=K\times(t_{\text{b}}-\overline{t_{\text{out}}}_{d})^{+}+\mathcal{N}(0,\sigma^{2})
+\end{equation}
+ where the base temperature $t_{\text{b}}$ of a building is defined
 as the outdoor temperature above which all heat losses are compensated
 by the sun and other free gains. $K$ is the building's \emph{total
 heat loss coefficient}, the quantity of extra heat required per day
@@ -356,14 +345,21 @@ control algorithm.
 
 Over a period $p$ made up of $n_{p}$ days, the total heating load
 will be 
-\[
-Q_{p}=\sum_{d\in p}Q_{d}=K\times DD_{p}+\mathcal{N}(0,n_{p}\sigma^{2})
-\]
+\begin{equation}
+Q_{p}=\sum_{d\in p}Q_{d}=K\times DD_{p}+\mathcal{N}(0,n_{p}\sigma^{2})\label{eq:Qp}
+\end{equation}
 where $DD_{p}=\sum_{d\in p}(t_{\text{b}}-\overline{t_{\text{out}}}_{d})^{+}$
 is the number of \emph{degree-days at base temperature $t_{\text{b}}$}
 during that period. $Q_{p}$ is frequently available as utility bills
 or energy meter readouts, while $DD_{p}$ must be calculated from
 historic weather data and the building's estimated base temperature.
+
+The set of utility bills (or energy meters readouts) $Q_{p}$ constitutes
+the data we have at hand, while Eq.\ \eqref{eq:Qp} is a probability
+model from which that data is drawn. Bayesian inference consists now
+in ``fitting a probability model to a set of data and summarizing
+the result by a probability distribution on the parameters of the
+model and on unobserved quantities such as predictions for new observations'' 
 
 Letting $D$ stand for the set of reporting periods (for example,
 a set of monthly gas utility bills, or a list of oil tank level readouts),
