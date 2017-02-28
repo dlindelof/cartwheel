@@ -546,6 +546,11 @@ library(homeR)
 
 \begin_layout Plain Layout
 
+library(dplyr)
+\end_layout
+
+\begin_layout Plain Layout
+
 library(ggplot2)
 \end_layout
 
@@ -594,7 +599,12 @@ theme_set(theme_bw())
 
 \begin_layout Plain Layout
 
-opts_chunk$set(error = FALSE, warning = FALSE, echo = FALSE,
+opts_chunk$set(error = FALSE, warning = FALSE, echo = FALSE, message = FALSE,
+\end_layout
+
+\begin_layout Plain Layout
+
+			   results = 'hide',
 \end_layout
 
 \begin_layout Plain Layout
@@ -690,14 +700,14 @@ baseline
 \end_layout
 
 \begin_layout Standard
-Lack in confidence in the effectiveness of ECMs limit their adoption 
+Lack in confidence in the effectiveness of ECMs limit their adoption (
 \begin_inset CommandInset citation
-LatexCommand citep
+LatexCommand citet
 key "Ma2012"
 
 \end_inset
 
-.
+).
  To convince building owners to undertake more building retrofit projects
  we must address two concerns that are frequently expressed: 1) the risk
  that the ECM might not be as effective as advertised, and 2) the risk that,
@@ -712,14 +722,14 @@ an inaccurate science: an engineering practice relying heavily on professional
 \begin_inset Quotes erd
 \end_inset
 
- 
+ (
 \begin_inset CommandInset citation
-LatexCommand citep
+LatexCommand citet
 key "Xia2013"
 
 \end_inset
 
-.
+).
  We must show building owners that assessing the effectiveness of ECMs is
  not a research project anymore but a well-defined and well-understood process,
  one that yields not just the estimated energy savings but also their accuracy
@@ -941,48 +951,6 @@ Notes that when using the energy avoided (need to check the term) method,
 \begin_layout Standard
 When uncertainty in baseline higher than expected savings, no savings can
  be proved.
-\end_layout
-
-\begin_layout Section
-Bayesian formalism
-\end_layout
-
-\begin_layout Standard
-\begin_inset Box Boxed
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "black"
-backgroundcolor "none"
-status open
-
-\begin_layout Plain Layout
-\begin_inset Quotes eld
-\end_inset
-
-Bayesian inference is the process of fitting a probability model to a set
- of data and summarizing the result by a probability distribution on the
- parameters of the model and on unobserved quantities such as predictions
- for new observations
-\begin_inset Quotes erd
-\end_inset
-
- (BDA3)
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
@@ -1278,7 +1246,14 @@ fitting a probability model to a set of data and summarizing the result
 \begin_inset Quotes erd
 \end_inset
 
- 
+ (
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Gelman2013"
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Standard
@@ -1617,7 +1592,7 @@ reference "fig:stations"
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:PlotClimate"
+reference "fig:ClimatePlot"
 
 \end_inset
 
@@ -1630,7 +1605,7 @@ reference "fig:PlotClimate"
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:ScatterPlotClimate"
+reference "fig:ClimateScatterPlot"
 
 \end_inset
 
@@ -1706,7 +1681,7 @@ status open
 
 \begin_layout Plain Layout
 
-<<PlotClimate, fig.cap="Historic outdoor temperature measured at nearby weather
+<<ClimatePlot, fig.cap="Historic outdoor temperature measured at nearby weather
  stations.
  There is no obvious disagreement between the stations.", fig.width=5, fig.height=3
 >>=
@@ -2118,6 +2093,20 @@ status open
 
 \begin_layout Plain Layout
 
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+results='asis'
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
 climate.zoo <- zoo(subset(climate.wide, select = -Date), climate.wide$Date)
 \end_layout
 
@@ -2170,6 +2159,11 @@ oilConsumptionPeriods$meanTemp <- sapply(oilConsumptionPeriods$meanTemps,
 
 \begin_layout Plain Layout
 
+# Days with missing data are imputed with mean temperature of their period
+\end_layout
+
+\begin_layout Plain Layout
+
 oilConsumptionPeriods$meanTemps <- lapply(oilConsumptionPeriods$meanTemps,
 \end_layout
 
@@ -2191,7 +2185,44 @@ oilConsumptionPeriods$meanTemps <- lapply(oilConsumptionPeriods$meanTemps,
 
 \begin_layout Plain Layout
 
-print(subset(oilConsumptionPeriods, select = -meanTemps), row.names = FALSE)
+oilConsumptionPeriodsTable <- 
+\end_layout
+
+\begin_layout Plain Layout
+
+  oilConsumptionPeriods %>%
+\end_layout
+
+\begin_layout Plain Layout
+
+    dplyr::select(-meanTemps) %>%
+\end_layout
+
+\begin_layout Plain Layout
+
+    dplyr::mutate(from = as.character(from)) %>%
+\end_layout
+
+\begin_layout Plain Layout
+
+    dplyr::mutate(to = as.character(to)) %>%
+\end_layout
+
+\begin_layout Plain Layout
+
+    dplyr::rename(From = from, To = to, "Oil [L]" = oil, Days = nDays, "Avg.
+ temp.
+ [C]" = meanTemp) %>%
+\end_layout
+
+\begin_layout Plain Layout
+
+    xtable()
+\end_layout
+
+\begin_layout Plain Layout
+
+print(oilConsumptionPeriodsTable, include.rownames = FALSE)
 \end_layout
 
 \end_inset

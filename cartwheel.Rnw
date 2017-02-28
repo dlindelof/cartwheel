@@ -114,6 +114,7 @@ base load
 <<setup, include=FALSE>>=
 library(homeR)
 
+library(dplyr)
 library(ggplot2)
 library(lubridate)
 library(MCMCpack)
@@ -124,7 +125,8 @@ library(zoo)
 
 theme_set(theme_bw())
 
-opts_chunk$set(error = FALSE, warning = FALSE, echo = FALSE,
+opts_chunk$set(error = FALSE, warning = FALSE, echo = FALSE, message = FALSE,
+			   results = 'hide',
                dev = "tikz", dev.args = list(pointsize = 10),
                fig.width = 3.5, fig.height = 3.5, fig.align = "center")
 
@@ -168,14 +170,14 @@ the baseline model and report a point estimate for the energy savings,
 giving a false sense of accuracy.
 
 Lack in confidence in the effectiveness of ECMs limit their adoption
-\citep{Ma2012}. To convince building owners to undertake more building
+(\citet{Ma2012}). To convince building owners to undertake more building
 retrofit projects we must address two concerns that are frequently
 expressed: 1) the risk that the ECM might not be as effective as advertised,
 and 2) the risk that, although effective, the benefits will turn out
 to be difficult to prove. The latter is the goal of M\&V, which currently
 suffers from an image of (bad) science, or of ``an inaccurate science:
 an engineering practice relying heavily on professional judgement''
-\citep{Xia2013}. We must show building owners that assessing the
+(\citet{Xia2013}). We must show building owners that assessing the
 effectiveness of ECMs is not a research project anymore but a well-defined
 and well-understood process, one that yields not just the estimated
 energy savings but also their accuracy and confidence.
@@ -259,15 +261,6 @@ baseline.
 
 When uncertainty in baseline higher than expected savings, no savings
 can be proved.
-
-\section{Bayesian formalism}
-
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
-``Bayesian inference is the process of fitting a probability model
-to a set of data and summarizing the result by a probability distribution
-on the parameters of the model and on unobserved quantities such as
-predictions for new observations'' (BDA3)%
-\end{minipage}}
 
 \section{Experimental building}
 
@@ -359,7 +352,8 @@ the data we have at hand, while Eq.\ \eqref{eq:Qp} is a probability
 model from which that data is drawn. Bayesian inference consists now
 in ``fitting a probability model to a set of data and summarizing
 the result by a probability distribution on the parameters of the
-model and on unobserved quantities such as predictions for new observations'' 
+model and on unobserved quantities such as predictions for new observations''
+(\citet{Gelman2013}).
 
 Letting $D$ stand for the set of reporting periods (for example,
 a set of monthly gas utility bills, or a list of oil tank level readouts),
@@ -465,9 +459,9 @@ who provides a file with average daily temperatures measured in Bad
 Ragaz (about 6 km from Sargans) and Vaduz (about 10 km). The relative
 positions of the pilot building in Sargans and of the Bad Ragaz and
 Vaduz weather stations are shown in Fig.~\ref{fig:stations} in the
-Appendix. The data from the stations is shown against time in Fig.~\ref{fig:PlotClimate}.
+Appendix. The data from the stations is shown against time in Fig.~\ref{fig:ClimatePlot}.
 A scatterplot of the temperatures from Bad Ragaz against those from
-Vaduz is shown in Fig.~\ref{fig:ScatterPlotClimate}. There are no
+Vaduz is shown in Fig.~\ref{fig:ClimateScatterPlot}. There are no
 obvious differences between the two weather stations. From here onwards,
 we use the data from Bad Ragaz. 
 
@@ -484,7 +478,7 @@ climate <- climate2
 climate.wide <- dcast(climate, Date ~ Station) 
 @
 
-<<PlotClimate, fig.cap="Historic outdoor temperature measured at nearby weather stations. There is no obvious disagreement between the stations.", fig.width=5, fig.height=3>>=
+<<ClimatePlot, fig.cap="Historic outdoor temperature measured at nearby weather stations. There is no obvious disagreement between the stations.", fig.width=5, fig.height=3>>=
 ggplot(climate, aes(Date, Temperature, color = Station)) +
 	geom_line() +
 	xlim(as.Date("2010-12-20"), as.Date("2016-04-30")) +
@@ -570,7 +564,8 @@ oilConsumptionPeriods <- transform(oilConsumptionPeriods,
                                    nDays = to - from)
 @
 
-<<>>=
+<<results='asis'>>=
+
 climate.zoo <- zoo(subset(climate.wide, select = -Date), climate.wide$Date)
 tempInInterval <- function(climate, from, to) {
   as.numeric(window(climate, start = from, end = to))
@@ -581,11 +576,16 @@ oilConsumptionPeriods <-
         .fun = mutate,
         meanTemps = I(list(tempInInterval(climate.zoo$`Bad Ragaz`, from, to))))
 oilConsumptionPeriods$meanTemp <- sapply(oilConsumptionPeriods$meanTemps, mean, na.rm = TRUE)
+# Days with missing data are imputed with mean temperature of their period
 oilConsumptionPeriods$meanTemps <- lapply(oilConsumptionPeriods$meanTemps,
                                           function(x) {
                                             x[is.na(x)] <- mean(x, na.rm = TRUE)
                                             x})
-print(subset(oilConsumptionPeriods, select = -meanTemps), row.names = FALSE)
+oilConsumptionPeriodsTable <- xtable(oilConsumptionPeriods)
+oilConsumptionPeriodsTable <- dplyr::select(oilConsumptionPeriodsTable, -meanTemps)
+oilConsumptionPeriodsTable <- dplyr::select(oilConsumptionPeriodsTable, from = as.character(from))
+oilConsumptionPeriodsTable <- dplyr::select(oilConsumptionPeriodsTable, to = as.character(to))
+print(oilConsumptionPeriodsTable, row.names = FALSE)
 @
 
 <<>>=
