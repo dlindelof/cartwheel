@@ -959,7 +959,10 @@ Present study
 
 \begin_layout Standard
 Swisscom, a leading Swiss telecommunications company, owns and operates
- TK buildings in Switzerland and is one of the major building owner.
+ about 16'000 buildings in Switzerland, of which about 950 are sales, office,
+ and non-production buildings.
+ They are one of the largest building owner in Switzerland in number of
+ buildings.
  They have publicly committed themselves to 
 \begin_inset Quotes eld
 \end_inset
@@ -1001,7 +1004,7 @@ key "swisscom2016"
 \end_layout
 
 \begin_layout Standard
-A commercial model-predictive controller called NOL
+A commercial adaptive model-predictive controller called NOL
 \begin_inset script superscript
 
 \begin_layout Plain Layout
@@ -1017,11 +1020,61 @@ key "neurobat2017"
 
 \end_inset
 
- was selected
+ was selected for a pilot study on a building in Sargans, a Swiss locality
+ in the canton of Sankt-Gallen.
+ Like many buildings, the pre-installation energy efficiency of this building
+ was not well understood by the building's owner, and the project plan did
+ not allow for the measurement of a baseline performance.
+ All that was available was a record of oil tank refills, stretching back
+ to 2011.
+ The poor baseline data made Bayesian methods particularly attractive for
+ this (and similar) projects.
+\end_layout
+
+\begin_layout Standard
+In this paper we will first describe the test installation (section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Experimental-building"
+
+\end_inset
+
+), followed by a review in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Bayesian-energy-model"
+
+\end_inset
+
+ of the Bayesian data analysis method we employed to establish the building's
+ baseline performance and post-installation performance.
+ The weather, baseline period and reporting period data will be analysed
+ in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Data-analysis"
+
+\end_inset
+
+, and inferences about the energy savings will be drawn in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Results"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
 Experimental building
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Experimental-building"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1090,8 +1143,18 @@ The oil-fired boiler draws its fuel from two tanks and provides the heating
 \end_layout
 
 \begin_layout Standard
-Improving the heating system's controller (such as by replacing it with
- a model-predictive controller) belongs to the ECM category of 
+The NOL
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+a
+\end_layout
+
+\end_inset
+
+ system implements a model-predictive controller that regularly computes
+ an optimal water supply temperature.
+ It therefore belongs to the ECM category of 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1099,14 +1162,16 @@ Energy efficient equipment and low energy technologies
 \begin_inset Quotes erd
 \end_inset
 
-, a form of demand side management.
-\end_layout
+, a form of demand side management (
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Ma2012"
 
-\begin_layout Standard
-Neurobat’s adaptive model-predictive control algorithm regularly calculates
- an optimal value for the temperature of the water prepared by the oil boiler.
- This value cannot be communicated directly to most legacy heating controllers;
- instead, the NOL
+\end_inset
+
+).
+ The optimal temperature value cannot be communicated directly to most legacy
+ heating controllers; instead, the NOL
 \begin_inset script superscript
 
 \begin_layout Plain Layout
@@ -1119,6 +1184,26 @@ a
  temperature measured by the heating controllers.
  Thus, the boiler provides for each circuit a heating water at just the
  right temperature.
+ As this paper is about the estimation of energy savings resulting from
+ an ECM, the details of the NOL
+\begin_inset script superscript
+
+\begin_layout Plain Layout
+a
+\end_layout
+
+\end_inset
+
+ algorithms are beyond the scope of this article but can be found elsewhere
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Bauer98,Zimmermann1985,Morel2001161,Krauss200863,Bichsel2000,NoAuthor1998,Lindelof2015"
+
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1185,6 +1270,13 @@ name "fig:composite"
 
 \begin_layout Section
 Bayesian energy model
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Bayesian-energy-model"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1240,7 +1332,12 @@ total heat loss coefficient
 , the quantity of extra heat required per day to maintain indoor comfort
  for each extra degree of cold.
  It is the most important metric when assessing the efficacy of a new heating
- control algorithm.
+ control algorithm, because the base temperature 
+\begin_inset Formula $\theta_{\text{b}}$
+\end_inset
+
+ depends mainly on the building's insulation and indoor temperature setpoint,
+ which both remain unaffected by the new control logic.
 \end_layout
 
 \begin_layout Standard
@@ -1344,7 +1441,7 @@ Letting
 \end_inset
 
 .
- A method to carry out this inference has been presented by 
+ A method to carry out this inference has been proposed by 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Lindelof2016"
@@ -1394,7 +1491,7 @@ s base temperature, here we will be more concerned with
 \end_layout
 
 \begin_layout Standard
-Installing an ECM such as the NOL
+We assume that installing an ECM such as the NOL
 \begin_inset script superscript
 
 \begin_layout Plain Layout
@@ -1428,7 +1525,7 @@ A shift in the building's base temperature
 \begin_inset Formula $\theta_{\text{b}}$
 \end_inset
 
- was considered as unavoidable, since nothing was known about the normal
+ was considered as unavoidable, since very little was known about the normal
  indoor temperature setpoints before the retrofit.
  It was therefore agreed that the efficacy of the ECM would be entirely
  quantified by the ratio 
@@ -1446,6 +1543,7 @@ A shift in the building's base temperature
 \end_inset
 
 .
+ In IPMVP terminology, 
 \end_layout
 
 \begin_layout Standard
@@ -1556,7 +1654,14 @@ The analysis of the historic weather and oil consumption data will be explained
 \end_layout
 
 \begin_layout Section
-Historic weather and oil consumption data
+Data analysis
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Data-analysis"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2614,7 +2719,7 @@ ggplot(before.dd.long, aes(`Degree days`, Energy)) +
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Reporting period
 \end_layout
 
@@ -2726,6 +2831,13 @@ Each point in this plot represents one day, and we restrict the data to
 
 \begin_layout Section
 Results
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Results"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard

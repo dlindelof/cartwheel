@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dlindelof/cartwheel.svg?branch=master)](https://travis-ci.org/dlindelof/cartwheel)
+
 This is the repository of the source code for a paper on the Bayesian evaluation
 of energy conservation measures.
 
