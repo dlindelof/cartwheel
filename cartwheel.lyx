@@ -1543,7 +1543,16 @@ A shift in the building's base temperature
 \end_inset
 
 .
- In IPMVP terminology, 
+ In IPMVP terminology, the routine adjustments will be due to outdoor conditions
+ and are covered by 
+\begin_inset Formula $K$
+\end_inset
+
+, while non-routine adjustments will be dealt with by taking 
+\begin_inset Formula $\Delta t_{\text{b}}$
+\end_inset
+
+ into account.
 \end_layout
 
 \begin_layout Standard
@@ -1644,11 +1653,21 @@ key "Lindelof2016"
 \end_inset
 
 .
+ Once we have the pdf on the left-hand side of the equation, inferences
+ about 
+\begin_inset Formula $\rho=K_{\text{post}}/K_{\text{pre}}$
+\end_inset
+
+ can be drawn by sampling pairs of 
+\begin_inset Formula $\{$
+\end_inset
+
+from this pdf
 \end_layout
 
 \begin_layout Standard
 The analysis of the historic weather and oil consumption data will be explained
- in the following sections, followed by the analysis of the new consumption
+ in the following section, followed by the analysis of the new consumption
  data.
  
 \end_layout

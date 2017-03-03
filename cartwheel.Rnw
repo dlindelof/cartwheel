@@ -422,7 +422,9 @@ agreed that the efficacy of the ECM would be entirely quantified by
 the ratio $\rho$ between the pre- and post-installation heat loss
 coefficients. The lower $\rho$ is, the higher the energy savings.
 The relative energy savings in percent will be given by $100\times(1-\rho)$.
-In IPMVP terminology, 
+In IPMVP terminology, the routine adjustments will be due to outdoor
+conditions and are covered by $K$, while non-routine adjustments
+will be dealt with by taking $\Delta t_{\text{b}}$ into account.
 
 Hardcore Bayesians would now write a full probability model involving
 all the pre- and post-installation parameters, work out the joint
@@ -462,10 +464,12 @@ p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}},K_{\text{post}},\th
  & = & p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}}\}\mid D_{\text{pre}})\times p(\{K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D_{\text{post}})
 \end{align*}
 where each term on the right-hand side can be computed by the method
-proposed by \citet{Lindelof2016}.
+proposed by \citet{Lindelof2016}. Once we have the pdf on the left-hand
+side of the equation, inferences about $\rho=K_{\text{post}}/K_{\text{pre}}$
+can be drawn by sampling pairs of $\{$from this pdf
 
 The analysis of the historic weather and oil consumption data will
-be explained in the following sections, followed by the analysis of
+be explained in the following section, followed by the analysis of
 the new consumption data. 
 
 \section{Data analysis\label{sec:Data-analysis}}
