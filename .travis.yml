@@ -1,6 +1,6 @@
 language: r
 cache: packages
-before_install: tlmgr install elsarticle nomencl
+before_install: tlmgr install elsarticle fragments nomencl 
 script:
 - Rscript -e "library(knitr); knit('cartwheel.Rnw', encoding = 'latin1')"
 - pdflatex cartwheel
