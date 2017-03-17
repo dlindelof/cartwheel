@@ -641,6 +641,24 @@ p <- function(x) formatC(x, digits = 1, format = 'f')
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\kpre}{K_{\text{pre}}}
+{K_{\text{pre}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\kpost}{K_{\text{post}}}
+{K_{\text{post}}}
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Introduction
 \end_layout
@@ -963,6 +981,7 @@ Swisscom, a leading Swiss telecommunications company, owns and operates
  and non-production buildings.
  They are one of the largest building owner in Switzerland in number of
  buildings.
+ Their yearly energy bills for their buildings is estimated at CHF 70 million.
  They have publicly committed themselves to 
 \begin_inset Quotes eld
 \end_inset
@@ -3054,11 +3073,42 @@ a
 \end_inset
 
  installation can now be evaluated, defined as 
-\begin_inset Formula $(1-K_{\mathrm{post}}/K_{\mathrm{pre}})$
+\begin_inset Formula $\rho=(1-K_{\mathrm{post}}/K_{\mathrm{pre}})$
 \end_inset
 
 .
- But our Bayesian method does not compute point estimates; instead, it computes
+ From a Bayesian point of view, 
+\begin_inset Formula $\rho$
+\end_inset
+
+ is a function of two random variables 
+\begin_inset Formula $\kpre$
+\end_inset
+
+ and 
+\begin_inset Formula $\kpost$
+\end_inset
+
+ and we need its pdf.
+ This can be estimated from random draws of 
+\begin_inset Formula $\kpre$
+\end_inset
+
+ and 
+\begin_inset Formula $\kpost$
+\end_inset
+
+, evaluating 
+\begin_inset Formula $\rho$
+\end_inset
+
+, and evaluating values of interest such as the mean value, standard deviation,
+ and so on.
+ 
+\end_layout
+
+\begin_layout Standard
+But our Bayesian method does not compute point estimates; instead, it computes
  how 
 \emph on
 probable
