@@ -653,21 +653,29 @@ names(dailyOil) <- c("Oil", "MeanTemp")
 
 <<>>=
 goodPeriods <- with(oilConsumptionPeriods[-c(5, 6), ],
-	data.frame(Energy = oil,
-		DailyMeans = I(meanTemps),
-		When = "PRE"))
+               	data.frame(Oil = oil,
+                      		DailyMeans = I(meanTemps),
+                      		When = "PRE"))
 goodPeriods <- with(window(dailyOil, start = "2016-04-01"),
-	rbind(goodPeriods,
-		data.frame(Energy = Oil, DailyMeans = MeanTemp, When = "POST")))
+                	rbind(goodPeriods,
+                  		data.frame(Oil = Oil, DailyMeans = MeanTemp, When = "POST")))
 goodPeriods <- goodPeriods[rownames(goodPeriods) != "2016-04-06",]
 @
 
 <<>>=
-params <- estimateParameters(goodPeriods)
-@
+fit.before <- bhm(Oil ~ DailyMeans, subset(goodPeriods, When == "PRE"), baseLoad = 0)
+baseTempPre <- coef(fit.before)['tb']
+deltaBaseTempPre <- sqrt(diag(vcov(fit.before)))['tb']
+Kpre <- coef(fit.before)['K']
+deltaKpre <- sqrt(diag(vcov(fit.before)))['K']
+sigmaPre <- coef(fit.before)['sigma']
 
-<<>>=
-list2env(params$params, envir = .GlobalEnv)
+fit.after <- bhm(Oil ~ DailyMeans, subset(goodPeriods, When == "POST"), baseLoad = 0)
+baseTempPost <- coef(fit.after)['tb']
+deltaBaseTempPost <- sqrt(diag(vcov(fit.after)))['tb']
+Kpost <- coef(fit.after)['K']
+deltaKpost <- sqrt(diag(vcov(fit.after)))['K']
+sigmaPost <- coef(fit.after)['sigma']
 @
 
 Note that two records in the oil readouts are probably erroneous and
@@ -679,8 +687,8 @@ day
 day during summer
 \end{enumerate}
 The building's base temperature and heat loss coefficient are estimated
-from this data using our method. We obtain $t_{\text{b}}=\Sexpr{p(baseTempPre)}\pm\Sexpr{p(sqrt(params[["covariance"]][2,2]))}$
-C, and $K_{\mathrm{pre}}=\Sexpr{p(Kpre)}\pm\Sexpr{p(sqrt(params[["covariance"]][1,1]))}$
+from this data using our method. We obtain $t_{\text{b}}=\Sexpr{p(baseTempPre)}\pm\Sexpr{p(deltaBaseTempPre)}$
+C, and $K_{\mathrm{pre}}=\Sexpr{p(Kpre)}\pm\Sexpr{p(deltaKpre)}$
 L/C.
 
 Now that we have the building's base temperature, we can validate
@@ -705,15 +713,15 @@ before.dd[["SIA 380:2015"]] <- sapply(before.dd$DailyMeans, DD, 12)
 before.dd[["Carbon Trust"]] <- sapply(before.dd$DailyMeans, DD, 15.5)
 before.dd[["SIA 381/3"]] <- sapply(before.dd$DailyMeans, function(x) sum(ifelse(x < 12, 20 - x, 0)))
 before.dd.long <- melt(before.dd, 
-	id.vars = "Energy", 
+	id.vars = "Oil", 
 	measure.vars = c("Bayesian", "ASHRAE", "SIA 380:2015", "Carbon Trust", "SIA 381/3"),
 	variable.name = "Base",
     value.name = "Degree days")
 before.rsq <- ddply(before.dd.long, 
 	.(Base), 
-	function(x) summary(lm(Energy ~ `Degree days`, x))$r.squared) 
+	function(x) summary(lm(Oil ~ `Degree days`, x))$r.squared) 
 before.rsq$label <- format(before.rsq$V1, di = 3)
-ggplot(before.dd.long, aes(`Degree days`, Energy)) +
+ggplot(before.dd.long, aes(`Degree days`, Oil)) +
 	geom_point() +
 	facet_wrap(~ Base) +
 	geom_smooth(method = "lm", formula = y ~ x, se = FALSE) + 
@@ -731,7 +739,7 @@ next oil tank refill. That relationship is shown in Fig.~\ref{fig:Signature}.
 
 <<Signature, fig.cap="Daily oil consumption vs daily average outdoor temperatures. A linear fit is shown with its confidence bands.">>=
 signature <- qplot(as.numeric(DailyMeans), 
-	Energy,
+	Oil,
 	data = subset(goodPeriods, When == "POST"),
 	xlab = "Mean outdoor temperature [C]",
 	ylab = "Oil [L]") +
@@ -744,20 +752,16 @@ to dates after 1st April 2016 when a mislabeling of the existing heating
 system was identified and corrected. The post-installation total heat
 loss coefficient $K_{\mathrm{post}}$ is the slope of the linear regression
 through these points, since each point represents one day of oil consumption
-and they all are lower than the base temperature. We obtain $K_{\mathrm{post}}=\Sexpr{p(Kpost)}\pm\Sexpr{p(sqrt(params[['covariance']][4,4]))}$
+and they all are lower than the base temperature. We obtain $K_{\mathrm{post}}=\Sexpr{p(Kpost)}\pm\Sexpr{p(deltaKpost)}$
 L/C, or about 30\% less than the pre-installation total heat loss
 coefficient $K_{\mathrm{pre}}$.
 
 \section{Results\label{sec:Results}}
 
 <<cache=TRUE>>=
-metropfun <- function(x, periods)
-  do.call(loglikelihood, args = c(list(periods), as.list(c(x[1:2], 0, x[3:5]))))
-metropfun3 <- function(x, periods)
-  do.call(loglikelihood, args = c(list(periods), as.list(c(x[1:2], 0, x[3:6]))))
-#m <- MCMCmetrop1R(metropfun, c(U, baseTemp, sigma, rho, DbaseTemp), seed = 1345, tune = 1.3, periods = goodPeriods)
-m3 <- MCMCmetrop1R(metropfun3, c(Kpre, baseTempPre, sigmaPre, Kpost, baseTempPost, sigmaPost), seed = 1345, tune = 1.3, periods = goodPeriods)
-m <- m3
+metropfun <- function(x, logPBefore, logPAfter)
+  logPBefore(x[1], x[2], 0, x[3]) + logPAfter(x[4], x[5], 0, x[6])
+m <- MCMCmetrop1R(metropfun, c(Kpre, baseTempPre, sigmaPre, Kpost, baseTempPost, sigmaPost), seed = 1345, tune = 1.3, logPBefore = fit.before$logPosterior, logPAfter = fit.after$logPosterior)
 m <- cbind(m, 1 - m[, 4] / m[, 1])
 colnames(m) <- c("Kpre", "baseTempPre", "sigmaPre", "Kpost", "baseTempPost", "sigmaPost", "savings")
 @

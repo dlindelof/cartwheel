@@ -2500,17 +2500,17 @@ goodPeriods <- with(oilConsumptionPeriods[-c(5, 6), ],
 
 \begin_layout Plain Layout
 
-	data.frame(Energy = oil,
+               	data.frame(Oil = oil,
 \end_layout
 
 \begin_layout Plain Layout
 
-		DailyMeans = I(meanTemps),
+                      		DailyMeans = I(meanTemps),
 \end_layout
 
 \begin_layout Plain Layout
 
-		When = "PRE"))
+                      		When = "PRE"))
 \end_layout
 
 \begin_layout Plain Layout
@@ -2520,12 +2520,12 @@ goodPeriods <- with(window(dailyOil, start = "2016-04-01"),
 
 \begin_layout Plain Layout
 
-	rbind(goodPeriods,
+                	rbind(goodPeriods,
 \end_layout
 
 \begin_layout Plain Layout
 
-		data.frame(Energy = Oil, DailyMeans = MeanTemp, When = "POST")))
+                  		data.frame(Oil = Oil, DailyMeans = MeanTemp, When = "POST")))
 \end_layout
 
 \begin_layout Plain Layout
@@ -2544,21 +2544,68 @@ status open
 
 \begin_layout Plain Layout
 
-params <- estimateParameters(goodPeriods)
+fit.before <- bhm(Oil ~ DailyMeans, subset(goodPeriods, When == "PRE"), baseLoad
+ = 0)
 \end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Flex Chunk
-status open
 
 \begin_layout Plain Layout
 
-list2env(params$params, envir = .GlobalEnv)
+baseTempPre <- coef(fit.before)['tb']
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaBaseTempPre <- sqrt(diag(vcov(fit.before)))['tb']
+\end_layout
+
+\begin_layout Plain Layout
+
+Kpre <- coef(fit.before)['K']
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaKpre <- sqrt(diag(vcov(fit.before)))['K']
+\end_layout
+
+\begin_layout Plain Layout
+
+sigmaPre <- coef(fit.before)['sigma']
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+fit.after <- bhm(Oil ~ DailyMeans, subset(goodPeriods, When == "POST"), baseLoad
+ = 0)
+\end_layout
+
+\begin_layout Plain Layout
+
+baseTempPost <- coef(fit.after)['tb']
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaBaseTempPost <- sqrt(diag(vcov(fit.after)))['tb']
+\end_layout
+
+\begin_layout Plain Layout
+
+Kpost <- coef(fit.after)['K']
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaKpost <- sqrt(diag(vcov(fit.after)))['K']
+\end_layout
+
+\begin_layout Plain Layout
+
+sigmaPost <- coef(fit.after)['sigma']
 \end_layout
 
 \end_inset
@@ -2584,11 +2631,11 @@ From 2013-06-17 to 2013-08-15 (59 days): 5500 L, or about 100 L per day
 The building's base temperature and heat loss coefficient are estimated
  from this data using our method.
  We obtain 
-\begin_inset Formula $t_{\text{b}}=\Sexpr{p(baseTempPre)}\pm\Sexpr{p(sqrt(params[["covariance"]][2,2]))}$
+\begin_inset Formula $t_{\text{b}}=\Sexpr{p(baseTempPre)}\pm\Sexpr{p(deltaBaseTempPre)}$
 \end_inset
 
  C, and 
-\begin_inset Formula $K_{\mathrm{pre}}=\Sexpr{p(Kpre)}\pm\Sexpr{p(sqrt(params[["covariance"]][1,1]))}$
+\begin_inset Formula $K_{\mathrm{pre}}=\Sexpr{p(Kpre)}\pm\Sexpr{p(deltaKpre)}$
 \end_inset
 
  L/C.
@@ -2677,7 +2724,7 @@ before.dd.long <- melt(before.dd,
 
 \begin_layout Plain Layout
 
-	id.vars = "Energy", 
+	id.vars = "Oil", 
 \end_layout
 
 \begin_layout Plain Layout
@@ -2708,7 +2755,7 @@ before.rsq <- ddply(before.dd.long,
 
 \begin_layout Plain Layout
 
-	function(x) summary(lm(Energy ~ `Degree days`, x))$r.squared) 
+	function(x) summary(lm(Oil ~ `Degree days`, x))$r.squared) 
 \end_layout
 
 \begin_layout Plain Layout
@@ -2718,7 +2765,7 @@ before.rsq$label <- format(before.rsq$V1, di = 3)
 
 \begin_layout Plain Layout
 
-ggplot(before.dd.long, aes(`Degree days`, Energy)) +
+ggplot(before.dd.long, aes(`Degree days`, Oil)) +
 \end_layout
 
 \begin_layout Plain Layout
@@ -2806,7 +2853,7 @@ signature <- qplot(as.numeric(DailyMeans),
 
 \begin_layout Plain Layout
 
-	Energy,
+	Oil,
 \end_layout
 
 \begin_layout Plain Layout
@@ -2856,7 +2903,7 @@ Each point in this plot represents one day, and we restrict the data to
  point represents one day of oil consumption and they all are lower than
  the base temperature.
  We obtain 
-\begin_inset Formula $K_{\mathrm{post}}=\Sexpr{p(Kpost)}\pm\Sexpr{p(sqrt(params[['covariance']][4,4]))}$
+\begin_inset Formula $K_{\mathrm{post}}=\Sexpr{p(Kpost)}\pm\Sexpr{p(deltaKpost)}$
 \end_inset
 
  L/C, or about 30% less than the pre-installation total heat loss coefficient
@@ -2889,39 +2936,19 @@ status open
 
 \begin_layout Plain Layout
 
-metropfun <- function(x, periods)
+metropfun <- function(x, logPBefore, logPAfter)
 \end_layout
 
 \begin_layout Plain Layout
 
-  do.call(loglikelihood, args = c(list(periods), as.list(c(x[1:2], 0, x[3:5]))))
+  logPBefore(x[1], x[2], 0, x[3]) + logPAfter(x[4], x[5], 0, x[6]
 \end_layout
 
 \begin_layout Plain Layout
 
-metropfun3 <- function(x, periods)
-\end_layout
-
-\begin_layout Plain Layout
-
-  do.call(loglikelihood, args = c(list(periods), as.list(c(x[1:2], 0, x[3:6]))))
-\end_layout
-
-\begin_layout Plain Layout
-
-#m <- MCMCmetrop1R(metropfun, c(U, baseTemp, sigma, rho, DbaseTemp), seed
- = 1345, tune = 1.3, periods = goodPeriods)
-\end_layout
-
-\begin_layout Plain Layout
-
-m3 <- MCMCmetrop1R(metropfun3, c(Kpre, baseTempPre, sigmaPre, Kpost, baseTempPos
-t, sigmaPost), seed = 1345, tune = 1.3, periods = goodPeriods)
-\end_layout
-
-\begin_layout Plain Layout
-
-m <- m3
+m <- MCMCmetrop1R(metropfun, c(Kpre, baseTempPre, sigmaPre, Kpost, baseTempPost,
+ sigmaPost), seed = 1345, tune = 1.3, logPBefore = fit.before$logPosterior,
+ logPAfter = fit.after$logPosterior)
 \end_layout
 
 \begin_layout Plain Layout
