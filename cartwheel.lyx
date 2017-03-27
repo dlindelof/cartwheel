@@ -623,11 +623,6 @@ opts_chunk$set(error = FALSE, warning = FALSE, echo = FALSE, message = FALSE,
 
 \begin_layout Plain Layout
 
-source("inference3.R")
-\end_layout
-
-\begin_layout Plain Layout
-
 p <- function(x) formatC(x, digits = 1, format = 'f') 
 \end_layout
 
@@ -2683,6 +2678,11 @@ status open
 
 \begin_layout Plain Layout
 
+pos <- function(x) pmax(0, x)
+\end_layout
+
+\begin_layout Plain Layout
+
 DD <- function(dailyTemps, base) sum(pos(base - dailyTemps))
 \end_layout
 
@@ -2941,7 +2941,7 @@ metropfun <- function(x, logPBefore, logPAfter)
 
 \begin_layout Plain Layout
 
-  logPBefore(x[1], x[2], 0, x[3]) + logPAfter(x[4], x[5], 0, x[6]
+  logPBefore(x[1], x[2], 0, x[3]) + logPAfter(x[4], x[5], 0, x[6])
 \end_layout
 
 \begin_layout Plain Layout

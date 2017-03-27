@@ -131,7 +131,6 @@ opts_chunk$set(error = FALSE, warning = FALSE, echo = FALSE, message = FALSE,
                dev = "tikz", dev.args = list(pointsize = 10),
                fig.width = 3.5, fig.height = 3.5, fig.align = "center")
 
-source("inference3.R")
 p <- function(x) formatC(x, digits = 1, format = 'f') 
 @
 
@@ -705,6 +704,7 @@ two outliers identified above (not plotted), and possibly a third
 point with 2300 liters of oil for about 750 degree days. 
 
 <<OilVsDD, fig.cap="Oil consumption vs heating degree days, calculated with different base temperatures. The Bayesian base temperature yields the highest coefficient of determination $R^2$, showing that it fits the data best.">>=
+pos <- function(x) pmax(0, x)
 DD <- function(dailyTemps, base) sum(pos(base - dailyTemps))
 before.dd <- subset(goodPeriods, When == "PRE")
 before.dd$Bayesian <- sapply(before.dd$DailyMeans, DD, baseTempPre)
