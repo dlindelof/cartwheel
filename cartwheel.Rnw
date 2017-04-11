@@ -10,6 +10,7 @@
 \usepackage{mathtools}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{setspace}
 \PassOptionsToPackage{normalem}{ulem}
 \usepackage{ulem}
 \usepackage{nomencl}
@@ -18,6 +19,7 @@
 \providecommand{\makenomenclature}{\makeglossary}
 \makenomenclature
 \usepackage{subscript}
+\doublespacing
 
 \makeatletter
 
@@ -144,19 +146,19 @@ p <- function(x) formatC(x, digits = 1, format = 'f')
 Many energy conservation measures (ECM\nomenclature{ECM}{Energy Conservation Measure})
 exist to reduce the consumption of energy in existing buildings, but
 vary widely in effectiveness. Faced with a variety of options, ranging
-from trivial (replacing light bulbs) to major projects (better façade
-insulation), an owner will want to know which energy conservation
-measure is likely to yield the highest return on investment\textemdash and
-with what confidence. Moreover, once the measure has been applied,
-the owner will want to know how well it performs and whether their
-money was well spent\textemdash an activity known as Measurement \&
-Verification (M\&V).
+from trivial (replacing light bulbs) to major (better façade insulation),
+an owner will want to know which energy conservation measure is likely
+to yield the highest return on investment\textemdash and with what
+confidence. Moreover, once the measure has been applied, the owner
+will want to know how well it performs and whether their money was
+well spent\textemdash an activity known as Measurement \& Verification
+(M\&V).
 
 This is a recurring problem for large companies in Switzerland that
-have publicly committed themselves to reducing their greenhouse gas
-emissions. The majority of these emissions can be traced to large
-portfolios of legacy buildings, in particular to the fossil fuels
-used for heating. Reducing the heating energy for legacy buildings
+have publicly committed to reducing their greenhouse gas emissions.
+The majority of these emissions can be traced to large portfolios
+of legacy buildings \citep{BFE2013b}, in particular to the fossil
+fuels used for heating. Reducing the heating energy for legacy buildings
 (while maintaining user comfort) will help such companies achieve
 their objectives\textemdash provided those energy savings can be proven.
 Given a choice between ECMs, a facility manager will frequently favor
@@ -175,17 +177,18 @@ the baseline model and report a point estimate for the energy savings,
 giving a false sense of accuracy.
 
 Lack in confidence in the effectiveness of ECMs limit their adoption
-(\citet{Ma2012}). To convince building owners to undertake more building
+\citep{Ma2012}. To convince building owners to undertake more building
 retrofit projects we must address two concerns that are frequently
 expressed: 1) the risk that the ECM might not be as effective as advertised,
 and 2) the risk that, although effective, the benefits will turn out
 to be difficult to prove. The latter is the goal of M\&V, which currently
-suffers from an image of (bad) science, or of ``an inaccurate science:
-an engineering practice relying heavily on professional judgement''
-(\citet{Xia2013}). We must show building owners that assessing the
-effectiveness of ECMs is not a research project anymore but a well-defined
-and well-understood process, one that yields not just the estimated
-energy savings but also their accuracy and confidence.
+suffers from an image of (bad) science, or, as \citeauthor{Xia2013}
+put it, of ``an inaccurate science: an engineering practice relying
+heavily on professional judgement'' \citep{Xia2013}. We must show
+building owners that assessing the effectiveness of ECMs is not a
+research project anymore but a well-defined and well-understood process,
+one that yields not just the estimated energy savings but also their
+accuracy and confidence.
 
 \subsection{The International Performance Measurement and Verification Protocol}
 
@@ -197,8 +200,8 @@ by first establishing the building's pre-retrofit baseline energy
 demand. After the installation, the energy demand is measured again,
 resulting in a so-called reporting period demand. Energy savings are
 calculated from the difference between the basline and reporting period
-demand, taking also in to account external factors that influence
-the energy demand:
+demand, taking into account external factors that influence the energy
+demand:
 \[
 \text{Savings}=(\text{Baseline-period demand - Reporting-period demand)}\pm\text{Adjustments}
 \]
@@ -226,20 +229,29 @@ during the M\&V Planning process.
 A Scopus search for the ``IPMVP'' term in a document's title, abstract
 or keywords, limited to publication date from 2010 to present, yields
 37 documents. Of these, just 3 study the energy efficiency of an ECM
-without resorting to computer simulation. They were:
+without resorting to computer simulation:
 \begin{itemize}
-\item \citet{Aris2015}: retrofit of a water cooling package unit. Baseline
-consumption July 2012 to June 2013 modeled as linear combination of
-occupancy, number of working days and cooling degree-days. Calculates
-energy avoided from August 2013 to July 2014. t-test finds no statistically
-significant energy savings.
-\item \citet{Ginestet2010} applies the IPMVP to an existing building equipped
-with a new HVAC device. The energy savings are determined by 1) simulation
-and 2) by retrofitting one room and leaving another one unchanged.
-\item \citet{Kaiser2010} reports on the results from a large-scale program
-where 730 households participated, and 150 are chosen at random. Baseline
-established as linear model in HDD, CDD, relative humidity and energy
-price. No uncertainties are reported.
+\item The retrofit of a water cooling package unit, whose baseline consumption
+from July 2012 to June 2013 was modeled as a linear combination of
+occupancy, number of working days and cooling degree-days. The reporting
+period ran from August 2013 to July 2014, and a $t$-test was used
+to determine whether the energy savings were significant. Very different
+results were obtained depending on which variables were used to model
+the baseline energy consumption, and the relative uncertainty on the
+energy savings ranged from 86\% to 232\% \citep{Aris2015}.
+\item Two near-identical 300-seat conference rooms retrofitted with a variable-flow
+AHU each. The energy savings were determined by simulation and by
+retrofitting one room while leaving another one unchanged. Both approaches
+yielded roughly 30\% energy savings on the heating coil's consumption,
+but the simulation underestimated by a factor 5 the savings on the
+fans' electrical consumption\citet{Ginestet2010}. 
+\item A large-scale government-sponsored program offering rebates to home
+owners for increasing the energy efficiency of new and existing homes
+by at least 30\%. Nearly 12\,000 households participated during the
+6 years of the program. A baseline, established as a linear model
+in HDD, CDD, relative humidity and energy price, was fitted to a random
+sample of 150 houses among the 730 that participated in 2003. No uncertainties
+are reported.\citet{Kaiser2010} 
 \end{itemize}
 Other retrofit assessments found in the literature include:
 \begin{itemize}
