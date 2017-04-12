@@ -914,21 +914,24 @@ A large-scale government-sponsored program offering rebates to home owners
 \end_inset
 
 000 households participated during the 6 years of the program.
- A baseline, established as a linear model in HDD, CDD, relative humidity
- and energy price, was fitted to a random sample of 150 houses among the
- 730 that participated in 2003.
- No uncertainties are reported.
+ The IPMVP protocol was tested on some households that participated in 2003.
+ The baseline was established as a linear model in HDD, CDD, relative humidity
+ and energy price on 52 households out of the 730 households that participated
+ in 2003.
+ An average of 172 kWh annual energy savings was found, with monetary annual
+ savings ranging from -$515 to $530
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Kaiser2010"
 
 \end_inset
 
+.
  
 \end_layout
 
 \begin_layout Standard
-Other retrofit assessments found in the literature include:
+Other examples of retrofit assessments found in the literature include:
 \end_layout
 
 \begin_layout Itemize
@@ -938,20 +941,24 @@ key "Cohen1991"
 
 \end_inset
 
- old but relevant: 32 retrofit projects, ranging in size from three to 30
- 000 houses.
- Energy normalised by HDD using fixed 65 F.
- Mix of submetered, utility bills.
+ described an analysis of 32 retrofit projects, ranging in size from three
+ to 30 000 houses, in order to rank the cost-effectiveness of different
+ energy conservation measures.
+ The space heating energy was normalised to a fixed base temperature of
+ 18.3
+\begin_inset space \thinspace{}
+\end_inset
+
+℃.
+ The project used a mix of submetered data and utility bills.
 \end_layout
 
 \begin_layout Itemize
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Lin2015"
-
+A high-tech, 31
+\begin_inset space \thinspace{}
 \end_inset
 
- Electricity and gas bill for a 31'000
+000
 \begin_inset space \thinspace{}
 \end_inset
 
@@ -964,40 +971,89 @@ m
 
 \end_inset
 
- campus whose HVAC equipment was retrofitted.
- IMPVP option C.
- Baseline from Sept 2007 to August 2008.
- Measurement from May 2009 to April 2010.
- Normalised to outdoor temperature.
- Savings reported without uncertainty.
+ campus in California whose HVAC equipment was retrofitted.
+ The baseline period ran from September 2007 to August 2008, and the reporting
+ period from May 2009 to April 2010.
+ The energy consumption was normalised to the outdoor temperature, and annual
+ electricity savings was reduced by 3
+\begin_inset space \thinspace{}
+\end_inset
+
+853
+\begin_inset space \thinspace{}
+\end_inset
+
+625
+\begin_inset space \thinspace{}
+\end_inset
+
+kWh, although no uncertainty was reported for this extraordinarily precise
+ figure 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Lin2015"
+
+\end_inset
+
+ .
 \end_layout
 
 \begin_layout Itemize
+An analysis of the electric load of 17 office buildings, modeled as a piece-wise
+ linear function of time of week and outdoor temperature, for the explicit
+ purpose of establishing a baseline model.
+ The novelty here consisted in using cross-validation to eatimate the uncertaint
+y in the baseline: the last month of baseline data was excluded from the
+ model, and compared with the model's prediction.
+ The difference is an estimate of the model's uncertainties
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Walter2014"
 
 \end_inset
 
- Models electric load as function of time of week and outdoor temperature.
- Nonlinear dependency on outdoor temperature.
- Cross-validation used to quantify uncertainty in baseline estimation.
- Having access to full-year of data does not necessarily improve baseline
- estimates.
- 17 buildings analysed.
- Half have 27 months of data, other half 12.
- Method is a good indicator for predicting baseline error for a single month
- (the last one), but uncertainties highly variable from building to building.
+.
 \end_layout
 
 \begin_layout Standard
-Notes that when using the energy avoided (need to check the term) method,
- the uncertainty is entirely due to the uncertainty in the baseline.
+This short review suggests that even in an academic setting, the uncertainty
+ on energy savings are frequently highly-dependent on the model 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Aris2015"
+
+\end_inset
+
+, assume an arbitrary base temperature for HDD calculation 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Kaiser2010,Cohen1991"
+
+\end_inset
+
+, or ignored 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Ginestet2010,Lin2015"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Walter2014"
+
+\end_inset
+
+ have proposed a method that is a step towards making energy savings uncertainty
+ estimation more reliable, but they concede that the method is limited by
+ amount of data available.
 \end_layout
 
 \begin_layout Standard
-When uncertainty in baseline higher than expected savings, no savings can
- be proved.
+In this paper we describe a method based on Bayesian data analysis, that
+ will yield correct uncertainties no matter how much data is available.
 \end_layout
 
 \begin_layout Subsection
