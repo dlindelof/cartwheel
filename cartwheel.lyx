@@ -16,7 +16,7 @@
 \usepackage{hyperref}
 \usepackage{url}
 \end_preamble
-\options 3p
+\options 3p, sort&compress
 \use_default_options false
 \begin_modules
 theorems-std
@@ -654,6 +654,24 @@ p <- function(x) formatC(x, digits = 1, format = 'f')
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\tb}{\theta_{\text{b}}}
+{\theta_{\text{b}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\tout}{\overline{\theta_{\text{out}}}_{d}}
+{\overline{\theta_{\text{out}}}_{d}}
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Introduction
 \end_layout
@@ -1092,23 +1110,25 @@ increase our own energy efficiency by a further 35% between 2016 and 2020
 \begin_inset Quotes erd
 \end_inset
 
- (
+ 
 \begin_inset CommandInset citation
-LatexCommand citet
+LatexCommand citep
 key "swisscom2016"
 
 \end_inset
 
-).
+.
  Like many major Swiss companies, their stock of buildings includes a majority
- of systems heated by non-renewable fuel and ECMs that help these buildings
- become more efficient are particularly attractive.
+ of systems heated by non-renewable fuel.
+ Energy conservation measures that help these buildings become more efficient
+ are particularly attractive.
  In late 2015, a pilot study was started to evaluate the effectiveness of
  model-predictive control for space heating.
 \end_layout
 
 \begin_layout Standard
-A commercial adaptive model-predictive controller called NOL
+A commercial adaptive model-predictive controller based on artificial neural
+ networks called NOL
 \begin_inset script superscript
 
 \begin_layout Plain Layout
@@ -1125,7 +1145,7 @@ key "neurobat2017"
 \end_inset
 
  was selected for a pilot study on a building in Sargans, a Swiss locality
- in the canton of Sankt-Gallen.
+ in the canton of St Gall.
  Like many buildings, the pre-installation energy efficiency of this building
  was not well understood by the building's owner, and the project plan did
  not allow for the measurement of a baseline performance.
@@ -1242,7 +1262,7 @@ a
 The oil-fired boiler draws its fuel from two tanks and provides the heating
  water to all heating circuits.
  The levels in the tanks are recorded at irregular intervals, such as when
- either (or both) tank was refilled.
+ either (or both) tank is refilled.
  The domestic hot water is provided by an independent circuit.
 \end_layout
 
@@ -1266,15 +1286,15 @@ Energy efficient equipment and low energy technologies
 \begin_inset Quotes erd
 \end_inset
 
-, a form of demand side management (
+, a form of demand side management 
 \begin_inset CommandInset citation
-LatexCommand citet
+LatexCommand citep
 key "Ma2012"
 
 \end_inset
 
-).
- The optimal temperature value cannot be communicated directly to most legacy
+.
+ The optimal temperature cannot be communicated directly to most legacy
  heating controllers; instead, the NOL
 \begin_inset script superscript
 
@@ -1386,8 +1406,8 @@ name "sec:Bayesian-energy-model"
 \begin_layout Standard
 The energy consumed by a building is rarely constant but varies over time
  due to so-called routine factors (expected to vary, such as the climate)
- and non-routine factors (normally constant, such as the indoor temperature
- setpoint or the function of the building).
+ and non-routine factors (normally constant, such as the indoor temperature's
+ set point or the activity inside the building).
  These factors must be accounted for when assessing the effectiveness of
  an ECM.
  This is normally done by establishing a model for the energy use before
@@ -1414,34 +1434,30 @@ base temperature
 : 
 \begin_inset Formula 
 \begin{equation}
-Q_{d}=K\times(t_{\text{b}}-\overline{t_{\text{out}}}_{d})^{+}+\mathcal{N}(0,\sigma^{2})
+Q_{d}=K\times(\tb-\tout)^{+}+\mathcal{N}(0,\sigma^{2})
 \end{equation}
 
 \end_inset
 
  where the base temperature 
-\begin_inset Formula $t_{\text{b}}$
+\begin_inset Formula $\tb$
 \end_inset
 
  of a building is defined as the outdoor temperature above which all heat
  losses are compensated by the sun and other free gains.
- 
+ This temperature generally depends on the indoor temperature's set point.
+ The building's total heat loss coefficient 
 \begin_inset Formula $K$
 \end_inset
 
- is the building's 
-\emph on
-total heat loss coefficient
-\emph default
-, the quantity of extra heat required per day to maintain indoor comfort
+ is the quantity of extra heat required per day to maintain indoor comfort
  for each extra degree of cold.
  It is the most important metric when assessing the efficacy of a new heating
  control algorithm, because the base temperature 
 \begin_inset Formula $\theta_{\text{b}}$
 \end_inset
 
- depends mainly on the building's insulation and indoor temperature setpoint,
- which both remain unaffected by the new control logic.
+ should remain unaffected by a new control logic.
 \end_layout
 
 \begin_layout Standard
@@ -1462,13 +1478,13 @@ Q_{p}=\sum_{d\in p}Q_{d}=K\times DD_{p}+\mathcal{N}(0,n_{p}\sigma^{2})\label{eq:
 \end_inset
 
 where 
-\begin_inset Formula $DD_{p}=\sum_{d\in p}(t_{\text{b}}-\overline{t_{\text{out}}}_{d})^{+}$
+\begin_inset Formula $DD_{p}=\sum_{d\in p}(\tb-\tout)^{+}$
 \end_inset
 
  is the number of 
 \emph on
 degree-days at base temperature 
-\begin_inset Formula $t_{\text{b}}$
+\begin_inset Formula $\tb$
 \end_inset
 
 
@@ -1504,24 +1520,16 @@ reference "eq:Qp"
 \end_inset
 
  is a probability model from which that data is drawn.
- Bayesian inference consists now in 
-\begin_inset Quotes eld
-\end_inset
-
-fitting a probability model to a set of data and summarizing the result
- by a probability distribution on the parameters of the model and on unobserved
- quantities such as predictions for new observations
-\begin_inset Quotes erd
-\end_inset
-
- (
+ Bayesian inference consists in finding the parameters of that probability
+ model that are the most consistent with the observed data, yielding probability
+ distribution functions of these parameters 
 \begin_inset CommandInset citation
-LatexCommand citet
+LatexCommand citep
 key "Gelman2013"
 
 \end_inset
 
-).
+.
 \end_layout
 
 \begin_layout Standard
@@ -1545,34 +1553,14 @@ Letting
 \end_inset
 
 .
- A method to carry out this inference has been proposed by 
+ We will use the method proposed by one of the authors 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Lindelof2016"
 
 \end_inset
 
- and implemented by the 
-\begin_inset Flex Code
-status open
-
-\begin_layout Plain Layout
-bhm()
-\end_layout
-
-\end_inset
-
- function in the 
-\begin_inset Flex Code
-status open
-
-\begin_layout Plain Layout
-homeR
-\end_layout
-
-\end_inset
-
- R package 
+ as implemented in a package for the R programming environment 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "homeR"
@@ -1581,17 +1569,12 @@ key "homeR"
 
 .
  Unlike that prior work, where the focus was on the determination of a building'
-s base temperature, here we will be more concerned with 
+s base temperature, here we will be more interested by the changes to the
+ building's heat loss coefficient 
 \begin_inset Formula $K$
 \end_inset
 
-, the building's heat loss coefficient.
- We will use the pdf computed for this set of parameters to make inferences
- about the parameter 
-\begin_inset Formula $K$
-\end_inset
-
- before and after the retrofit.
+.
 \end_layout
 
 \begin_layout Standard
@@ -1608,8 +1591,9 @@ a
 \begin_inset Formula $\rho$
 \end_inset
 
-, and also possibly shift the base temperature if the indoor setpoints are
- not exactly identical before and after the installation: 
+, and also possibly shift the base temperature if the indoor temperature's
+ set points are not exactly identical before and after the installation:
+ 
 \begin_inset Formula 
 \[
 K_{\mathrm{pre}}\rightarrow K_{\mathrm{post}}=\rho\times K_{\mathrm{pre}}
@@ -1620,7 +1604,7 @@ K_{\mathrm{pre}}\rightarrow K_{\mathrm{post}}=\rho\times K_{\mathrm{pre}}
 
 \begin_inset Formula 
 \[
-t_{\text{b},\text{pre}}\rightarrow t_{\text{b},\mathrm{post}}=\Delta t_{\text{b}}+t_{\text{b},\mathrm{pre}}
+\theta_{\text{b, pre}}\rightarrow\theta_{\text{b, post}}=\theta_{\text{b, pre}}+\Delta t_{\text{b}}
 \]
 
 \end_inset
@@ -1630,7 +1614,7 @@ A shift in the building's base temperature
 \end_inset
 
  was considered as unavoidable, since very little was known about the normal
- indoor temperature setpoints before the retrofit.
+ indoor temperature's set point before the retrofit.
  It was therefore agreed that the efficacy of the ECM would be entirely
  quantified by the ratio 
 \begin_inset Formula $\rho$
@@ -1706,7 +1690,7 @@ not
 \begin_inset Formula $\sigma$
 \end_inset
 
-expresses not only the daily inherent variability in energy consumption
+ expresses not only the daily inherent variability in energy consumption
  of the building: it also includes measurement errors.
  Since the oil consumption has been measured with two completely different
  methods before and after the retrofit, we prefer to treat 
@@ -1762,11 +1746,15 @@ key "Lindelof2016"
 \begin_inset Formula $\rho=K_{\text{post}}/K_{\text{pre}}$
 \end_inset
 
- can be drawn by sampling pairs of 
-\begin_inset Formula $\{$
+ can be made by drawing random pairs of 
+\begin_inset Formula $\{\kpre,\kpost\}$
 \end_inset
 
-from this pdf
+ values from this pdf and looking at the distribution of 
+\begin_inset Formula $\rho$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -1800,8 +1788,8 @@ reporting
 \emph default
  period).
  Unlike traditional IPMVP projects, this pilot building is challenging because
- daily oil consumption readouts were available only after the installation
- of the NOL
+ daily oil consumption readouts from oil meters were available only after
+ the installation of the NOL
 \begin_inset script superscript
 
 \begin_layout Plain Layout
@@ -1814,43 +1802,6 @@ a
  The energy savings must therefore be derived from heterogenous sources
  of data: manual oil level readouts before the installation, and automated
  daily oil readouts after.
- Traditional analysis methods have trouble dealing with such situations,
- especially for estimating a building's base temperature from historic utility
- bills.
- We have developed a method based on Bayesian statistical methods, that
- can deal with such data and derive the heat loss coefficient before and
- after the installation.
- The details are out of scope of this report, but the full method is described
- in a paper submitted for publication in an upcoming issue of Energy & Buildings
-, and recently accepted pending minor revisions.
- The algorithm has been implemented as the 
-\begin_inset Flex Code
-status open
-
-\begin_layout Plain Layout
-bhm()
-\end_layout
-
-\end_inset
-
- function in Neurobat's 
-\begin_inset Flex Code
-status open
-
-\begin_layout Plain Layout
-homeR
-\end_layout
-
-\end_inset
-
- R package, freely available from CRAN 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "homeR"
-
-\end_inset
-
- .
 \end_layout
 
 \begin_layout Subsection
@@ -1866,7 +1817,15 @@ key "meteosuisse2016"
 \end_inset
 
 , who provides a file with average daily temperatures measured in Bad Ragaz
- (about 6 km from Sargans) and Vaduz (about 10 km).
+ (about 6
+\begin_inset space \thinspace{}
+\end_inset
+
+km from Sargans) and Vaduz (about 10
+\begin_inset space \thinspace{}
+\end_inset
+
+km).
  The relative positions of the pilot building in Sargans and of the Bad
  Ragaz and Vaduz weather stations are shown in Fig.
 \begin_inset space ~
@@ -1905,8 +1864,8 @@ reference "fig:ClimateScatterPlot"
 \end_inset
 
 .
- There are no obvious differences between the two weather stations.
- From here onwards, we use the data from Bad Ragaz.
+ Since there are no obvious differences between the two weather stations
+ we use from now on the data from Bad Ragaz.
  
 \end_layout
 
