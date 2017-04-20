@@ -16,7 +16,7 @@
 \usepackage{hyperref}
 \usepackage{url}
 \end_preamble
-\options 3p, sort&compress
+\options 5p, sort&compress
 \use_default_options false
 \begin_modules
 theorems-std
@@ -44,7 +44,7 @@ logicalmkup
 \bibtex_command bibtex
 \index_command default
 \paperfontsize default
-\spacing double
+\spacing single
 \use_hyperref false
 \pdf_bookmarks false
 \pdf_bookmarksnumbered false
@@ -1937,8 +1937,8 @@ status open
 
 <<ClimatePlot, fig.cap="Historic outdoor temperature measured at nearby weather
  stations.
- There is no obvious disagreement between the stations.", fig.width=5, fig.height=3
->>=
+ There is no obvious disagreement between the stations.", fig.width=3.5, fig.height=
+3>>=
 \end_layout
 
 \begin_layout Plain Layout
@@ -1978,13 +1978,13 @@ status open
 \begin_layout Plain Layout
 
 <<ClimateScatterPlot, fig.cap="Comparison of Bad Ragaz and Vaduz temperatures.",
- fig.width=4>>=
+ fig.width=3.5>>=
 \end_layout
 
 \begin_layout Plain Layout
 
-ggplot(climate.wide, aes(`Bad Ragaz`, Vaduz)) + geom_point(size = 1) + coord_fixe
-d() 
+ggplot(climate.wide, aes(`Bad Ragaz`, Vaduz)) + geom_point(alpha = 0.5, size
+ = 1) + coord_fixed() 
 \end_layout
 
 \begin_layout Plain Layout
@@ -2263,21 +2263,26 @@ print(xtable(transform(oilReadingsDf, Date = as.character(Date)),
 \end_layout
 
 \begin_layout Standard
-There are log entries (for example 2012-05-02) when one tank was filled
+There are log entries (for example on 2 May 2012) when one tank was filled
  without recording its level before the refill.
  In such instances it is impossible to know how much oil was used during
  the preceding period.
- We therefore restrict this data to the 12 periods 
-\emph on
-during which neither tank level increased
-\emph default
-.
+ We therefore restrict this data to the 12 periods during which neither
+ tank level increased.
 \end_layout
 
 \begin_layout Standard
-Each period is matched with its historic weather data, yielding a list of
- mean daily outdoor temperatures for each day of that period.
- We obtain the following:
+Each period is matched with its historic weather data, yielding for each
+ period a list of mean daily outdoor temperatures, each list as long as
+ the period.
+ We obtain the data shown in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:oilperiods"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -2471,7 +2476,7 @@ oilConsumptionPeriodsTable <-
 
 \begin_layout Plain Layout
 
-    xtable()
+    xtable(label="tab:oilperiods")
 \end_layout
 
 \begin_layout Plain Layout
@@ -2539,7 +2544,7 @@ status open
 
 \begin_layout Plain Layout
 
-goodPeriods <- with(oilConsumptionPeriods[-c(5, 6), ],
+goodPeriods <- with(oilConsumptionPeriods,
 \end_layout
 
 \begin_layout Plain Layout
@@ -2554,7 +2559,21 @@ goodPeriods <- with(oilConsumptionPeriods[-c(5, 6), ],
 
 \begin_layout Plain Layout
 
-                      		When = "PRE"))
+                      		When = "PRE",
+\end_layout
+
+\begin_layout Plain Layout
+
+							  Good = TRUE))
+\end_layout
+
+\begin_layout Plain Layout
+
+goodPeriods$Good[c(5, 6)] <- FALSE
+\end_layout
+
+\begin_layout Plain Layout
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -2569,12 +2588,27 @@ goodPeriods <- with(window(dailyOil, start = "2016-04-01"),
 
 \begin_layout Plain Layout
 
-                  		data.frame(Oil = Oil, DailyMeans = MeanTemp, When = "POST")))
+                  		data.frame(Oil = Oil,
 \end_layout
 
 \begin_layout Plain Layout
 
-goodPeriods <- goodPeriods[rownames(goodPeriods) != "2016-04-06",]
+									 DailyMeans = MeanTemp,
+\end_layout
+
+\begin_layout Plain Layout
+
+									 When = "POST",
+\end_layout
+
+\begin_layout Plain Layout
+
+									 Good = TRUE)))
+\end_layout
+
+\begin_layout Plain Layout
+
+goodPeriods$Good[rownames(goodPeriods) == "2016-04-06"] <- FALSE
 \end_layout
 
 \end_inset
@@ -2588,8 +2622,8 @@ status open
 
 \begin_layout Plain Layout
 
-fit.before <- bhm(Oil ~ DailyMeans, subset(goodPeriods, When == "PRE"), baseLoad
- = 0)
+fit.before <- bhm(Oil ~ DailyMeans, subset(goodPeriods, When == "PRE" & Good),
+ baseLoad = 0)
 \end_layout
 
 \begin_layout Plain Layout
@@ -2623,8 +2657,8 @@ sigmaPre <- coef(fit.before)['sigma']
 
 \begin_layout Plain Layout
 
-fit.after <- bhm(Oil ~ DailyMeans, subset(goodPeriods, When == "POST"), baseLoad
- = 0)
+fit.after <- bhm(Oil ~ DailyMeans, subset(goodPeriods, When == "POST" & Good),
+ baseLoad = 0)
 \end_layout
 
 \begin_layout Plain Layout
@@ -2673,16 +2707,16 @@ From 2013-06-17 to 2013-08-15 (59 days): 5500 L, or about 100 L per day
 
 \begin_layout Standard
 The building's base temperature and heat loss coefficient are estimated
- from this data using our method.
+ from this data.
  We obtain 
-\begin_inset Formula $t_{\text{b}}=\Sexpr{p(baseTempPre)}\pm\Sexpr{p(deltaBaseTempPre)}$
+\begin_inset Formula $\tb=\Sexpr{p(baseTempPre)}\pm\Sexpr{p(deltaBaseTempPre)}$
 \end_inset
 
  C, and 
 \begin_inset Formula $K_{\mathrm{pre}}=\Sexpr{p(Kpre)}\pm\Sexpr{p(deltaKpre)}$
 \end_inset
 
- L/C.
+ L/K.
 \end_layout
 
 \begin_layout Standard
@@ -2704,7 +2738,14 @@ reference "fig:OilVsDD"
 \end_inset
 
 , where for comparison we do the same with degree days calculated with different
- official standards.
+ official standards 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "ashrae2013,CTG075"
+
+\end_inset
+
+ .
  The Bayesian method yields the best results.
  The relationship between the oil consumption and the degree days using
  the estimated base temperature is satisfactorily linear, with the exception
@@ -2773,7 +2814,7 @@ before.dd.long <- melt(before.dd,
 
 \begin_layout Plain Layout
 
-	id.vars = "Oil", 
+	id.vars = c("Oil", "Good"), 
 \end_layout
 
 \begin_layout Plain Layout
@@ -2814,7 +2855,11 @@ before.rsq$label <- format(before.rsq$V1, di = 3)
 
 \begin_layout Plain Layout
 
-ggplot(before.dd.long, aes(`Degree days`, Oil)) +
+\end_layout
+
+\begin_layout Plain Layout
+
+ggplot(before.dd.long, aes(`Degree days`, Oil, shape = Good)) +
 \end_layout
 
 \begin_layout Plain Layout
@@ -2829,13 +2874,15 @@ ggplot(before.dd.long, aes(`Degree days`, Oil)) +
 
 \begin_layout Plain Layout
 
-	geom_smooth(method = "lm", formula = y ~ x, se = FALSE) + 
+	geom_smooth(method = "lm", data = subset(before.dd.long, Good), formula =
+ y ~ x, se = FALSE) + 
 \end_layout
 
 \begin_layout Plain Layout
 
 	geom_text(data = before.rsq, aes(1200, 2500, label = paste("italic(R)^2=='",
- label, "'"), hjust = 0), parse = TRUE, size = rel(3)) +
+ label, "'"), hjust = 0), parse = TRUE, size = rel(3), inherit.aes = FALSE)
+ +
 \end_layout
 
 \begin_layout Plain Layout
