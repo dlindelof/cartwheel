@@ -1,6 +1,6 @@
 %% LyX 2.2.0 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
-\documentclass[twoside,english,5p, sort&compress]{elsarticle}
+\documentclass[twoside,english,review, sort&compress]{elsarticle}
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
 \pagestyle{headings}
@@ -98,7 +98,7 @@ model-predictive controller for space heating for a medium-sized office
 building in Switzerland. The baseline was established from historic
 oil tank refill records. 55 days after installing the controller,
 the energy efficiency improvement of the building was assessed and
-found to have improved by 26.8\%, with 18.4 percentage points standard
+found to have improved by 33.1\%, with 19.0 percentage points standard
 error. 
 \end{abstract}
 \begin{keyword}
@@ -225,8 +225,8 @@ during the M\&V Planning process.
 
 \subsection{Recent assessments}
 
-A Scopus search for the ``IPMVP'' term in a document's title, abstract
-or keywords, limited to publication date from 2010 to present, yields
+A Scopus search for ``IPMVP'' in a document's title, abstract or
+keywords, limited to publication date from 2010 to present, yields
 37 documents. Of these, just 3 study the energy efficiency of an ECM
 without resorting to computer simulation:
 \begin{itemize}
@@ -243,7 +243,7 @@ AHU each. The energy savings were determined by simulation and by
 retrofitting one room while leaving another one unchanged. Both approaches
 yielded roughly 30\% energy savings on the heating coil's consumption,
 but the simulation underestimated by a factor 5 the savings on the
-fans' electrical consumption\citet{Ginestet2010}. 
+fans' electrical consumption\citep{Ginestet2010}. 
 \item A large-scale government-sponsored program offering rebates to home
 owners for increasing the energy efficiency of new and existing homes
 by at least 30\%. Nearly 12\,000 households participated during the
@@ -252,7 +252,7 @@ that participated in 2003. The baseline was established as a linear
 model in HDD, CDD, relative humidity and energy price on 52 households
 out of the 730 households that participated in 2003. An average of
 172 kWh annual energy savings was found, with monetary annual savings
-ranging from -\$515 to \$530\citet{Kaiser2010}. 
+ranging from -\$515 to \$530\citep{Kaiser2010}. 
 \end{itemize}
 Other examples of retrofit assessments found in the literature include:
 \begin{itemize}
@@ -517,12 +517,20 @@ The historic weather data (going back to 2011) is obtained from \citet{meteosuis
 who provides a file with average daily temperatures measured in Bad
 Ragaz (about 6\,km from Sargans) and Vaduz (about 10\,km). The relative
 positions of the pilot building in Sargans and of the Bad Ragaz and
-Vaduz weather stations are shown in Fig.~\ref{fig:stations} in the
-Appendix. The data from the stations is shown against time in Fig.~\ref{fig:ClimatePlot}.
+Vaduz weather stations are shown in the map in Fig.~\ref{fig:stations}.
+The data from the stations is shown against time in Fig.~\ref{fig:ClimatePlot}.
 A scatterplot of the temperatures from Bad Ragaz against those from
 Vaduz is shown in Fig.~\ref{fig:ClimateScatterPlot}. Since there
 are no obvious differences between the two weather stations we use
 from now on the data from Bad Ragaz. 
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=1\columnwidth]{img/map}
+\par\end{centering}
+\caption{Sargans region, including the Bad Ragaz and Vaduz weather stations}
+\label{fig:stations}
+\end{figure}
 
 <<>>=
 climate2 <- read.table("data/RAD_VAD.txt",
@@ -645,8 +653,9 @@ oilConsumptionPeriodsTable <-
     dplyr::select(-meanTemps) %>%
     dplyr::mutate(from = as.character(from)) %>%
     dplyr::mutate(to = as.character(to)) %>%
-    dplyr::rename(From = from, To = to, "Oil [L]" = oil, Days = nDays, "Avg. temp. [C]" = meanTemp) %>%
-    xtable(label="tab:oilperiods")
+    dplyr::mutate(meanCnsmptn = oil / as.numeric(nDays)) %>%
+    dplyr::rename(From = from, To = to, "Oil [L]" = oil, Days = nDays, "Avg. daily cons. [L]" = meanCnsmptn, "Avg. temp. [C]" = meanTemp) %>%
+    xtable(caption = "Usable pre-retrofit consumption periods", label = "tab:oilperiods", digits = c(0, 0, 0, 0, 0, 1, 1))
 print(oilConsumptionPeriodsTable, include.rownames = FALSE)
 @
 
@@ -722,7 +731,7 @@ linear, with the exception of the two outliers identified above (not
 plotted), and possibly a third point with 2300 liters of oil for about
 750 degree days. 
 
-<<OilVsDD, fig.cap="Oil consumption vs heating degree days, calculated with different base temperatures. The Bayesian base temperature yields the highest coefficient of determination $R^2$, showing that it fits the data best.">>=
+<<OilVsDD, fig.cap="Oil consumption vs heating degree days, calculated with different base temperatures. Solid circles indicate the two records that have been excluded from the analysis. The Bayesian base temperature yields the highest coefficient of determination $R^2$, showing that it fits the data best.">>=
 pos <- function(x) pmax(0, x)
 DD <- function(dailyTemps, base) sum(pos(base - dailyTemps))
 before.dd <- subset(goodPeriods, When == "PRE")
@@ -746,7 +755,8 @@ ggplot(before.dd.long, aes(`Degree days`, Oil, shape = Good)) +
 	facet_wrap(~ Base) +
 	geom_smooth(method = "lm", data = subset(before.dd.long, Good), formula = y ~ x, se = FALSE) + 
 	geom_text(data = before.rsq, aes(1200, 2500, label = paste("italic(R)^2=='", label, "'"), hjust = 0), parse = TRUE, size = rel(3), inherit.aes = FALSE) +
-	ylab("Oil [L]")
+	ylab("Oil [L]") +
+    theme(legend.position = "none", panel.spacing = unit(0, "lines"))
 @
 
 \subsection{Reporting period}
@@ -813,50 +823,48 @@ savingsPercent <- 100 * (1 - rho)
 savingsError <- 100 * Drho
 @
 
-The increase in energy efficiency resulting from the NOL\textsuperscript{a}
-installation can now be evaluated, defined as $\rho=(1-K_{\mathrm{post}}/K_{\mathrm{pre}})$.
-From a Bayesian point of view, $\rho$ is a function of two random
-variables $\kpre$ and $\kpost$ and we need its pdf. This can be
-estimated from random draws of $\kpre$ and $\kpost$, evaluating
+The increase in energy efficiency (and its uncertainty) resulting
+from the NOL\textsuperscript{a} installation can now be evaluated,
+defined as $\rho=(1-K_{\mathrm{post}}/K_{\mathrm{pre}})$. From a
+Bayesian point of view, $\rho$ is a function of two random variables
+$\kpre$ and $\kpost$ and we need its pdf. This can be estimated
+from random draws from the pdfs of $\kpre$ and $\kpost$, evaluating
 $\rho$, and evaluating values of interest such as the mean value,
 standard deviation, and so on. 
 
-But our Bayesian method does not compute point estimates; instead,
-it computes how \emph{probable} the energy savings are given the data;
-or rather, it computes the \emph{probability density} for each possible
-value of those savings. A histogram of that probability density is
-shown in Fig.~\ref{fig:RhoDensity}. The majority of that histogram
-is positive, indicating positive energy savings. Any statement about
-the energy savings can now be made with its associated confidence.
-For example, 75\% of the mass of this histogram lies to the right
-of 14\% energy savings; this can be reported by saying that the energy
-savings are at least 14\% with 75\% probability. The `best' estimate
-of the final energy savings is obtained by finding the narrowest range
-of energy savings such that they encompass $N$\% of the mass of the
-histogram, also known as the $N$\% credible interval, for any desired
-value for $N$. Since one standard error of a normal distribution
-corresponds to a 67\% credible interval, we will report the energy
-savings with the same value for $N$. We obtain:
+A histogram of that probability density is shown in Fig.~\ref{fig:RhoDensity}.
+The majority of that histogram is positive, indicating positive energy
+savings. Any statement about the energy savings can now be made with
+its associated confidence. For example, 75\% of the mass of this histogram
+lies to the right of 14\% energy savings; this can be reported by
+saying that the energy savings are at least 14\% with 75\% probability.
+The `best' estimate of the final energy savings is obtained by finding
+the narrowest range of energy savings such that they encompass $N$\%
+of the mass of the histogram, also known as the $N$\% credible interval,
+for any desired value for $N$. Since one standard error of a normal
+distribution corresponds to a 67\% credible interval, we will report
+the energy savings with the same value for $N$. We obtain:
 \begin{center}
-Relative savings = $\Sexpr{p(savingsPercent)}\pm\Sexpr{p(savingsError)}$
+Relative savings {[}\%{]} = $\Sexpr{p(savingsPercent)}\pm\Sexpr{p(savingsError)}$
 (67\% credible interval).
 \par\end{center}
 
-An uncertainty of $\Sexpr{p(savingsError)}$\% may sound large and
-it is tempting to try and reduce that error by letting the experiment
-run longer. But letting the experiment run longer will only reduce
-the error on the post-installation heat loss coefficient $K_{\text{post}}$;
-there is nothing we can do about the error on the pre-installation
-heat loss coefficient $K_{\text{pre}}$, which dominates the total
-error on the final energy savings. The absolute error on the savings,
-which are equal to the absolute error on $\rho$, have a lower limit
-given by the relative error on $K_{\text{pre}}$: $\Delta\rho\geq\rho\times\Delta K_{\text{pre}}/K_{\text{pre}}$.
-In our case, $\rho=\Sexpr{p(rho)}$, $\Delta K_{\text{pre}}=\Sexpr{p(sd(m[,'Kpre']))}$,
+An uncertainty of $\Sexpr{p(savingsError)}$ percentage points may
+sound large and it is tempting to try and reduce that error by letting
+the experiment run longer. But letting the experiment run longer will
+only reduce the error on the post-installation heat loss coefficient
+$K_{\text{post}}$; there is nothing we can do about the error on
+the pre-installation heat loss coefficient $K_{\text{pre}}$, which
+dominates the total error on the final energy savings. The absolute
+error on the savings, which are equal to the absolute error on $\rho$,
+have a lower limit given by the relative error on $K_{\text{pre}}$:
+$\Delta\rho\geq\rho\times\Delta K_{\text{pre}}/K_{\text{pre}}$. In
+our case, $\rho=\Sexpr{p(rho)}$, $\Delta K_{\text{pre}}=\Sexpr{p(sd(m[,'Kpre']))}$,
 $K_{\text{pre}}=\Sexpr{p(mean(m[,'Kpre']))}$ and therefore $\Delta\rho\geq\Sexpr{p(mean(m[,'Kpost']/m[,'Kpre'])*sd(m[,'Kpre'])/mean(m[,'Kpre']))}$,
-very close to the current uncertainty of $\Sexpr{p(savingsError)}$\%.
-After $\Sexpr{nrow(subset(goodPeriods,When='POST'))}$ days of measurements
-after the installation, our accuracy is almost as good as it will
-ever get. 
+very close to the current uncertainty of $\Sexpr{p(savingsError)}$
+percentage points. After $\Sexpr{nrow(subset(goodPeriods,When='POST'))}$
+days of measurements after the installation, our accuracy is almost
+as good as it will ever get. 
 
 <<RhoDensity, fig.cap="Probability density distribution for the relative energy savings in percent. The red line indicates the best estimate and the blue bars indicate the 67\\% credible interval.">>=
 q <- qplot(100 * m[, 'savings'], y = ..density.., geom = "histogram", xlab = "Relative energy savings [\\%]", ylab = "Probability density")
@@ -867,20 +875,32 @@ q +
   xlim(-100, 100)
 @
 
-With this probability density one can answer any question about the
-energy savings on that building, such as \textquotedbl{}What are the
-most likely energy savings?\textquotedbl{}, \textquotedbl{}What energy
-savings can I expect on average?\textquotedbl{}, or \textquotedbl{}How
-likely am I to achieve energy savings of at least 20\%?\textquotedbl{}.
-The latter kind of questions are answered in Table~\ref{tab:probs},
-showing, for any level of energy savings, how likely one is to achieve
-at least that level. 
+The magnitude of the estimated energy savings is comparable with the
+uncertainty surrounding them. From a strict interpretation of the
+IPMVP text, the energy savings would not be considered statistically
+significant. But a glance at Fig.~\ref{fig:RhoDensity} makes it
+clear that the energy savings are more likely to be positive than
+not. A single point estimate with uncertainty strikes us as inadequate
+to convey all the information that's been drawn from the data. On
+the other hand, displaying probability density functions to decision
+makers is probably not a better idea. Instead, we suggest using this
+probability density to answer any question about the energy savings
+on that building, such as ``What are the most likely energy savings?'',
+``What energy savings can I expect on average?'', or ``How likely
+am I to achieve energy savings of at least 20\%?''. The latter kind
+of questions are answered by the pdf's cumulative distribution function.
+For example, Table~\ref{tab:probs} shows for any level of energy
+savings, how likely one is to achieve at least that level on this
+building. It is essentially a table of cumulative distribution values.
 
 <<results='asis'>>=
 savingsProbability <- data.frame(Savings = seq(0, 40, by = 5))
 savingsProbability$Probability <- 100 * (1 - rhocdf(savingsProbability$Savings / 100))
 names(savingsProbability) <- c("Savings [%]", "Probability [%]")
-print(xtable(savingsProbability, label = "tab:probs", caption = "Probability that the true energy savings are higher than a given level."), include.rownames = FALSE, comment = FALSE)
+print(xtable(savingsProbability, 
+             label = "tab:probs",
+             digits = c(0, 0, 1),
+             caption = "Probability that the true energy savings are higher than a given level."), include.rownames = FALSE, comment = FALSE)
 @
 
 The following caveats should, however, be kept in mind:
@@ -888,69 +908,77 @@ The following caveats should, however, be kept in mind:
 \item We have assumed that the building's base temperature and heat loss
 coefficient have remained constant from 2011\textendash 2015.
 \item We have assumed that a linear relationship holds between the oil consumption
-and the average outdoor temperature post-installation, but the plot
-above suggests a good deal of variance that must be attributed to
-other factors than the outdoor temperature. We have anectodal evidence
-that this happens on other Neurobat-controlled sites. We conjecture
-that the solar irradiance plays a more important part in a building's
-energy signature when it is controlled by Neurobat than with a heating-curve
-based controller.
-\item Fig. suggests that the building's base temperature may have shifted
-upwards after the installation of the NOL\textsuperscript{a} systems.
-This happens when the temperature setpoint programmed on the NOL\textsuperscript{a}
-is higher than the average temperature kept by the original heating
-system. But historic indoor temperatures are rarely available, and
-the NOL\textsuperscript{a} installer relies on the temperature setpoint
-programmed on the original heating system\textemdash which can be
-very different from the temperature really desired by the user. This
-does not invalidate the above analysis, but the building manager should
-consider adjusting those setpoints to fully reap the energy savings.
+and the average outdoor temperature post-installation, but Fig.~\ref{fig:Signature}
+suggests a good deal of variance that must be attributed to other
+factors than the outdoor temperature, perhaps the solar irradiance.
+\item Fig.~\ref{fig:Signature} also suggests that the building's base
+temperature may have shifted upwards after the installation of the
+NOL\textsuperscript{a} system. This happens when the temperature
+set point programmed on the NOL\textsuperscript{a} is higher than
+the average temperature kept by the original heating system. But historic
+indoor temperatures are rarely available, and the NOL\textsuperscript{a}
+installer relies on the temperature set point programmed on the original
+heating system\textemdash which can be very different from the temperature
+really desired by the user. This does not invalidate the above analysis,
+but the building manager should consider adjusting those set points
+to fully reap the energy savings.
 \end{itemize}
-
-\section{Discussion}
 
 \section{Conclusion}
 
-Model-predictive control of space heating has reduced the oil consumption
-of the Sargans building by almost a third\textemdash the equivalent
-of having walls about 40\% thicker, at a fraction of the cost of traditional
-insulation. According to the building's Object Manager, the users
-are satisfied with the comfort provided by NOL\textsuperscript{a}
-and has received no complaints, whether from tenants or employees.
+Upgrading the heating control system of the building in Sargans has
+lowered the total heat loss coefficient of that building by $\Sexpr{p(savingsPercent)}\pm\Sexpr{p(savingsError)}${[}\%{]}.
+This estimate was obtained by fitting a probability model to the pre-
+and post-retrofit oil consumption data, whose parameters include the
+building's total heat loss coefficient and its base temperature. This
+probability model yielded a probability density function in all the
+building's parameters, from which the energy savings were estimated
+by repeated draws of the pre- and post-retrofit heat loss coefficients.
 
-This pilot installation has satisfactorily demonstrated the potential
-of the Neurobat technology for non-residential buildings, where several
-heating circuits, fed by the same boiler, need to be optimised simultaneously. 
+We have used a Bayesian analysis framework throughout this analysis
+and found it superior to its classical counterpart on at least three
+points:
+\begin{itemize}
+\item its ability to handle a complex probability model, such as the one
+relating the daily energy consumption to the mean outdoor temperature
+\item its ability to take into account data from very different sources
+(pre-retrofit manual entries and post-retrofit automated daily readouts)
+\item the clear interpretability (and communicability) of its results
+\end{itemize}
+Because of this choice, we were able to avoid a costly pre-retrofit
+period of measurements. The owner of the building was aware that the
+precision of the energy savings was going to be limited by the accuracy
+of the pre-retrofit manual readouts, but appreciated the efforts made
+to communicate them in a way easy to understand for decision-makers.
+
+Not all buildings will enjoy the luxury of automated energy consumption
+readouts, however, and it is likely that future projects will have
+no choice but to rely on manual readouts both before and after the
+retrofit. The Bayesian framework will likely be able to handle these
+situations, but with an interesting twist: it will probably be possible
+to pool both the pre- and post-retrofit data to better estimate the
+daily energy consumption variability, which we did not do because
+the data acquisition methods were completely different.
+
+Another vexing point concerns the apparent shift in the building's
+base temperature. Some shift is probably inevitable due to a change
+in the average indoor temperature, but can the entire shift be entirely
+attributed to the indoor temperature alone? Or is there something
+inherent in the new control system that also shifts that base temperature?
+This too remains an interesting open question.
 
 \section*{Appendix}
 
-\subsection*{Map of the Sargans area}
+A photograph of the original, manual oil level readouts is shown in
+Fig.~\ref{fig:readouts}.
 
-The map in Fig.~\ref{fig:stations} shows the location of Sargans
-and of the closest weather stations in Bad Ragaz and Vaduz.
-
-\begin{figure}
+\begin{figure*}
 \begin{centering}
-\includegraphics[width=0.8\textwidth]{img/map}
-\par\end{centering}
-\caption{Relative positions of Sargans and the two weather stations}
-\label{fig:stations}
-
-\end{figure}
-
-
-\subsection*{Original oil readouts}
-
-Fig.~\ref{fig:readouts} shows the original oil readouts, from which
-the pre-installation energy performance was derived.
-
-\begin{figure}
-\begin{centering}
-\includegraphics[width=0.8\textwidth]{img/oil}
+\includegraphics[width=1\linewidth]{img/oil}
 \par\end{centering}
 \caption{The original manual oil level readouts}
 \label{fig:readouts}
-\end{figure}
+\end{figure*}
 
 \noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
 \settowidth{\nomlabelwidth}{ECM}
