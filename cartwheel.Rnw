@@ -1,6 +1,6 @@
 %% LyX 2.2.0 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
-\documentclass[twoside,english,review, sort&compress]{elsarticle}
+\documentclass[twoside,english,5p, sort&compress]{elsarticle}
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
 \pagestyle{headings}
@@ -94,12 +94,12 @@ the post-retrofit energy savings and report them together with suitable
 confidence intervals.
 
 We have applied this method after installing, in March 2016, a commercial
-model-predictive controller for space heating for a medium-sized office
-building in Switzerland. The baseline was established from historic
-oil tank refill records. 55 days after installing the controller,
-the energy efficiency improvement of the building was assessed and
-found to have improved by 33.1\%, with 19.0 percentage points standard
-error. 
+model-predictive controller for space heating for a medium-sized (about
+2\,700\,m\textsuperscript{2}) office building in Switzerland. The
+baseline was established from historic oil tank refill records. The
+energy efficiency of the building was assessed again 55 days after
+the installation and found to have improved by 33.1\%, with 19.0 percentage
+points standard error. 
 \end{abstract}
 \begin{keyword}
 Bayesian inference \sep heating degree-days\sep base temperature\sep
@@ -154,15 +154,15 @@ well spent\textemdash an activity known as Measurement \& Verification
 (M\&V).
 
 This is a recurring problem for large companies in Switzerland that
-have publicly committed to reducing their greenhouse gas emissions.
-The majority of these emissions can be traced to large portfolios
-of legacy buildings \citep{BFE2013b}, in particular to the fossil
-fuels used for heating. Reducing the heating energy for legacy buildings
-(while maintaining user comfort) will help such companies achieve
-their objectives\textemdash provided those energy savings can be proven.
-Given a choice between ECMs, a facility manager will frequently favor
-those perceived as being of relatively low-risk, even when their effectiveness
-might be less attractive.
+have publicly committed to specific goals for reducing their greenhouse
+gas emissions. The majority of these emissions can be traced to large
+portfolios of legacy buildings \citep{BFE2013b}, in particular to
+the fossil fuels used for heating. Reducing the heating energy for
+legacy buildings (while maintaining user comfort) will help such companies
+achieve their objectives\textemdash provided those energy savings
+can be proven. Given a choice between ECMs, a facility manager will
+frequently favor those perceived as being of relatively low-risk,
+even when their effectiveness might be less attractive.
 
 But doing M\&V well is hard. Many factors influence the energy consumption
 of a building, and they must be accounted for before and after the
@@ -192,18 +192,20 @@ accuracy and confidence.
 \subsection{The International Performance Measurement and Verification Protocol}
 
 The International Performance Measurement and Verification Protocol
-\citep{evo2012} is a widely recognized framework for conducting M\&V
-projects. It provides a set of guidelines and documents common terms
-and methods for such projects. Energy savings are to be determined
+(IPMVP) \citep{evo2012} is a widely recognized framework for conducting
+M\&V projects. It provides a set of guidelines and documents common
+terms and methods for such projects. Energy savings are to be determined
 by first establishing the building's pre-retrofit baseline energy
 demand. After the installation, the energy demand is measured again,
 resulting in a so-called reporting period demand. Energy savings are
 calculated from the difference between the basline and reporting period
 demand, taking into account external factors that influence the energy
 demand:
-\[
-\text{Savings}=(\text{Baseline-period demand - Reporting-period demand)}\pm\text{Adjustments}
-\]
+\begin{align*}
+\text{Savings} & =\text{Baseline-period demand}\\
+ & \quad\phantom{}-\text{Reporting-period demand}\\
+ & \quad\phantom{}\pm\text{Adjustments}
+\end{align*}
  The IPMVP leaves no doubt on the need for quantifiable uncertainties:
 \begin{quote}
 In order to communicate savings in a statistically valid manner, savings
@@ -266,16 +268,16 @@ utility bills.
 whose HVAC equipment was retrofitted. The baseline period ran from
 September 2007 to August 2008, and the reporting period from May 2009
 to April 2010. The energy consumption was normalised to the outdoor
-temperature, and annual electricity savings was reduced by 3\,853\,625\,kWh,
+temperature, and annual electricity consumption was reduced by 3\,853\,625\,kWh,
 although no uncertainty was reported for this extraordinarily precise
 figure \citep{Lin2015} .
 \item An analysis of the electric load of 17 office buildings, modeled as
 a piece-wise linear function of time of week and outdoor temperature,
 for the explicit purpose of establishing a baseline model. The novelty
-here consisted in using cross-validation to eatimate the uncertainty
+here consisted in using cross-validation to estimate the uncertainty
 in the baseline: the last month of baseline data was excluded from
 the model, and compared with the model's prediction. The difference
-is an estimate of the model's uncertainties\citet{Walter2014}.
+is an estimate of the model's uncertainties \citep{Walter2014}.
 \end{itemize}
 This short review suggests that even in an academic setting, the uncertainty
 on energy savings are frequently highly-dependent on the model \citep{Aris2015},
@@ -283,7 +285,7 @@ assume an arbitrary base temperature for HDD calculation \citep{Kaiser2010,Cohen
 or ignored \citep{Ginestet2010,Lin2015}. \citet{Walter2014} have
 proposed a method that is a step towards making energy savings uncertainty
 estimation more reliable, but they concede that the method is limited
-by amount of data available.
+by the amount of data available.
 
 In this paper we describe a method based on Bayesian data analysis,
 that will yield correct uncertainties no matter how much data is available.
@@ -291,19 +293,19 @@ that will yield correct uncertainties no matter how much data is available.
 \subsection{Present study}
 
 Swisscom, a leading Swiss telecommunications company, owns and operates
-about 16'000 buildings in Switzerland, of which about 950 are sales,
+about 1300 buildings in Switzerland, of which about 950 are sales,
 office, and non-production buildings. They are one of the largest
-building owner in Switzerland in number of buildings. Their yearly
+building owners in Switzerland in number of buildings. Their yearly
 energy bills for their buildings is estimated at CHF 70 million. They
 have publicly committed themselves to ``save double the amount of
-CO\textsubscript{2} generated by our entire operations and supply
-chain'' for themselves and their customers by 2020, and to ``increase
-our own energy efficiency by a further 35\% between 2016 and 2020''
-\citep{swisscom2016}. Like many major Swiss companies, their stock
-of buildings includes a majority of systems heated by non-renewable
-fuel. Energy conservation measures that help these buildings become
-more efficient are particularly attractive. In late 2015, a pilot
-study was started to evaluate the effectiveness of model-predictive
+CO\textsubscript{2} generated by {[}their{]} entire operations and
+supply chain'' for themselves and their customers by 2020, and to
+``increase {[}their{]} own energy efficiency by a further 35\% between
+2016 and 2020'' \citep{swisscom2016}. Like many major Swiss companies,
+their stock of buildings includes a majority of systems heated by
+non-renewable fuel. Energy conservation measures that help these buildings
+become more efficient are particularly attractive. In late 2015, a
+pilot study was started to evaluate the effectiveness of model-predictive
 control for space heating.
 
 A commercial adaptive model-predictive controller based on artificial
@@ -328,20 +330,19 @@ about the energy savings will be drawn in section \ref{sec:Results}.
 \section{Experimental building\label{sec:Experimental-building}}
 
 The Sargans building shown in Fig.~\ref{fig:composite} includes
-four heating circuits, covering about 2'700\textendash 2'800 m\textsuperscript{2},
+four heating circuits, covering about 2700\textendash 2800 m\textsuperscript{2},
 with heating water provided by an oil-fired boiler. The NOL\textsuperscript{a}
 system was installed in March 2016 on three of the four circuits,
 commonly referred to as Neubau, Büro, and Wohnung, the latter two
 belonging to the old part of the building (Altbau). The fourth circuit
 was deemed not to require optimisation, as the zone in question is
 kept relatively cool. The total surface covered by NOL\textsuperscript{a}
-is about 1'300\textendash 1'400 m\textsuperscript{2}.
+is about 1300\textendash 1400 m\textsuperscript{2}.
 
 The oil-fired boiler draws its fuel from two tanks and provides the
 heating water to all heating circuits. The levels in the tanks are
-recorded at irregular intervals, such as when either (or both) tank
-is refilled. The domestic hot water is provided by an independent
-circuit.
+recorded at irregular intervals, such as when a tank is refilled.
+The domestic hot water is provided by an independent circuit.
 
 The NOL\textsuperscript{a} system implements a model-predictive controller
 that regularly computes an optimal water supply temperature. It therefore
@@ -393,13 +394,14 @@ Q_{d}=K\times(\tb-\tout)^{+}+\mathcal{N}(0,\sigma^{2})
 \end{equation}
  where the base temperature $\tb$ of a building is defined as the
 outdoor temperature above which all heat losses are compensated by
-the sun and other free gains. This temperature generally depends on
-the indoor temperature's set point. The building's total heat loss
-coefficient $K$ is the quantity of extra heat required per day to
-maintain indoor comfort for each extra degree of cold. It is the most
-important metric when assessing the efficacy of a new heating control
-algorithm, because the base temperature $\theta_{\text{b}}$ should
-remain unaffected by a new control logic.
+the sun and other free gains, and $\tout$ is the average outdoor
+temperature on day $d$. The base temperature depends on the indoor
+temperature's set point. The building's total heat loss coefficient
+$K$ is the quantity of extra heat required per day to maintain indoor
+comfort for each extra degree of cold. It is the most important metric
+when assessing the efficacy of a new heating control algorithm, because
+the base temperature $\theta_{\text{b}}$ will only change with the
+indoor temperature set point.
 
 Over a period $p$ made up of $n_{p}$ days, the total heating load
 will be 
@@ -485,10 +487,13 @@ Putting it together formally, the task consists in establishing $p(\{K_{\text{pr
 where $D$ now stands for the union of the pre- and post-installation
 data $D_{\text{pre}}$ and $D_{\text{post}}$. If we assume that the
 parameters before and after the retrofit are independent, we have
-\begin{align*}
-p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}},K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D) & = & p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}}\}\mid D)\times p(\{K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D)\\
- & = & p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}}\}\mid D_{\text{pre}})\times p(\{K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D_{\text{post}})
-\end{align*}
+\begin{multline*}
+p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}},K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D)\\
+=p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}}\}\mid D)\\
+\shoveright{\times p(\{K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D)}\\
+=p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}}\}\mid D_{\text{pre}})\\
+\times p(\{K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D_{\text{post}})
+\end{multline*}
 where each term on the right-hand side can be computed by the method
 proposed by \citet{Lindelof2016}. Once we have the pdf on the left-hand
 side of the equation, inferences about $\rho=K_{\text{post}}/K_{\text{pre}}$
@@ -522,7 +527,9 @@ The data from the stations is shown against time in Fig.~\ref{fig:ClimatePlot}.
 A scatterplot of the temperatures from Bad Ragaz against those from
 Vaduz is shown in Fig.~\ref{fig:ClimateScatterPlot}. Since there
 are no obvious differences between the two weather stations we use
-from now on the data from Bad Ragaz. 
+from now on the data from Bad Ragaz. Sargans lies 483\,m above sea
+level, Bad Ragaz 496\,m, so we do not adjust the outdoor temperature
+for altitude.
 
 \begin{figure}
 \begin{centering}
@@ -731,7 +738,8 @@ linear, with the exception of the two outliers identified above (not
 plotted), and possibly a third point with 2300 liters of oil for about
 750 degree days. 
 
-<<OilVsDD, fig.cap="Oil consumption vs heating degree days, calculated with different base temperatures. Solid circles indicate the two records that have been excluded from the analysis. The Bayesian base temperature yields the highest coefficient of determination $R^2$, showing that it fits the data best.">>=
+<<OilVsDD, fig.cap="Oil consumption vs heating degree days, calculated with different base temperatures. Solid circles indicate the two records that have been excluded from the analysis. The Bayesian base temperature yields the highest coefficient of determination $R^2$, showing that it fits the data best.", fig.width=4>>=
+
 pos <- function(x) pmax(0, x)
 DD <- function(dailyTemps, base) sum(pos(base - dailyTemps))
 before.dd <- subset(goodPeriods, When == "PRE")
@@ -745,19 +753,26 @@ before.dd.long <- melt(before.dd,
 	measure.vars = c("Bayesian", "ASHRAE", "SIA 380:2015", "Carbon Trust", "SIA 381/3"),
 	variable.name = "Base",
     value.name = "Degree days")
-before.rsq <- ddply(before.dd.long, 
-	.(Base), 
-	function(x) summary(lm(Oil ~ `Degree days`, x))$r.squared) 
-before.rsq$label <- format(before.rsq$V1, di = 3)
+before.rsq <- before.dd.long %>%
+  dplyr::filter(Good) %>%
+  dplyr::group_by(Base) %>%
+  dplyr::do(model = lm(Oil ~ `Degree days`, data = .)) %>%
+  dplyr::mutate(rsq = summary(model)$r.squared,
+         K = coef(model)[2]) %>%
+  dplyr::select(-model)
+before.rsq$label <- format(before.rsq$rsq, di = 2)
+before.rsq$Klabel <- format(before.rsq$K, di = 2)
 
 ggplot(before.dd.long, aes(`Degree days`, Oil, shape = Good)) +
 	geom_point() +
 	facet_wrap(~ Base) +
 	geom_smooth(method = "lm", data = subset(before.dd.long, Good), formula = y ~ x, se = FALSE) + 
-	geom_text(data = before.rsq, aes(1200, 2500, label = paste("italic(R)^2=='", label, "'"), hjust = 0), parse = TRUE, size = rel(3), inherit.aes = FALSE) +
+	geom_text(data = before.rsq, aes(1100, 2500, label = paste("italic(K)=='", Klabel, "'"), hjust = 0), parse = TRUE, size = rel(3), inherit.aes = FALSE) +
+  geom_text(data = before.rsq, aes(1100, 1000, label = paste("italic(R)^2=='", label, "'"), hjust = 0), parse = TRUE, size = rel(3), inherit.aes = FALSE) +
 	ylab("Oil [L]") +
     theme(legend.position = "none", panel.spacing = unit(0, "lines"))
 @
+
 
 \subsection{Reporting period}
 
@@ -767,7 +782,7 @@ With this data we can correlate the oil consumption with the outdoor
 temperature on a daily basis, instead of having to wait until the
 next oil tank refill. That relationship is shown in Fig.~\ref{fig:Signature}. 
 
-<<Signature, fig.cap="Daily oil consumption vs daily average outdoor temperatures. A linear fit is shown with its confidence bands.">>=
+<<Signature, fig.cap="Daily oil consumption vs daily average outdoor temperatures. A linear fit is shown with its confidence bands. A second order coefficient was not statistically significant ($p=0.198$).">>=
 signature <- qplot(as.numeric(DailyMeans), 
 	Oil,
 	data = subset(goodPeriods, When == "POST"),
@@ -777,12 +792,13 @@ signature <- qplot(as.numeric(DailyMeans),
 signature
 @
 
-Each point in this plot represents one day, and we restrict the data
-to dates after 1st April 2016 when a mislabeling of the existing heating
-system was identified and corrected. The post-installation total heat
-loss coefficient $K_{\mathrm{post}}$ is the slope of the linear regression
-through these points, since each point represents one day of oil consumption
-and they all are lower than the base temperature. We obtain $K_{\mathrm{post}}=\Sexpr{p(Kpost)}\pm\Sexpr{p(deltaKpost)}$
+Each point in this plot represents one day between 1st April 2016,
+when a mislabeling of the existing heating system was identified and
+corrected, and 16 May 2016, just before the end of the heating season.
+The post-installation total heat loss coefficient $K_{\mathrm{post}}$
+is the slope of the linear regression through these points, since
+each point represents one day of oil consumption and they all are
+lower than the base temperature. We obtain $K_{\mathrm{post}}=\Sexpr{p(Kpost)}\pm\Sexpr{p(deltaKpost)}$
 L/C, or about 30\% less than the pre-installation total heat loss
 coefficient $K_{\mathrm{pre}}$.
 
@@ -966,6 +982,10 @@ in the average indoor temperature, but can the entire shift be entirely
 attributed to the indoor temperature alone? Or is there something
 inherent in the new control system that also shifts that base temperature?
 This too remains an interesting open question.
+
+\section*{Acknowledgements}
+
+Switzerland - Single Color by FreeVectorMaps.com
 
 \section*{Appendix}
 
