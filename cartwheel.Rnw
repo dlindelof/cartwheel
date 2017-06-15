@@ -487,13 +487,16 @@ Putting it together formally, the task consists in establishing $p(\{K_{\text{pr
 where $D$ now stands for the union of the pre- and post-installation
 data $D_{\text{pre}}$ and $D_{\text{post}}$. If we assume that the
 parameters before and after the retrofit are independent, we have
-\begin{multline*}
-p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}},K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D)\\
-=p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}}\}\mid D)\\
-\shoveright{\times p(\{K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D)}\\
-=p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}}\}\mid D_{\text{pre}})\\
-\times p(\{K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D_{\text{post}})
-\end{multline*}
+\begin{align*}
+p(\{K_{\text{pre}},\theta_{\text{b,pre}}, & \sigma_{\text{pre}},K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D)\\
+\begin{split}=\phantom{} & p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}}\}\mid D)\\
+ & \times p(\{K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D)
+\end{split}
+\\
+\begin{split}=\phantom{} & p(\{K_{\text{pre}},\theta_{\text{b,pre}},\sigma_{\text{pre}}\}\mid D_{\text{pre}})\\
+ & \times p(\{K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D_{\text{post}})
+\end{split}
+\end{align*}
 where each term on the right-hand side can be computed by the method
 proposed by \citet{Lindelof2016}. Once we have the pdf on the left-hand
 side of the equation, inferences about $\rho=K_{\text{post}}/K_{\text{pre}}$
