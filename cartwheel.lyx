@@ -2016,20 +2016,22 @@ climate.wide <- dcast(climate, Date ~ Station)
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
+\begin_inset Flex Chunk
 status open
 
 \begin_layout Plain Layout
 
-<<ClimatePlot, fig.cap="Historic outdoor temperature measured at nearby weather
- stations.
- There is no obvious disagreement between the stations.", fig.width=3.5, fig.height=
-3>>=
-\end_layout
+\begin_inset Argument 1
+status open
 
 \begin_layout Plain Layout
+ClimatePlot, fig.cap="Historic outdoor temperatures measured at Bad Ragaz.",
+ fig.width=3.5, fig.height=2
+\end_layout
 
-ggplot(climate, aes(Date, Temperature, color = Station)) +
+\end_inset
+
+ggplot(subset(climate, Station=='Bad Ragaz'), aes(Date, Temperature)) +
 \end_layout
 
 \begin_layout Plain Layout
@@ -2039,17 +2041,7 @@ ggplot(climate, aes(Date, Temperature, color = Station)) +
 
 \begin_layout Plain Layout
 
-	xlim(as.Date("2010-12-20"), as.Date("2016-04-30")) +
-\end_layout
-
-\begin_layout Plain Layout
-
-	theme(legend.position="top")
-\end_layout
-
-\begin_layout Plain Layout
-
-@
+	xlim(as.Date("2010-12-20"), as.Date("2016-04-30"))
 \end_layout
 
 \end_inset
@@ -2063,8 +2055,8 @@ status open
 
 \begin_layout Plain Layout
 
-<<ClimateScatterPlot, fig.cap="Comparison of Bad Ragaz and Vaduz temperatures.",
- fig.width=3.5>>=
+<<ClimateScatterPlot, fig.cap="Comparison between Bad Ragaz and Vaduz temperature
+s.", fig.width=3>>=
 \end_layout
 
 \begin_layout Plain Layout

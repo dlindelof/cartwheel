@@ -555,14 +555,13 @@ climate <- climate2
 climate.wide <- dcast(climate, Date ~ Station) 
 @
 
-<<ClimatePlot, fig.cap="Historic outdoor temperature measured at nearby weather stations. There is no obvious disagreement between the stations.", fig.width=3.5, fig.height=3>>=
-ggplot(climate, aes(Date, Temperature, color = Station)) +
+<<ClimatePlot, fig.cap="Historic outdoor temperatures measured at Bad Ragaz.", fig.width=3.5, fig.height=2>>=
+ggplot(subset(climate, Station=='Bad Ragaz'), aes(Date, Temperature)) +
 	geom_line() +
-	xlim(as.Date("2010-12-20"), as.Date("2016-04-30")) +
-	theme(legend.position="top")
+	xlim(as.Date("2010-12-20"), as.Date("2016-04-30"))
 @
 
-<<ClimateScatterPlot, fig.cap="Comparison of Bad Ragaz and Vaduz temperatures.", fig.width=3.5>>=
+<<ClimateScatterPlot, fig.cap="Comparison between Bad Ragaz and Vaduz temperatures.", fig.width=3>>=
 ggplot(climate.wide, aes(`Bad Ragaz`, Vaduz)) + geom_point(alpha = 0.5, size = 1) + coord_fixed() 
 @
 
