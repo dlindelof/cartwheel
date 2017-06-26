@@ -121,12 +121,18 @@ library(reshape2)
 library(xtable)
 library(zoo)
 
-theme_set(theme_bw())
+theme_set(theme_bw(base_size = 7))
+
+# Elsevier artwork sizes
+inches_per_cm = 0.3937
+single_column = 9 * inches_per_cm
+one_and_half_columns = 14 * inches_per_cm
+two_columns = 19 * inches_per_cm
 
 opts_chunk$set(error = FALSE, warning = FALSE, echo = FALSE, message = FALSE,
 			   results = 'hide',
-               dev = "tikz", dev.args = list(pointsize = 10),
-               fig.width = 3.5, fig.height = 3.5, fig.align = "center")
+               dev = "tikz",
+               fig.width = single_column, fig.height = single_column, fig.align = "center")
 
 p <- function(x) formatC(x, digits = 1, format = 'f') 
 @
@@ -723,7 +729,7 @@ day during summer
 \end{enumerate}
 The building's base temperature and heat loss coefficient are estimated
 from this data. We obtain $\tb=\Sexpr{p(baseTempPre)}\pm\Sexpr{p(deltaBaseTempPre)}$
-C, and $K_{\mathrm{pre}}=\Sexpr{p(Kpre)}\pm\Sexpr{p(deltaKpre)}$
+\textcelsius , and $K_{\mathrm{pre}}=\Sexpr{p(Kpre)}\pm\Sexpr{p(deltaKpre)}$
 L/K.
 
 Now that we have the building's base temperature, we can validate
@@ -740,7 +746,7 @@ linear, with the exception of the two outliers identified above (not
 plotted), and possibly a third point with 2300 liters of oil for about
 750 degree days. 
 
-<<OilVsDD, fig.cap="Oil consumption vs heating degree days, calculated with different base temperatures. Solid circles indicate the two records that have been excluded from the analysis. The Bayesian base temperature yields the highest coefficient of determination $R^2$, showing that it fits the data best.", fig.width=4>>=
+<<OilVsDD, fig.cap="Oil consumption vs heating degree days, calculated with different base temperatures. Unfilled circles indicate the two records that have been excluded from the analysis. The Bayesian base temperature yields the highest coefficient of determination $R^2$, suggesting that it fits the data best.", fig.width=one_and_half_columns, fig.height=4, fig.env="figure*">>=
 
 pos <- function(x) pmax(0, x)
 DD <- function(dailyTemps, base) sum(pos(base - dailyTemps))
@@ -762,17 +768,18 @@ before.rsq <- before.dd.long %>%
   dplyr::mutate(rsq = summary(model)$r.squared,
          K = coef(model)[2]) %>%
   dplyr::select(-model)
-before.rsq$label <- format(before.rsq$rsq, di = 2)
+before.rsq$label <- format(before.rsq$rsq, di = 3)
 before.rsq$Klabel <- format(before.rsq$K, di = 2)
 
-ggplot(before.dd.long, aes(`Degree days`, Oil, shape = Good)) +
-	geom_point() +
+ggplot(before.dd.long, aes(`Degree days`, Oil, fill = Good)) +
+	geom_point(shape = 21) +
+    scale_fill_manual(values = c("white", "black")) +
 	facet_wrap(~ Base) +
-	geom_smooth(method = "lm", data = subset(before.dd.long, Good), formula = y ~ x, se = FALSE) + 
+	geom_smooth(method = "lm", data = subset(before.dd.long, Good), formula = y ~ x, se = FALSE, color = "black") + 
 	geom_text(data = before.rsq, aes(1100, 2500, label = paste("italic(K)=='", Klabel, "'"), hjust = 0), parse = TRUE, size = rel(3), inherit.aes = FALSE) +
   geom_text(data = before.rsq, aes(1100, 1000, label = paste("italic(R)^2=='", label, "'"), hjust = 0), parse = TRUE, size = rel(3), inherit.aes = FALSE) +
 	ylab("Oil [L]") +
-    theme(legend.position = "none", panel.spacing = unit(0, "lines"))
+    theme(legend.position = "none", panel.spacing = unit(0, "lines"), aspect.ratio = 1)
 @
 
 
@@ -801,7 +808,7 @@ The post-installation total heat loss coefficient $K_{\mathrm{post}}$
 is the slope of the linear regression through these points, since
 each point represents one day of oil consumption and they all are
 lower than the base temperature. We obtain $K_{\mathrm{post}}=\Sexpr{p(Kpost)}\pm\Sexpr{p(deltaKpost)}$
-L/C, or about 30\% less than the pre-installation total heat loss
+L/K, or about 30\% less than the pre-installation total heat loss
 coefficient $K_{\mathrm{pre}}$.
 
 \section{Results\label{sec:Results}}
@@ -884,13 +891,9 @@ percentage points. After $\Sexpr{nrow(subset(goodPeriods,When='POST'))}$
 days of measurements after the installation, our accuracy is almost
 as good as it will ever get. 
 
-<<RhoDensity, fig.cap="Probability density distribution for the relative energy savings in percent. The red line indicates the best estimate and the blue bars indicate the 67\\% credible interval.">>=
+<<RhoDensity, fig.cap="Probability density distribution for the relative energy savings in percent.">>=
 q <- qplot(100 * m[, 'savings'], y = ..density.., geom = "histogram", xlab = "Relative energy savings [\\%]", ylab = "Probability density")
-q +
-  geom_vline(xintercept = savingsPercent, color = "red", lwd = 2) +
-  annotate("segment", x = savingsPercent - savingsError, xend = savingsPercent + savingsError,
-           y = 0.007, yend = 0.007, colour = "blue", lwd = 2, arrow = arrow(ends = "both", angle = 90, length = unit(.2, "cm"))) +
-  xlim(-100, 100)
+q + xlim(-100, 100)
 @
 
 The magnitude of the estimated energy savings is comparable with the
@@ -987,7 +990,14 @@ This too remains an interesting open question.
 
 \section*{Acknowledgements}
 
-Switzerland - Single Color by FreeVectorMaps.com
+We'd like to thank the following Swisscom employees for their help
+and support in this project: Res Witschi (Leiter Corporate Responsibility),
+Pascal Salina (Umweltmanagement Swisscom), and Stéphane Pralong (Owner's
+Representative). We're also grateful to our colleague Stefanie Langenstein
+for her meticulous review of early versions of this paper.
+
+The inset map of Switzerland in Fig.~\ref{fig:stations} is the ``Switzerland
+- Single Color'' vector map by FreeVectorMaps.com.
 
 \section*{Appendix}
 
@@ -996,7 +1006,7 @@ Fig.~\ref{fig:readouts}.
 
 \begin{figure*}
 \begin{centering}
-\includegraphics[width=1\linewidth]{img/oil}
+\includegraphics[width=90mm]{img/oil}
 \par\end{centering}
 \caption{The original manual oil level readouts}
 \label{fig:readouts}
