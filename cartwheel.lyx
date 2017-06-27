@@ -740,7 +740,15 @@ description "Energy Conservation Measure"
  on investment—and with what confidence.
  Moreover, once the measure has been applied, the owner will want to know
  how well it performs and whether their money was well spent—an activity
- known as Measurement & Verification (M&V).
+ known as Measurement & Verification (M&V
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "M\\&V"
+description "Measurement \\& Verification"
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Standard
@@ -834,8 +842,15 @@ The International Performance Measurement and Verification Protocol
 \end_layout
 
 \begin_layout Standard
-The International Performance Measurement and Verification Protocol (IPMVP)
- 
+The International Performance Measurement and Verification Protocol (IPMVP
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "IPMVP"
+description "International Performance Measurement and Verification Protocol"
+
+\end_inset
+
+) 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "evo2012"
@@ -958,7 +973,7 @@ key "Aris2015"
 
 \begin_layout Itemize
 Two near-identical 300-seat conference rooms retrofitted with a variable-flow
- AHU each.
+ air-handling unit each.
  The energy savings were determined by simulation and by retrofitting one
  room while leaving another one unchanged.
  Both approaches yielded roughly 30% energy savings on the heating coil's
@@ -984,11 +999,11 @@ A large-scale government-sponsored program offering rebates to home owners
 
 000 households participated during the 6 years of the program.
  The IPMVP protocol was tested on some households that participated in 2003.
- The baseline was established as a linear model in HDD, CDD, relative humidity
- and energy price on 52 households out of the 730 households that participated
- in 2003.
+ The baseline was established as a linear model in heating degree-days,
+ cooling degree-days, relative humidity and energy price on 52 households
+ out of the 730 households that participated in 2003.
  An average of 172 kWh annual energy savings was found, with monetary annual
- savings ranging from -$515 to $530
+ savings ranging from -$515 to $530 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Kaiser2010"
@@ -1093,7 +1108,8 @@ key "Aris2015"
 
 \end_inset
 
-, assume an arbitrary base temperature for HDD calculation 
+, assume an arbitrary base temperature for heating degree-days calculation
+ 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Kaiser2010,Cohen1991"
@@ -1473,13 +1489,28 @@ Under normal conditions, the daily heating demand of a building will balance
 \begin_inset Formula $Q_{d}$
 \end_inset
 
+
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "$Q_{d}$"
+description "energy demand on day $d$"
+
+\end_inset
+
  on a day 
 \begin_inset Formula $d$
 \end_inset
 
  can be modeled as a random variable drawn from a Gaussian distribution,
- whose mean is proportional to the positive difference between the average
- outdoor temperature and the building's 
+ whose mean is proportional to the positive difference 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "$(.)^{+}$"
+description "positive part"
+
+\end_inset
+
+between the average outdoor temperature and the building's 
 \emph on
 base temperature
 \emph default
@@ -1491,13 +1522,37 @@ Q_{d}=K\times(\tb-\tout)^{+}+\mathcal{N}(0,\sigma^{2})
 
 \end_inset
 
+
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "$\\mathcal{N}(0,\\sigma^{2})$"
+description "Gaussian white noise of mean 0 and variance $\\sigma^2$"
+
+\end_inset
+
  where the base temperature 
 \begin_inset Formula $\tb$
 \end_inset
 
- of a building is defined as the outdoor temperature above which all heat
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "$\\tb$ "
+description "base temperature"
+
+\end_inset
+
+of a building is defined as the outdoor temperature above which all heat
  losses are compensated by the sun and other free gains, and 
 \begin_inset Formula $\tout$
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "$\\tout$"
+description "mean outdoor temperature on day $d$"
+
 \end_inset
 
  is the average outdoor temperature on day 
@@ -1510,7 +1565,15 @@ Q_{d}=K\times(\tb-\tout)^{+}+\mathcal{N}(0,\sigma^{2})
 \begin_inset Formula $K$
 \end_inset
 
- is the quantity of extra heat required per day to maintain indoor comfort
+
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "$K$"
+description "total heat loss coefficient"
+
+\end_inset
+
+is the quantity of extra heat required per day to maintain indoor comfort
  for each extra degree of cold.
  It is the most important metric when assessing the efficacy of a new heating
  control algorithm, because the base temperature 
@@ -1529,7 +1592,23 @@ Over a period
 \begin_inset Formula $n_{p}$
 \end_inset
 
- days, the total heating load will be 
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "$n_{p}$"
+description "number of days in period $p$"
+
+\end_inset
+
+days, the total heating load 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "$Q_{p}$"
+description "energy demand during reporting period $p$"
+
+\end_inset
+
+will be 
 \begin_inset Formula 
 \begin{equation}
 Q_{p}=\sum_{d\in p}Q_{d}=K\times DD_{p}+\mathcal{N}(0,n_{p}\sigma^{2})\label{eq:Qp}
@@ -1541,7 +1620,15 @@ where
 \begin_inset Formula $DD_{p}=\sum_{d\in p}(\tb-\tout)^{+}$
 \end_inset
 
- is the number of 
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "$DD_{p}$"
+description "heating degree-days during period $p$"
+
+\end_inset
+
+is the number of 
 \emph on
 degree-days at base temperature 
 \begin_inset Formula $\tb$
@@ -1597,7 +1684,15 @@ Letting
 \begin_inset Formula $D$
 \end_inset
 
- stand for the set of reporting periods (for example, a set of monthly gas
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "$D$"
+description "set of energy consumption data"
+
+\end_inset
+
+stand for the set of reporting periods (for example, a set of monthly gas
  utility bills, or a list of oil tank level readouts), Bayesian inference
  consists in establishing the probability density function for the coefficients
  
@@ -1649,6 +1744,14 @@ a
 
  will alter the building's total heat loss coefficient by a factor 
 \begin_inset Formula $\rho$
+\end_inset
+
+
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+symbol "$\\rho$"
+description "factor by which the total heat loss coefficient has changed"
+
 \end_inset
 
 , and also possibly shift the base temperature if the indoor temperature's
@@ -3136,7 +3239,7 @@ signature <- qplot(as.numeric(DailyMeans),
 
 \begin_layout Plain Layout
 
-	geom_smooth(method = "lm")
+	geom_smooth(method = "lm", color = "black")
 \end_layout
 
 \begin_layout Plain Layout
