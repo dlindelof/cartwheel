@@ -14,6 +14,7 @@
 
 \usepackage{booktabs}
 \usepackage{hyperref}
+\usepackage{tabularx}
 \usepackage{url}
 \end_preamble
 \options 5p, sort&compress
@@ -2695,12 +2696,58 @@ oilConsumptionPeriodsTable <-
 \begin_layout Plain Layout
 
     xtable(caption = "Usable pre-retrofit consumption periods", label =
- "tab:oilperiods", digits = c(0, 0, 0, 0, 0, 1, 1))
+ "tab:oilperiods", digits = c(0, 0, 0, 0, 0, 1, 1), align = c("X", "X",
+ "X", "X", ">{
+\backslash
+
+\backslash
+hsize=0.5
+\backslash
+
+\backslash
+hsize}X", "X", ">{
+\backslash
+
+\backslash
+hsize=1.5
+\backslash
+
+\backslash
+hsize}X"))
 \end_layout
 
 \begin_layout Plain Layout
 
-print(oilConsumptionPeriodsTable, include.rownames = FALSE)
+print(oilConsumptionPeriodsTable,
+\end_layout
+
+\begin_layout Plain Layout
+
+  booktabs = TRUE,
+\end_layout
+
+\begin_layout Plain Layout
+
+  floating.environment = "table*",
+\end_layout
+
+\begin_layout Plain Layout
+
+  tabular.environment = "tabularx",
+\end_layout
+
+\begin_layout Plain Layout
+
+  width = "
+\backslash
+
+\backslash
+hsize",
+\end_layout
+
+\begin_layout Plain Layout
+
+  include.rownames = FALSE)
 \end_layout
 
 \end_inset

@@ -37,6 +37,7 @@
 
 \usepackage{booktabs}
 \usepackage{hyperref}
+\usepackage{tabularx}
 \usepackage{url}
 
 \makeatother
@@ -677,8 +678,13 @@ oilConsumptionPeriodsTable <-
     dplyr::mutate(to = as.character(to)) %>%
     dplyr::mutate(meanCnsmptn = oil / as.numeric(nDays)) %>%
     dplyr::rename(From = from, To = to, "Oil [L]" = oil, Days = nDays, "Avg. daily cons. [L]" = meanCnsmptn, "Avg. temp. [C]" = meanTemp) %>%
-    xtable(caption = "Usable pre-retrofit consumption periods", label = "tab:oilperiods", digits = c(0, 0, 0, 0, 0, 1, 1))
-print(oilConsumptionPeriodsTable, include.rownames = FALSE)
+    xtable(caption = "Usable pre-retrofit consumption periods", label = "tab:oilperiods", digits = c(0, 0, 0, 0, 0, 1, 1), align = c("X", "X", "X", "X", ">{\\hsize=0.5\\hsize}X", "X", ">{\\hsize=1.5\\hsize}X"))
+print(oilConsumptionPeriodsTable,
+  booktabs = TRUE,
+  floating.environment = "table*",
+  tabular.environment = "tabularx",
+  width = "\\hsize",
+  include.rownames = FALSE)
 @
 
 <<>>=
