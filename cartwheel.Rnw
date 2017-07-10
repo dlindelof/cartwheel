@@ -37,6 +37,7 @@
 
 \usepackage{booktabs}
 \usepackage{hyperref}
+\usepackage{siunitx}
 \usepackage{tabularx}
 \usepackage{url}
 
@@ -624,11 +625,11 @@ betweenReadings <- (function(x) diff(x) / diff(range(x))) (as.numeric(oilReading
 
 # call to as.character is a workaround for https://r-forge.r-project.org/tracker/?func=detail&group_id=1228&aid=6465&atid=4864
 print(xtable(transform(oilReadingsDf, Date = as.character(Date)),
-			 caption = "Transcribed oil level readouts. White space has been added between rows proportional to the time elapsed between two readings.",
+			 caption = "Transcribed oil level readouts.",
 			 label = "tab:oilReadouts"),
       booktabs = TRUE,
       include.rownames = FALSE,
-      add.to.row = list(pos = as.list(1:(nrow(oilReadingsDf)-1)), command = paste('[', 50*betweenReadings, "mm]", sep='')))
+      add.to.row = list(pos = list(4, 8, 14, 20, 24), command = rep('\\\\', 5)))
 @
 
 There are log entries (for example on 2 May 2012) when one tank was
@@ -677,13 +678,13 @@ oilConsumptionPeriodsTable <-
     dplyr::mutate(from = as.character(from)) %>%
     dplyr::mutate(to = as.character(to)) %>%
     dplyr::mutate(meanCnsmptn = oil / as.numeric(nDays)) %>%
-    dplyr::rename(From = from, To = to, "Oil [L]" = oil, Days = nDays, "Avg. daily cons. [L]" = meanCnsmptn, "Avg. temp. [C]" = meanTemp) %>%
-    xtable(caption = "Usable pre-retrofit consumption periods", label = "tab:oilperiods", digits = c(0, 0, 0, 0, 0, 1, 1), align = c("X", "X", "X", "X", ">{\\hsize=0.5\\hsize}X", "X", ">{\\hsize=1.5\\hsize}X"))
+    dplyr::rename("{From}" = from, "{To}" = to, "{Oil [L]}" = oil, "{Days}" = nDays, "{Avg. daily cons. [L]}" = meanCnsmptn, "{Avg. temp. [C]}" = meanTemp) %>%
+    xtable(caption = "Usable pre-retrofit consumption periods", label = "tab:oilperiods", digits = c(0, 0, 0, 0, 0, 1, 1), align = c("l", "l", "l", "S[table-format=5]", "S[table-format=3]", "S", "S"))
 print(oilConsumptionPeriodsTable,
   booktabs = TRUE,
   floating.environment = "table*",
-  tabular.environment = "tabularx",
   width = "\\hsize",
+  sanitize.colnames.function = identity,
   include.rownames = FALSE)
 @
 
@@ -921,21 +922,8 @@ makers is probably not a better idea. Instead, we suggest using this
 probability density to answer any question about the energy savings
 on that building, such as ``What are the most likely energy savings?'',
 ``What energy savings can I expect on average?'', or ``How likely
-am I to achieve energy savings of at least 20\%?''. The latter kind
-of questions are answered by the pdf's cumulative distribution function.
-For example, Table~\ref{tab:probs} shows for any level of energy
-savings, how likely one is to achieve at least that level on this
-building. It is essentially a table of cumulative distribution values.
-
-<<results='asis'>>=
-savingsProbability <- data.frame(Savings = seq(0, 40, by = 5))
-savingsProbability$Probability <- 100 * (1 - rhocdf(savingsProbability$Savings / 100))
-names(savingsProbability) <- c("Savings [%]", "Probability [%]")
-print(xtable(savingsProbability, 
-             label = "tab:probs",
-             digits = c(0, 0, 1),
-             caption = "Probability that the true energy savings are higher than a given level."), include.rownames = FALSE, comment = FALSE)
-@
+am I to achieve energy savings of at least 20\%?''. All these questions
+can be answered with the probability distribution function.
 
 The following caveats should, however, be kept in mind:
 \begin{itemize}
