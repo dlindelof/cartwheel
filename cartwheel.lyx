@@ -17,6 +17,8 @@
 \usepackage{siunitx}
 \usepackage{tabularx}
 \usepackage{url}
+
+\renewcommand\nomname{Notation}
 \end_preamble
 \options 5p, sort&compress
 \use_default_options false
@@ -377,15 +379,15 @@ nb
 \end_layout
 
 \begin_layout Abstract
-Retrofitting existing buildings to improve their energy efficiency is an
- investment that most building owners do eventually consider.
+Most building owners will eventually consider investing in energy conservation
+ measures for their buildings.
  Faced with a variety of options, ranging from trivial (replacing light
- bulbs) to major projects (better façade insulation), an owner will want
- to know which energy conservation measure is likely to yield the highest
- return on investment—and with what confidence.
- Moreover, once the measure has been applied, the owner will want to know
- how well it performs and whether their money was well spent—also known
- as Measurement & Verification.
+ bulbs) to major (better façade insulation), they want to know which energy
+ conservation measure is likely to yield the highest return on investment—and
+ with what confidence.
+ Moreover, once the measure has been applied, they want to know how well
+ it performs and whether their money was well spent—also known as Measurement
+ & Verification.
 \end_layout
 
 \begin_layout Abstract
@@ -401,8 +403,8 @@ But conventional M&V mandates the establishment of a pre-measure baseline,
 To solve these two problems (expensive establishment of a baseline and absence
  of uncertainty in the reported efficiency), we have developed a method,
  based on Bayesian statistics, that will 1) rely on historic utility bills
- and climate data to establish a baseline, and 2) estimate the post-retrofit
- energy savings and report them together with suitable confidence intervals.
+ and climate data to establish a baseline, and 2) estimate, with confidence
+ intervals, how effective the retrofit was.
 \end_layout
 
 \begin_layout Abstract
@@ -427,8 +429,8 @@ m
 
 ) office building in Switzerland.
  The baseline was established from historic oil tank refill records.
- The energy efficiency of the building was assessed again 55 days after
- the installation and found to have improved by 33.1%, with 19.0 percentage
+ The total heat loss coefficient of the building was assessed again 46 days
+ after the installation and found to have decreased by 33.1%, with 19.0 percentage
  points standard error.
  
 \end_layout
@@ -487,19 +489,6 @@ sep
 \end_inset
 
  total heat loss coefficient
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-sep
-\end_layout
-
-\end_inset
-
- heating base load
 \end_layout
 
 \begin_layout EndFrontmatter
@@ -726,25 +715,27 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-Many energy conservation measures (ECM
+Many energy conservation measures (ECMs
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
+prefix "000"
 symbol "ECM"
 description "Energy Conservation Measure"
 
 \end_inset
 
-) exist to reduce the consumption of energy in existing buildings, but vary
- widely in effectiveness.
+) can help reduce the consumption of energy of existing buildings, but they
+ vary widely in effectiveness.
  Faced with a variety of options, ranging from trivial (replacing light
  bulbs) to major (better façade insulation), an owner will want to know
- which energy conservation measure is likely to yield the highest return
- on investment—and with what confidence.
+ which measures are likely to yield the highest return on investment—and
+ with what confidence.
  Moreover, once the measure has been applied, the owner will want to know
  how well it performs and whether their money was well spent—an activity
  known as Measurement & Verification (M&V
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
+prefix "010"
 symbol "M\\&V"
 description "Measurement \\& Verification"
 
@@ -755,8 +746,7 @@ description "Measurement \\& Verification"
 
 \begin_layout Standard
 This is a recurring problem for large companies in Switzerland that have
- publicly committed to specific goals for reducing their greenhouse gas
- emissions.
+ publicly committed to reducing their greenhouse gas emissions.
  The majority of these emissions can be traced to large portfolios of legacy
  buildings 
 \begin_inset CommandInset citation
@@ -786,7 +776,7 @@ baseline
 \begin_inset Quotes erd
 \end_inset
 
- model of the building's energy consumption—usually over at least one year.
+ model of the building's energy consumption, ideally over at least one year.
  The measured energy consumption post-retrofit is then compared with the
  energy consumption predicted by the baseline model, yielding the energy
  savings, either in absolute terms or in relative.
@@ -796,7 +786,7 @@ baseline
 \end_layout
 
 \begin_layout Standard
-Lack in confidence in the effectiveness of ECMs limit their adoption 
+Lack in confidence in the effectiveness of ECMs hinder their adoption 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Ma2012"
@@ -805,9 +795,9 @@ key "Ma2012"
 
 .
  To convince building owners to undertake more building retrofit projects
- we must address two concerns that are frequently expressed: 1) the risk
- that the ECM might not be as effective as advertised, and 2) the risk that,
- although effective, the benefits will turn out to be difficult to prove.
+ we must address two concerns: 1) the risk that the ECM might not be as
+ effective as advertised, and 2) the risk that, although effective, the
+ benefits will turn out to be difficult to prove.
  The latter is the goal of M&V, which currently suffers from an image of
  (bad) science, or, as 
 \begin_inset CommandInset citation
@@ -835,8 +825,7 @@ key "Xia2013"
 .
  We must show building owners that assessing the effectiveness of ECMs is
  not a research project anymore but a well-defined and well-understood process,
- one that yields not just the estimated energy savings but also their accuracy
- and confidence.
+ one that yields not just the estimated energy savings but also their accuracy.
 \end_layout
 
 \begin_layout Subsection
@@ -847,6 +836,7 @@ The International Performance Measurement and Verification Protocol
 The International Performance Measurement and Verification Protocol (IPMVP
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
+prefix "020"
 symbol "IPMVP"
 description "International Performance Measurement and Verification Protocol"
 
@@ -860,15 +850,14 @@ key "evo2012"
 \end_inset
 
  is a widely recognized framework for conducting M&V projects.
- It provides a set of guidelines and documents common terms and methods
- for such projects.
- Energy savings are to be determined by first establishing the building's
- pre-retrofit baseline energy demand.
+ It provides a set of guidelines and defines common terms for such projects.
+ Energy savings are to be determined by first establishing a model of the
+ building's baseline energy demand.
  After the installation, the energy demand is measured again, resulting
  in a so-called reporting period demand.
- Energy savings are calculated from the difference between the basline and
- reporting period demand, taking into account external factors that influence
- the energy demand:
+ Energy savings are calculated from the difference between the baseline
+ and reporting period demand, taking into account external factors that
+ influence the energy demand:
 \begin_inset Formula 
 \begin{align*}
 \text{Savings} & =\text{Baseline-period demand}\\
@@ -921,16 +910,6 @@ key "evo2012"
 \end_inset
 
 .
- (When some sampling is used to estimate the basline demand, the sampling
- should be designed to yield a ±10% relative precision and 90% confidence
- level.)
-\end_layout
-
-\begin_layout Standard
-But ultimately, the IPMVP recognises that the user of the M&V report is
- the party responsible for establishing acceptable savings accuracy during
- the M&V Planning process.
- 
 \end_layout
 
 \begin_layout Subsection
@@ -977,10 +956,10 @@ key "Aris2015"
 Two near-identical 300-seat conference rooms retrofitted with a variable-flow
  air-handling unit each.
  The energy savings were determined by simulation and by retrofitting one
- room while leaving another one unchanged.
+ room while leaving the other unchanged.
  Both approaches yielded roughly 30% energy savings on the heating coil's
- consumption, but the simulation underestimated by a factor 5 the savings
- on the fans' electrical consumption
+ consumption, but the simulation grossly underestimated the savings on the
+ fans' electrical consumption 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Ginestet2010"
@@ -1060,8 +1039,8 @@ m
  campus in California whose HVAC equipment was retrofitted.
  The baseline period ran from September 2007 to August 2008, and the reporting
  period from May 2009 to April 2010.
- The energy consumption was normalised to the outdoor temperature, and annual
- electricity consumption was reduced by 3
+ The energy consumption was normalised to the outdoor temperature, and the
+ annual electricity consumption was reduced by 3
 \begin_inset space \thinspace{}
 \end_inset
 
@@ -1081,16 +1060,15 @@ key "Lin2015"
 
 \end_inset
 
- .
+.
 \end_layout
 
 \begin_layout Itemize
 An analysis of the electric load of 17 office buildings, modeled as a piece-wise
- linear function of time of week and outdoor temperature, for the explicit
- purpose of establishing a baseline model.
- The novelty here consisted in using cross-validation to estimate the uncertaint
-y in the baseline: the last month of baseline data was excluded from the
- model, and compared with the model's prediction.
+ linear function of time of week and outdoor temperature.
+ Cross-validation was used to estimate the uncertainty in the baseline:
+ the last month of baseline data was excluded from the model, and compared
+ with the model's prediction.
  The difference is an estimate of the model's uncertainties 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -1103,7 +1081,7 @@ key "Walter2014"
 
 \begin_layout Standard
 This short review suggests that even in an academic setting, the uncertainty
- on energy savings are frequently highly-dependent on the model 
+ on energy savings are frequently highly dependent on the model 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Aris2015"
@@ -1189,11 +1167,11 @@ key "swisscom2016"
 
 .
  Like many major Swiss companies, their stock of buildings includes a majority
- of systems heated by non-renewable fuel.
+ of systems heated by non-renewable fuels.
  Energy conservation measures that help these buildings become more efficient
  are particularly attractive.
- In late 2015, a pilot study was started to evaluate the effectiveness of
- model-predictive control for space heating.
+ In late 2015, a pilot study was chartered to evaluate the effectiveness
+ of model-predictive control for space heating.
 \end_layout
 
 \begin_layout Standard
@@ -1207,22 +1185,22 @@ a
 
 \end_inset
 
-(Neurobat OnLine—analog) 
+ (Neurobat OnLine—analog) 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "neurobat2017"
 
 \end_inset
 
- was selected for a pilot study on a building in Sargans, a Swiss locality
- in the canton of St Gall.
+ was selected for a building in Sargans, a Swiss locality in the canton
+ of St Gall.
  Like many buildings, the pre-installation energy efficiency of this building
  was not well understood by the building's owner, and the project plan did
- not allow for the measurement of a baseline performance.
+ not allow for the measurement of a baseline.
  All that was available was a record of oil tank refills, stretching back
  to 2011.
  The poor baseline data made Bayesian methods particularly attractive for
- this (and similar) projects.
+ this project.
 \end_layout
 
 \begin_layout Standard
@@ -1250,7 +1228,8 @@ reference "sec:Data-analysis"
 
 \end_inset
 
-, and inferences about the energy savings will be drawn in section 
+, and inferences about the effectiveness of the controller will be drawn
+ in section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Results"
@@ -1283,7 +1262,11 @@ reference "fig:composite"
 
 \end_inset
 
- includes four heating circuits, covering about 2700–2800 m
+ includes four heating circuits, covering about 2740
+\begin_inset space \thinspace{}
+\end_inset
+
+m
 \begin_inset script superscript
 
 \begin_layout Plain Layout
@@ -1316,7 +1299,11 @@ a
 
 \end_inset
 
- is about 1300–1400 m
+ is about 1840
+\begin_inset space \thinspace{}
+\end_inset
+
+m
 \begin_inset script superscript
 
 \begin_layout Plain Layout
@@ -1326,6 +1313,16 @@ a
 \end_inset
 
 .
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+private communication from Edgar
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1375,9 +1372,9 @@ a
 \end_inset
 
  system controls the flow temperature indirectly by shifting the outdoor
- temperature measured by the heating controllers.
- Thus, the boiler provides for each circuit a heating water at just the
- right temperature.
+ temperature measured by the existing heating controllers.
+ Thus, the boiler provides heating water for each circuit at just the right
+ temperature for that circuit.
  As this paper is about the estimation of energy savings resulting from
  an ECM, the details of the NOL
 \begin_inset script superscript
@@ -1412,8 +1409,7 @@ a
 
  system (including an oil meter) are automatically sampled several times
  per hour and stored in a database.
- The data is used for monitoring in near real time, and for offline data
- analysis.
+ The data is used for monitoring, preventive maintenance, and offline analysis.
 \end_layout
 
 \begin_layout Standard
@@ -1486,7 +1482,7 @@ The energy consumed by a building is rarely constant but varies over time
 
 \begin_layout Standard
 Under normal conditions, the daily heating demand of a building will balance
- the building's heat loss.
+ the heat losses.
  The daily losses 
 \begin_inset Formula $Q_{d}$
 \end_inset
@@ -1494,6 +1490,7 @@ Under normal conditions, the daily heating demand of a building will balance
 
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
+prefix "030"
 symbol "$Q_{d}$"
 description "energy demand on day $d$"
 
@@ -1507,6 +1504,7 @@ description "energy demand on day $d$"
  whose mean is proportional to the positive difference 
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
+prefix "100"
 symbol "$(.)^{+}$"
 description "positive part"
 
@@ -1519,7 +1517,7 @@ base temperature
 : 
 \begin_inset Formula 
 \begin{equation}
-Q_{d}=K\times(\tb-\tout)^{+}+\mathcal{N}(0,\sigma^{2})
+Q_{d}=K\times(\tb-\tout)^{+}+\mathcal{N}(0,\sigma^{2}),
 \end{equation}
 
 \end_inset
@@ -1527,18 +1525,20 @@ Q_{d}=K\times(\tb-\tout)^{+}+\mathcal{N}(0,\sigma^{2})
 
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
+prefix "090"
 symbol "$\\mathcal{N}(0,\\sigma^{2})$"
 description "Gaussian white noise of mean 0 and variance $\\sigma^2$"
 
 \end_inset
 
- where the base temperature 
+where the base temperature 
 \begin_inset Formula $\tb$
 \end_inset
 
  
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
+prefix "060"
 symbol "$\\tb$ "
 description "base temperature"
 
@@ -1552,6 +1552,7 @@ of a building is defined as the outdoor temperature above which all heat
  
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
+prefix "070"
 symbol "$\\tout$"
 description "mean outdoor temperature on day $d$"
 
@@ -1562,7 +1563,8 @@ description "mean outdoor temperature on day $d$"
 \end_inset
 
 .
- The base temperature depends on the indoor temperature's set point.
+ The base temperature is equal to the indoor temperature set point, up to
+ a constant offset.
  The building's total heat loss coefficient 
 \begin_inset Formula $K$
 \end_inset
@@ -1570,19 +1572,25 @@ description "mean outdoor temperature on day $d$"
 
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
+prefix "050"
 symbol "$K$"
 description "total heat loss coefficient"
 
 \end_inset
 
-is the quantity of extra heat required per day to maintain indoor comfort
+ is the quantity of extra heat required per day to maintain indoor comfort
  for each extra degree of cold.
- It is the most important metric when assessing the efficacy of a new heating
- control algorithm, because the base temperature 
+ We agreed with the customer that the effectiveness of the new control system
+ would be given by changes to 
+\begin_inset Formula $K$
+\end_inset
+
+, since the base temperature 
 \begin_inset Formula $\theta_{\text{b}}$
 \end_inset
 
- will only change with the indoor temperature set point.
+ might change if the indoor temperature set point is not the same before
+ and after the installation.
 \end_layout
 
 \begin_layout Standard
@@ -1597,6 +1605,7 @@ Over a period
  
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
+prefix "080"
 symbol "$n_{p}$"
 description "number of days in period $p$"
 
@@ -1605,6 +1614,7 @@ description "number of days in period $p$"
 days, the total heating load 
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
+prefix "040"
 symbol "$Q_{p}$"
 description "energy demand during reporting period $p$"
 
@@ -1613,7 +1623,7 @@ description "energy demand during reporting period $p$"
 will be 
 \begin_inset Formula 
 \begin{equation}
-Q_{p}=\sum_{d\in p}Q_{d}=K\times DD_{p}+\mathcal{N}(0,n_{p}\sigma^{2})\label{eq:Qp}
+Q_{p}=\sum_{d\in p}Q_{d}=K\times DD_{p}+\mathcal{N}(0,n_{p}\sigma^{2}),\label{eq:Qp}
 \end{equation}
 
 \end_inset
@@ -1625,6 +1635,7 @@ where
  
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
+prefix "110"
 symbol "$DD_{p}$"
 description "heating degree-days during period $p$"
 
@@ -1639,12 +1650,15 @@ degree-days at base temperature
 
 \emph default
  during that period.
- 
+ The load 
 \begin_inset Formula $Q_{p}$
 \end_inset
 
- is frequently available as utility bills or energy meter readouts, while
- 
+ and the period duration 
+\begin_inset Formula $n_{p}$
+\end_inset
+
+ are directly read from utility bills or energy meter readouts, while 
 \begin_inset Formula $DD_{p}$
 \end_inset
 
@@ -1654,7 +1668,7 @@ degree-days at base temperature
 
 \begin_layout Standard
 The set of utility bills (or energy meters readouts) 
-\begin_inset Formula $Q_{p}$
+\begin_inset Formula $\{Q_{p},n_{p}\}$
 \end_inset
 
  constitutes the data we have at hand, while Eq.
@@ -1689,15 +1703,16 @@ Letting
  
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
+prefix "120"
 symbol "$D$"
-description "set of energy consumption data"
+description "set of energy consumption and historic weather data"
 
 \end_inset
 
 stand for the set of reporting periods (for example, a set of monthly gas
- utility bills, or a list of oil tank level readouts), Bayesian inference
- consists in establishing the probability density function for the coefficients
- 
+ utility bills, or a list of oil tank level readouts) and historic weather
+ data, Bayesian inference consists in establishing the probability density
+ function for the coefficients 
 \begin_inset Formula $\{K,\theta_{\text{b}},\sigma\}$
 \end_inset
 
@@ -1717,7 +1732,7 @@ key "Lindelof2016"
 
 \end_inset
 
- as implemented in a package for the R programming environment 
+ and implemented in a package for the R programming environment 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "homeR"
@@ -1726,7 +1741,7 @@ key "homeR"
 
 .
  Unlike that prior work, where the focus was on the determination of a building'
-s base temperature, here we will be more interested by the changes to the
+s base temperature, here we will be more interested in the changes to the
  building's heat loss coefficient 
 \begin_inset Formula $K$
 \end_inset
@@ -1751,6 +1766,7 @@ a
 
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
+prefix "130"
 symbol "$\\rho$"
 description "factor by which the total heat loss coefficient has changed"
 
@@ -1769,7 +1785,7 @@ K_{\mathrm{pre}}\rightarrow K_{\mathrm{post}}=\rho\times K_{\mathrm{pre}}
 
 \begin_inset Formula 
 \[
-\theta_{\text{b, pre}}\rightarrow\theta_{\text{b, post}}=\theta_{\text{b, pre}}+\Delta t_{\text{b}}
+\theta_{\text{b, pre}}\rightarrow\theta_{\text{b, post}}=\theta_{\text{b, pre}}+\Delta\tb
 \]
 
 \end_inset
@@ -1790,26 +1806,20 @@ A shift in the building's base temperature
 \begin_inset Formula $\rho$
 \end_inset
 
- is, the higher the energy savings.
- The relative energy savings in percent will be given by 
+ is, the more effective is the new control system.
+ The relative energy savings in percent (ignoring changes to 
+\begin_inset Formula $\tb$
+\end_inset
+
+) are then given by 
 \begin_inset Formula $100\times(1-\rho)$
 \end_inset
 
 .
- In IPMVP terminology, the routine adjustments will be due to outdoor conditions
- and are covered by 
-\begin_inset Formula $K$
-\end_inset
-
-, while non-routine adjustments will be dealt with by taking 
-\begin_inset Formula $\Delta t_{\text{b}}$
-\end_inset
-
- into account.
 \end_layout
 
 \begin_layout Standard
-Hardcore Bayesians would now write a full probability model involving all
+Strict Bayesians would now write a full probability model involving all
  the pre- and post-installation parameters, work out the joint posterior
  probability density function, draw samples from that function and make
  inferences.
@@ -1829,19 +1839,12 @@ rt
 \end_inset
 
 .
- (It could be argued that we expect the post-retrofit heating loss coefficient
- to be smaller that the pre-retrofit one; but full objectivity requires
- us to consider the pre- and post-conditions as perfectly exchangeable.
- And the only relationship between the two that satisfies full exchangeability
- is one of full independence.) But if the pre- and post-retrofit parameters
- are independent, then we are effectively dealing with two independent experimen
-ts: one before the installation, and one after.
+ But if the pre- and post-retrofit parameters are independent, then we are
+ effectively dealing with two independent experiments: one before the installati
+on, and one after.
  The Bayesian analysis can therefore be simplified by considering separately
- the pre- and post-conditions.
-\end_layout
-
-\begin_layout Standard
-(One could argue that the measurement noise 
+ the data before and after the installation.
+ (One could argue that the measurement noise 
 \begin_inset Formula $\sigma$
 \end_inset
 
@@ -1858,7 +1861,7 @@ not
  expresses not only the daily inherent variability in energy consumption
  of the building: it also includes measurement errors.
  Since the oil consumption has been measured with two completely different
- methods before and after the retrofit, we prefer to treat 
+ methods before and after the retrofit, we treat 
 \begin_inset Formula $\sigma_{\text{pre}}$
 \end_inset
 
@@ -1887,8 +1890,8 @@ Putting it together formally, the task consists in establishing
 \end_inset
 
 .
- If we assume that the parameters before and after the retrofit are independent,
- we have
+ Since we assume conditional independence between the parameters before
+ and after the retrofit, we have
 \begin_inset Formula 
 \begin{align*}
 p(\{K_{\text{pre}},\theta_{\text{b,pre}}, & \sigma_{\text{pre}},K_{\text{post}},\theta_{\text{b,post}},\sigma_{\text{post}}\}\mid D)\\
@@ -1903,8 +1906,8 @@ p(\{K_{\text{pre}},\theta_{\text{b,pre}}, & \sigma_{\text{pre}},K_{\text{post}},
 
 \end_inset
 
-where each term on the right-hand side can be computed by the method proposed
- by 
+where each term in the product on the right-hand side can be computed by
+ the method proposed by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Lindelof2016"
@@ -1930,8 +1933,8 @@ key "Lindelof2016"
 
 \begin_layout Standard
 The analysis of the historic weather and oil consumption data will be explained
- in the following section, followed by the analysis of the new consumption
- data.
+ in the following section, followed by the analysis of the post-installation
+ consumption data.
  
 \end_layout
 
@@ -1959,7 +1962,7 @@ reporting
 \emph default
  period).
  Unlike traditional IPMVP projects, this pilot building is challenging because
- daily oil consumption readouts from oil meters were available only after
+ daily oil consumption readouts from an oil meter were available only after
  the installation of the NOL
 \begin_inset script superscript
 
@@ -1970,9 +1973,9 @@ a
 \end_inset
 
 .
- The energy savings must therefore be derived from heterogenous sources
- of data: manual oil level readouts before the installation, and automated
- daily oil readouts after.
+ The energy savings must therefore be derived from different sources: manual
+ oil level readouts before the installation, and automated daily oil readouts
+ after.
 \end_layout
 
 \begin_layout Subsection
@@ -2010,7 +2013,7 @@ reference "fig:stations"
 \end_inset
 
 .
- The data from the stations is shown against time in Fig.
+ The Bad Ragaz data is shown against time in Fig.
 \begin_inset space ~
 \end_inset
 
@@ -2229,7 +2232,7 @@ reference "fig:readouts"
 \end_inset
 
  in the Appendix.
- The cleaned version is shown in Table
+ A transcribed version is shown in Table
 \begin_inset space ~
 \end_inset
 
@@ -2486,7 +2489,12 @@ There are log entries (for example on 2 May 2012) when one tank was filled
  In such instances it is impossible to know how much oil was used during
  the preceding period.
  We therefore restrict this data to the 12 periods during which neither
- tank level increased.
+ tank level increased, for example between 2011-02-03 and 2011-05-25 (2300
+\begin_inset space \thinspace{}
+\end_inset
+
+L of oil) but not between 2011-10-25 and 2011-11-25 (no readout for the
+ second tank) nor between 2015-03-25 and 2015-06-10 (both tanks increased).
 \end_layout
 
 \begin_layout Standard
@@ -2692,19 +2700,44 @@ oilConsumptionPeriodsTable <-
 
 \begin_layout Plain Layout
 
-    dplyr::rename("{From}" = from, "{To}" = to, "{Oil [L]}" = oil, "{Days}"
- = nDays, "{Avg.
- daily cons.
- [L]}" = meanCnsmptn, "{Avg.
- temp.
- [C]}" = meanTemp) %>%
+    dplyr::select(from, to, nDays, oil, meanCnsmptn, meanTemp) %>%
 \end_layout
 
 \begin_layout Plain Layout
 
-    xtable(caption = "Usable pre-retrofit consumption periods", label =
- "tab:oilperiods", digits = c(0, 0, 0, 0, 0, 1, 1), align = c("l", "l",
- "l", "S[table-format=5]", "S[table-format=3]", "S", "S"))
+    dplyr::rename("{From}" = from, "{To}" = to, "{Days}" = nDays, "{Oil
+ [L]}" = oil, "{Avg.
+ daily cons.
+ [L]}" = meanCnsmptn, "{Avg.
+ temp.
+ [
+\backslash
+
+\backslash
+textcelsius]}" = meanTemp) %>%
+\end_layout
+
+\begin_layout Plain Layout
+
+    xtable(caption = "Usable pre-retrofit consumption periods.
+ The building's average energy demand is about 207
+\backslash
+
+\backslash
+,720
+\backslash
+
+\backslash
+,kWh/a according to the building manager, which would be about 56
+\backslash
+
+\backslash
+,L/d of oil on average assuming a heat content of 10.08
+\backslash
+
+\backslash
+,kWh/L.", label = "tab:oilperiods", digits = c(0, 0, 0, 0, 0, 1, 1), align
+ = c("l", "l", "l", "S[table-format=5]", "S[table-format=3]", "S", "S"))
 \end_layout
 
 \begin_layout Plain Layout
@@ -2969,11 +3002,19 @@ The building's base temperature and heat loss coefficient are estimated
 \begin_inset Formula $\tb=\Sexpr{p(baseTempPre)}\pm\Sexpr{p(deltaBaseTempPre)}$
 \end_inset
 
- ℃, and 
+
+\begin_inset space \thinspace{}
+\end_inset
+
+℃, and 
 \begin_inset Formula $K_{\mathrm{pre}}=\Sexpr{p(Kpre)}\pm\Sexpr{p(deltaKpre)}$
 \end_inset
 
- L/K.
+
+\begin_inset space \thinspace{}
+\end_inset
+
+L/K.
 \end_layout
 
 \begin_layout Standard
@@ -3006,8 +3047,8 @@ key "ashrae2013,CTG075"
  The Bayesian method yields the best results.
  The relationship between the oil consumption and the degree days using
  the estimated base temperature is satisfactorily linear, with the exception
- of the two outliers identified above (not plotted), and possibly a third
- point with 2300 liters of oil for about 750 degree days.
+ of the two outliers identified above, and possibly a third point with 2300
+ liters of oil for about 750 degree days.
  
 \end_layout
 
@@ -3025,6 +3066,7 @@ OilVsDD, fig.cap="Oil consumption vs heating degree days, calculated with
  different base temperatures.
  Unfilled circles indicate the two records that have been excluded from
  the analysis.
+ The heat loss coefficient $K$ is given in L/K.
  The Bayesian base temperature yields the highest coefficient of determination
  $R^2$, suggesting that it fits the data best.", fig.width=one_and_half_columns,
  fig.height=4, fig.env="figure*"
@@ -3212,18 +3254,11 @@ Reporting period
 \end_layout
 
 \begin_layout Standard
-After the installation of the two NOL
-\begin_inset script superscript
-
-\begin_layout Plain Layout
-a
-\end_layout
-
-\end_inset
-
- systems, we had access to daily oil consumption data thanks to an oil counter.
- With this data we can correlate the oil consumption with the outdoor temperatur
-e on a daily basis, instead of having to wait until the next oil tank refill.
+The new control system included an oil counter that could be read out automatica
+lly.
+ With this data we could correlate the oil consumption with the outdoor
+ temperature on a daily basis, instead of having to wait until the next
+ oil tank refill.
  That relationship is shown in Fig.
 \begin_inset space ~
 \end_inset
@@ -3267,7 +3302,11 @@ signature <- qplot(as.numeric(DailyMeans),
 
 \begin_layout Plain Layout
 
-	xlab = "Mean outdoor temperature [C]",
+	xlab = "Mean outdoor temperature [
+\backslash
+
+\backslash
+textcelsius]",
 \end_layout
 
 \begin_layout Plain Layout
@@ -3296,8 +3335,8 @@ signature
 \end_layout
 
 \begin_layout Standard
-Each point in this plot represents one day between 1st April 2016, when
- a mislabeling of the existing heating system was identified and corrected,
+Each point in this plot represents one day between 1 April 2016, when a
+ mislabeling of the existing heating system was identified and corrected,
  and 16 May 2016, just before the end of the heating season.
  The post-installation total heat loss coefficient 
 \begin_inset Formula $K_{\mathrm{post}}$
@@ -3310,9 +3349,18 @@ Each point in this plot represents one day between 1st April 2016, when
 \begin_inset Formula $K_{\mathrm{post}}=\Sexpr{p(Kpost)}\pm\Sexpr{p(deltaKpost)}$
 \end_inset
 
- L/K, or about 30% less than the pre-installation total heat loss coefficient
+
+\begin_inset space \thinspace{}
+\end_inset
+
+L/K, or about 30% less than the pre-installation total heat loss coefficient
  
 \begin_inset Formula $K_{\mathrm{pre}}$
+\end_inset
+
+.
+ The post-installation base temperature is now 
+\begin_inset Formula $\theta_{\text{b,post}}=\Sexpr{p(baseTempPost)}\pm\Sexpr{p(deltaBaseTempPost)}\thinspace\text{℃}$
 \end_inset
 
 .
@@ -3494,21 +3542,12 @@ savingsError <- 100 * Drho
 \end_layout
 
 \begin_layout Standard
-The increase in energy efficiency (and its uncertainty) resulting from the
- NOL
-\begin_inset script superscript
-
-\begin_layout Plain Layout
-a
-\end_layout
-
-\end_inset
-
- installation can now be evaluated, defined as 
+The effect on the building's heat loss coefficient (and its uncertainty),
+ defined as 
 \begin_inset Formula $\rho=(1-K_{\mathrm{post}}/K_{\mathrm{pre}})$
 \end_inset
 
-.
+, can now be evaluated.
  From a Bayesian point of view, 
 \begin_inset Formula $\rho$
 \end_inset
@@ -3521,8 +3560,8 @@ a
 \begin_inset Formula $\kpost$
 \end_inset
 
- and we need its pdf.
- This can be estimated from random draws from the pdfs of 
+ and we need its probability distribution function.
+ This can be estimated from random draws from the joint pdfs of 
 \begin_inset Formula $\kpre$
 \end_inset
 
@@ -3530,7 +3569,7 @@ a
 \begin_inset Formula $\kpost$
 \end_inset
 
-, evaluating 
+, calculating 
 \begin_inset Formula $\rho$
 \end_inset
 
@@ -3540,7 +3579,15 @@ a
 \end_layout
 
 \begin_layout Standard
-A histogram of that probability density is shown in Fig.
+A histogram of the 
+\begin_inset Formula $\rho$
+\end_inset
+
+ values resulting from 20
+\begin_inset space \thinspace{}
+\end_inset
+
+000 draws is shown in Fig.
 \begin_inset space ~
 \end_inset
 
@@ -3552,15 +3599,19 @@ reference "fig:RhoDensity"
 \end_inset
 
 .
- The majority of that histogram is positive, indicating positive energy
- savings.
+ The majority of that histogram is positive, indicating a decrease in the
+ heat loss coefficient.
  Any statement about the energy savings can now be made with its associated
  confidence.
- For example, 75% of the mass of this histogram lies to the right of 14%
- energy savings; this can be reported by saying that the energy savings
- are at least 14% with 75% probability.
- The `best' estimate of the final energy savings is obtained by finding
- the narrowest range of energy savings such that they encompass 
+ For example, 75% of the mass of this histogram lies to the right of 0.14;
+ this can be reported to decision makers by saying that the heat loss coefficien
+t has been reduced by at least 14% with 75% confidence.
+ The `best' estimate of the effect is obtained by finding the narrowest
+ range of 
+\begin_inset Formula $\rho$
+\end_inset
+
+ values such that they encompass 
 \begin_inset Formula $N$
 \end_inset
 
@@ -3568,28 +3619,31 @@ reference "fig:RhoDensity"
 \begin_inset Formula $N$
 \end_inset
 
-% credible interval, for any desired value for 
+% credible interval, for any desired 
 \begin_inset Formula $N$
 \end_inset
 
 .
  Since one standard error of a normal distribution corresponds to a 67%
- credible interval, we will report the energy savings with the same value
- for 
+ credible interval, we agreed with the building owner that the unceratinty
+ on the effect should be reported with the same 
 \begin_inset Formula $N$
 \end_inset
 
 .
  We obtain:
-\end_layout
+\begin_inset Formula 
+\[
+\text{Reduction of heat losses [\%]}=\Sexpr{p(savingsPercent)}\pm\Sexpr{p(savingsError)},
+\]
 
-\begin_layout Standard
-\align center
-Relative savings [%] = 
-\begin_inset Formula $\Sexpr{p(savingsPercent)}\pm\Sexpr{p(savingsError)}$
 \end_inset
 
- (67% credible interval).
+where the 
+\begin_inset Formula $\pm$
+\end_inset
+
+ sign is understood to represent the 67% credible interval.
 \end_layout
 
 \begin_layout Standard
@@ -3599,8 +3653,8 @@ An uncertainty of
 
  percentage points may sound large and it is tempting to try and reduce
  that error by letting the experiment run longer.
- But letting the experiment run longer will only reduce the error on the
- post-installation heat loss coefficient 
+ But doing so will only reduce the error on the post-installation heat loss
+ coefficient 
 \begin_inset Formula $K_{\text{post}}$
 \end_inset
 
@@ -3609,13 +3663,12 @@ An uncertainty of
 \begin_inset Formula $K_{\text{pre}}$
 \end_inset
 
-, which dominates the total error on the final energy savings.
- The absolute error on the savings, which are equal to the absolute error
- on 
+, which dominates the total error.
+ The absolute error on 
 \begin_inset Formula $\rho$
 \end_inset
 
-, have a lower limit given by the relative error on 
+ has a lower limit given by the relative error on 
 \begin_inset Formula $K_{\text{pre}}$
 \end_inset
 
@@ -3646,11 +3699,10 @@ An uncertainty of
 
  percentage points.
  After 
-\begin_inset Formula $\Sexpr{nrow(subset(goodPeriods,When='POST'))}$
+\begin_inset Formula $\Sexpr{nrow(subset(goodPeriods,When=='POST'))}$
 \end_inset
 
- days of measurements after the installation, our accuracy is almost as
- good as it will ever get.
+ days, our accuracy is almost as good as it will ever get.
  
 \end_layout
 
@@ -3660,14 +3712,14 @@ status open
 
 \begin_layout Plain Layout
 
-<<RhoDensity, fig.cap="Probability density distribution for the relative
- energy savings in percent.">>=
+<<RhoDensity, fig.cap="Probability density distribution of the heat loss
+ reduction.">>=
 \end_layout
 
 \begin_layout Plain Layout
 
 q <- qplot(100 * m[, 'savings'], y = ..density.., geom = "histogram", xlab =
- "Relative energy savings [
+ "Heat losses reduction [
 \backslash
 
 \backslash
@@ -3690,11 +3742,9 @@ q + xlim(-100, 100)
 \end_layout
 
 \begin_layout Standard
-The magnitude of the estimated energy savings is comparable with the uncertainty
- surrounding them.
- From a strict interpretation of the IPMVP text, the energy savings would
- not be considered statistically significant.
- But a glance at Fig.
+The magnitude of the effect is less than twice its uncertainty, so a strict
+ interpretation of the IPMVP text would deem it not statistically significant.
+ But Fig.
 \begin_inset space ~
 \end_inset
 
@@ -3705,14 +3755,13 @@ reference "fig:RhoDensity"
 
 \end_inset
 
- makes it clear that the energy savings are more likely to be positive than
- not.
- A single point estimate with uncertainty strikes us as inadequate to convey
- all the information that's been drawn from the data.
- On the other hand, displaying probability density functions to decision
- makers is probably not a better idea.
- Instead, we suggest using this probability density to answer any question
- about the energy savings on that building, such as 
+ makes it clear that the effect is more likely to be positive than not.
+ A single point estimate with its uncertainty cannot convey all the information
+ that has been drawn from the data.
+ On the other hand, inflicting probability density functions on decision
+ makers is probably not wiser.
+ Instead, we have quite successfully used this pdf to answer typical questions
+ raised by users, such as 
 \begin_inset Quotes eld
 \end_inset
 
@@ -3746,7 +3795,7 @@ The following caveats should, however, be kept in mind:
 
 \begin_layout Itemize
 We have assumed that the building's base temperature and heat loss coefficient
- have remained constant from 2011–2015.
+ have remained constant during 2011–2015.
 \end_layout
 
 \begin_layout Itemize
@@ -3808,7 +3857,7 @@ a
 
 \end_inset
 
- installer relies on the temperature set point programmed on the original
+ installer relied on the temperature set point programmed on the original
  heating system—which can be very different from the temperature really
  desired by the user.
  This does not invalidate the above analysis, but the building manager should
@@ -3825,13 +3874,14 @@ Upgrading the heating control system of the building in Sargans has lowered
 \begin_inset Formula $\Sexpr{p(savingsPercent)}\pm\Sexpr{p(savingsError)}$
 \end_inset
 
-[%].
+ %.
  This estimate was obtained by fitting a probability model to the pre- and
- post-retrofit oil consumption data, whose parameters include the building's
- total heat loss coefficient and its base temperature.
- This probability model yielded a probability density function in all the
- building's parameters, from which the energy savings were estimated by
- repeated draws of the pre- and post-retrofit heat loss coefficients.
+ post-retrofit oil consumption data.
+ The parameters of that model include the building's total heat loss coefficient
+ and its base temperature, both before and after the installation.
+ This yielded a probability density function in all the building's parameters,
+ from which the effect on the heat loss coefficient were estimated from
+ that pdf.
 \end_layout
 
 \begin_layout Standard
@@ -3850,7 +3900,7 @@ its ability to take into account data from very different sources (pre-retrofit
 \end_layout
 
 \begin_layout Itemize
-the clear interpretability (and communicability) of its results
+the clear interpretability and communicability of its results
 \end_layout
 
 \begin_layout Standard
@@ -3864,13 +3914,17 @@ d for decision-makers.
 
 \begin_layout Standard
 Not all buildings will enjoy the luxury of automated energy consumption
- readouts, however, and it is likely that future projects will have no choice
- but to rely on manual readouts both before and after the retrofit.
+ readouts, and it is likely that future projects will have no choice but
+ to rely on manual readouts both before and after the retrofit.
  The Bayesian framework will likely be able to handle these situations,
- but with an interesting twist: it will probably be possible to pool both
- the pre- and post-retrofit data to better estimate the daily energy consumption
- variability, which we did not do because the data acquisition methods were
- completely different.
+ but with an interesting twist: it will probably be possible to pool the
+ pre- and post-retrofit data to better estimate the daily energy consumption
+ variability 
+\begin_inset Formula $\sigma$
+\end_inset
+
+, which we did not do here because the data acquisition methods were completely
+ different.
 \end_layout
 
 \begin_layout Standard
