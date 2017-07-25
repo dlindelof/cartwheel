@@ -63,8 +63,6 @@
 
 \author[nb]{Christian~Grigis}
 
-\author[nb]{Xavier~Mocellin}
-
 \author[nb]{Jean~Viaene}
 
 \cortext[cor1]{Corresponding author}
@@ -890,7 +888,7 @@ very close to the current uncertainty of $\Sexpr{p(savingsError)}$
 percentage points. After $\Sexpr{nrow(subset(goodPeriods,When=='POST'))}$
 days, our accuracy is almost as good as it will ever get. 
 
-<<RhoDensity, fig.cap="Probability density distribution of the heat loss reduction $1-\rho$.">>=
+<<RhoDensity, fig.cap="Probability density distribution of the heat loss reduction $1-\\rho$.">>=
 q <- qplot(100 * m[, 'savings'], y = ..density.., geom = "histogram", xlab = "Heat losses reduction (\\%)", ylab = "Probability density")
 q + xlim(-100, 100)
 @

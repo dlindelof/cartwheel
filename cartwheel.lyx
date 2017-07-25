@@ -314,24 +314,6 @@ nb
 \end_layout
 
 \begin_layout Author
-Xavier
-\begin_inset space ~
-\end_inset
-
-Mocellin
-\begin_inset Argument 1
-status open
-
-\begin_layout Plain Layout
-nb
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Author
 Jean
 \begin_inset space ~
 \end_inset
@@ -3720,6 +3702,8 @@ status open
 
 <<RhoDensity, fig.cap="Probability density distribution of the heat loss
  reduction $1-
+\backslash
+
 \backslash
 rho$.">>=
 \end_layout
