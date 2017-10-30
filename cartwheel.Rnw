@@ -376,29 +376,35 @@ factors must be accounted for when assessing the effectiveness of
 an ECM. This is normally done by establishing a model for the energy
 use before and after the installation of the ECM, as we do here.
 
-Under normal conditions, the daily heating demand of a building will
-balance the heat losses. The daily losses $Q_{d}$\nomenclature[030]{$Q_{d}$}{energy demand on day $d$}
-on a day $d$ can be modeled as a random variable drawn from a Gaussian
-distribution, whose mean is proportional to the positive difference
-\nomenclature[100]{$(.)^{+}$}{positive part}between the average outdoor
-temperature and the building's \emph{base temperature}: 
+Under normal conditions, when the indoor temperature follows a desired
+set point, the daily heating demand of a building will balance the
+heat losses. The heat losses on a given day $d$ will, intuitively,
+be larger on colder days than on warmer days. Some days will so warm
+that no heating is required, with all heat losses being compensated
+by the sun and other free gains; the outdoor temperature threshold
+above which this happens, the building's \emph{base temperature} $\tb$,
+is usually taken to be equal to the indoor temperature set point up
+to a constant offset. We should also allow for day-to-day random fluctuations
+in the heating demand, which we will model by Gaussian noise $\mathcal{N}(0,\sigma^{2})$
+\nomenclature[090]{$\mathcal{N}(0,\sigma^{2})$}{Gaussian white noise of mean 0 and variance $\sigma^2$}of
+mean 0 and whose variance $\sigma^{2}$ will have to be estimated.
+
+Putting it all together, the daily losses $Q_{d}$\nomenclature[030]{$Q_{d}$}{energy demand on day $d$}
+on a day $d$ is the sum of something proportional to the positive
+difference \nomenclature[100]{$(.)^{+}$}{positive part}between the
+average outdoor temperature $\tout$ \nomenclature[070]{$\tout$}{mean outdoor temperature on day $d$}
+and the building's base temperature $\tb$, and random noise: 
 \begin{equation}
 Q_{d}=K\times(\tb-\tout)^{+}+\mathcal{N}(0,\sigma^{2}),
 \end{equation}
-\nomenclature[090]{$\mathcal{N}(0,\sigma^{2})$}{Gaussian white noise of mean 0 and variance $\sigma^2$}where
-the base temperature $\tb$ \nomenclature[060]{$\tb$ }{base temperature}of
-a building is defined as the outdoor temperature above which all heat
-losses are compensated by the sun and other free gains, and $\tout$
-\nomenclature[070]{$\tout$}{mean outdoor temperature on day $d$}
-is the average outdoor temperature on day $d$. The base temperature
-is equal to the indoor temperature set point, up to a constant offset.
-The building's total heat loss coefficient $K$\nomenclature[050]{$K$}{total heat loss coefficient}
-is the quantity of extra heat required per day to maintain indoor
-comfort for each extra degree of cold. We agreed with the customer
-that the effectiveness of the new control system would be quantified
-by the decrease of $K$, since the base temperature $\theta_{\text{b}}$
-might change if the indoor temperature set point is not the same before
-and after the installation.
+where the constant of proportionality $K$\nomenclature[050]{$K$}{total heat loss coefficient},
+called the building's \emph{total heat loss coefficient}, is the quantity
+of extra heat required per day to maintain indoor comfort for each
+extra degree of cold. We agreed with the customer that the effectiveness
+of the new control system would be uniquerely defined by changes to
+$K$, since the base temperature $\theta_{\text{b}}$ might change
+if the indoor temperature set point is not the same before and after
+the installation.
 
 Over a period $p$ made up of $n_{p}$ \nomenclature[045]{$n_{p}$}{number of days in period $p$}days,
 the total heating load \nomenclature[040]{$Q_{p}$}{energy demand during reporting period $p$}will

@@ -1452,9 +1452,48 @@ The energy consumed by a building is rarely constant but varies over time
 \end_layout
 
 \begin_layout Standard
-Under normal conditions, the daily heating demand of a building will balance
- the heat losses.
- The daily losses 
+Under normal conditions, when the indoor temperature follows a desired set
+ point, the daily heating demand of a building will balance the heat losses.
+ The heat losses on a given day 
+\begin_inset Formula $d$
+\end_inset
+
+ will, intuitively, be larger on colder days than on warmer days.
+ Some days will so warm that no heating is required, with all heat losses
+ being compensated by the sun and other free gains; the outdoor temperature
+ threshold above which this happens, the building's 
+\emph on
+base temperature
+\emph default
+ 
+\begin_inset Formula $\tb$
+\end_inset
+
+, is usually taken to be equal to the indoor temperature set point up to
+ a constant offset.
+ We should also allow for day-to-day random fluctuations in the heating
+ demand, which we will model by Gaussian noise 
+\begin_inset Formula $\mathcal{N}(0,\sigma^{2})$
+\end_inset
+
+ 
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "090"
+symbol "$\\mathcal{N}(0,\\sigma^{2})$"
+description "Gaussian white noise of mean 0 and variance $\\sigma^2$"
+
+\end_inset
+
+of mean 0 and whose variance 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+ will have to be estimated.
+\end_layout
+
+\begin_layout Standard
+Putting it all together, the daily losses 
 \begin_inset Formula $Q_{d}$
 \end_inset
 
@@ -1471,8 +1510,7 @@ description "energy demand on day $d$"
 \begin_inset Formula $d$
 \end_inset
 
- can be modeled as a random variable drawn from a Gaussian distribution,
- whose mean is proportional to the positive difference 
+ is the sum of something proportional to the positive difference 
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
 prefix "100"
@@ -1481,42 +1519,7 @@ description "positive part"
 
 \end_inset
 
-between the average outdoor temperature and the building's 
-\emph on
-base temperature
-\emph default
-: 
-\begin_inset Formula 
-\begin{equation}
-Q_{d}=K\times(\tb-\tout)^{+}+\mathcal{N}(0,\sigma^{2}),
-\end{equation}
-
-\end_inset
-
-
-\begin_inset CommandInset nomenclature
-LatexCommand nomenclature
-prefix "090"
-symbol "$\\mathcal{N}(0,\\sigma^{2})$"
-description "Gaussian white noise of mean 0 and variance $\\sigma^2$"
-
-\end_inset
-
-where the base temperature 
-\begin_inset Formula $\tb$
-\end_inset
-
- 
-\begin_inset CommandInset nomenclature
-LatexCommand nomenclature
-prefix "060"
-symbol "$\\tb$ "
-description "base temperature"
-
-\end_inset
-
-of a building is defined as the outdoor temperature above which all heat
- losses are compensated by the sun and other free gains, and 
+between the average outdoor temperature 
 \begin_inset Formula $\tout$
 \end_inset
 
@@ -1529,14 +1532,19 @@ description "mean outdoor temperature on day $d$"
 
 \end_inset
 
- is the average outdoor temperature on day 
-\begin_inset Formula $d$
+ and the building's base temperature 
+\begin_inset Formula $\tb$
 \end_inset
 
-.
- The base temperature is equal to the indoor temperature set point, up to
- a constant offset.
- The building's total heat loss coefficient 
+, and random noise: 
+\begin_inset Formula 
+\begin{equation}
+Q_{d}=K\times(\tb-\tout)^{+}+\mathcal{N}(0,\sigma^{2}),
+\end{equation}
+
+\end_inset
+
+where the constant of proportionality 
 \begin_inset Formula $K$
 \end_inset
 
@@ -1549,10 +1557,14 @@ description "total heat loss coefficient"
 
 \end_inset
 
- is the quantity of extra heat required per day to maintain indoor comfort
+, called the building's 
+\emph on
+total heat loss coefficient
+\emph default
+, is the quantity of extra heat required per day to maintain indoor comfort
  for each extra degree of cold.
  We agreed with the customer that the effectiveness of the new control system
- would be quantified by the decrease of 
+ would be uniquerely defined by changes to 
 \begin_inset Formula $K$
 \end_inset
 
