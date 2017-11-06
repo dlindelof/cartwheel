@@ -703,8 +703,8 @@ description "Energy Conservation Measure"
  vary widely in effectiveness.
  Faced with a variety of options, ranging from trivial (replacing light
  bulbs) to major (better façade insulation), an owner will want to know
- which measures will yield the highest return on investment—and with what
- confidence.
+ which measure is likely to yield the highest return on investment—and with
+ what confidence.
  Moreover, once the measure has been applied, the owner wants to know how
  well it performs and whether their money was well spent—an activity known
  as Measurement & Verification (M&V
@@ -734,12 +734,13 @@ key "BFE2013b"
  Reducing the heating energy for legacy buildings (while maintaining user
  comfort) will help such companies achieve their objectives—provided those
  energy savings can be proven.
- When this is difficult, facility managers will frequently prefer conservative
- projects, which doesn't help the the company meet its goals.
+ This is frequently a stumbling block for building managers with a finite
+ budget, who may prefer allocating resources to well-understood (but perhaps
+ less effective) building optimization projects.
 \end_layout
 
 \begin_layout Standard
-But proving the effectiveness of an ECM is hard.
+Proving the effectiveness of any ECM is hard.
  Many factors influence the energy consumption of a building, and they must
  be accounted for before and after the installation of the ECM.
  Proper M&V typically involves the establishment of a 
@@ -760,7 +761,7 @@ baseline
 \end_layout
 
 \begin_layout Standard
-Lack in confidence in the effectiveness of ECMs hinder their adoption 
+Lack of confidence in the effectiveness of ECMs hinders their adoption 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Ma2012"
@@ -1430,7 +1431,7 @@ name "fig:composite"
 \end_layout
 
 \begin_layout Section
-Bayesian energy model
+Estimating the building's energy efficiency
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Bayesian-energy-model"
@@ -1438,6 +1439,25 @@ name "sec:Bayesian-energy-model"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+We need to establish the building's energy efficiency before the installation
+ (from oil refill readouts) and after (from oil meter readouts).
+ We will describe a fully Bayesian approach to do so, and compire its prediction
+s with an approach based on nonlinear regression (the most credible alternative
+ we can think of).
+\end_layout
+
+\begin_layout Standard
+Both approaches require a model for the heating demand of the building;
+ that model happens to be the same for both approaches.
+ We describe that model first, and then show how both approaches deal with
+ the problem.
+\end_layout
+
+\begin_layout Subsection
+Heating energy model
 \end_layout
 
 \begin_layout Standard
@@ -1647,6 +1667,10 @@ degree days at base temperature
 
  must be calculated from historic weather data and the building's estimated
  base temperature.
+\end_layout
+
+\begin_layout Subsection
+Bayesian estimation
 \end_layout
 
 \begin_layout Standard
@@ -1913,11 +1937,58 @@ key "Lindelof2016"
 .
 \end_layout
 
+\begin_layout Subsection
+Nonlinear regression
+\end_layout
+
 \begin_layout Standard
-The analysis of the historic weather and oil consumption data will be explained
- in the following section, followed by the analysis of the post-installation
- consumption data.
- 
+In nonlinear regression we search for the set of parameters 
+\begin_inset Formula $\{K,\tb,\sigma\}$
+\end_inset
+
+ that minimizes the sum of weighted squared residuals
+\begin_inset Formula 
+\[
+\sum_{p}(Q_{p}-K\times DD_{p})^{2}/n_{p}(?).
+\]
+
+\end_inset
+
+ This can be handled by off-the-shelf funciton optimization routines, which
+ will find the 
+\begin_inset Quotes eld
+\end_inset
+
+best
+\begin_inset Quotes erd
+\end_inset
+
+ estimate of the 
+\begin_inset Formula $\{K,\tb,\sigma\}$
+\end_inset
+
+ parameters.
+ Most solvers will also evaluate the Hessian of the objective function around
+ its minimum, approximating it with a quadratic function of the parameters,
+ and use the curvature of that approximation to estimate the uncertainty
+ on the parameters.
+\end_layout
+
+\begin_layout Standard
+This is indeed what was done by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Lindelof2016"
+
+\end_inset
+
+, where the log-likelihood was to be maximized.
+ In fact, findint the set of parameters that maximizes the posterior probability
+ density function is in fact itself a nonlinear regression problem.
+ Bayesian methods, however, yield (through the posteriod pdf) more information
+ than a single pdf maximum.
+ And as we will see, the uncertainty on the estimated parameters will be
+ different.
 \end_layout
 
 \begin_layout Section
@@ -2978,6 +3049,19 @@ sigmaPost <- coef(fit.after)['sigma']
 \end_layout
 
 \begin_layout Standard
+\begin_inset Flex Chunk
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Note that two records in the oil readouts are probably erroneous and should
  be excluded from the analysis: 
 \end_layout
@@ -2994,23 +3078,15 @@ From 2013-06-17 to 2013-08-15 (59 days): 5500 L, or about 100 L per day
 \begin_layout Standard
 The building's base temperature and heat loss coefficient are estimated
  from this data.
- We obtain 
-\begin_inset Formula $\tb=\Sexpr{p(baseTempPre)}\pm\Sexpr{p(deltaBaseTempPre)}$
+ The Bayesian approach yields 
+\begin_inset Formula 
+\[
+\theta_{\text{b,pre}}=\Sexpr{p(baseTempPre)}\pm\Sexpr{p(deltaBaseTempPre)}\thinspace\text{℃},\quad K_{\mathrm{pre}}=\Sexpr{p(Kpre)}\pm\Sexpr{p(deltaKpre)}\thinspace\text{L/Kd},
+\]
+
 \end_inset
 
-
-\begin_inset space \thinspace{}
-\end_inset
-
-℃, and 
-\begin_inset Formula $K_{\mathrm{pre}}=\Sexpr{p(Kpre)}\pm\Sexpr{p(deltaKpre)}$
-\end_inset
-
-
-\begin_inset space \thinspace{}
-\end_inset
-
-L/K.
+ while the nonlinear regression yields
 \end_layout
 
 \begin_layout Standard
@@ -3031,8 +3107,8 @@ reference "fig:OilVsDD"
 
 \end_inset
 
-, where for comparison we do the same with degree days calculated with different
- official standards 
+, where for comparison we do the same with degree days calculated with nonlinear
+ regression and using different official standards 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "ashrae2013,CTG075"
@@ -3090,27 +3166,27 @@ before.dd <- subset(goodPeriods, When == "PRE")
 
 \begin_layout Plain Layout
 
-before.dd$Bayesian <- sapply(before.dd$DailyMeans, DD, baseTempPre)
+before.dd$Bayesian <- laply(before.dd$DailyMeans, DD, baseTempPre)
 \end_layout
 
 \begin_layout Plain Layout
 
-before.dd$ASHRAE <- sapply(before.dd$DailyMeans, DD, 18.3)
+before.dd$ASHRAE <- laply(before.dd$DailyMeans, DD, 18.3)
 \end_layout
 
 \begin_layout Plain Layout
 
-before.dd[["SIA 380:2015"]] <- sapply(before.dd$DailyMeans, DD, 12)
+before.dd[["SIA 380:2015"]] <- laply(before.dd$DailyMeans, DD, 12)
 \end_layout
 
 \begin_layout Plain Layout
 
-before.dd[["Carbon Trust"]] <- sapply(before.dd$DailyMeans, DD, 15.5)
+before.dd[["Carbon Trust"]] <- laply(before.dd$DailyMeans, DD, 15.5)
 \end_layout
 
 \begin_layout Plain Layout
 
-before.dd[["SIA 381/3"]] <- sapply(before.dd$DailyMeans, function(x) sum(ifelse(x
+before.dd[["SIA 381/3"]] <- laply(before.dd$DailyMeans, function(x) sum(ifelse(x
  < 12, 20 - x, 0)))
 \end_layout
 
@@ -3232,6 +3308,11 @@ ggplot(before.dd.long, aes(`Degree days`, Oil, fill = Good)) +
 \begin_layout Plain Layout
 
 	ylab("Oil (L)") +
+\end_layout
+
+\begin_layout Plain Layout
+
+    xlab("Degree days (Kd)") +
 \end_layout
 
 \begin_layout Plain Layout
