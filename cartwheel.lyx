@@ -3054,6 +3054,119 @@ status open
 
 \begin_layout Plain Layout
 
+epochEnergy <- function(periods) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  function(K, tb) homeR:::epochEnergy(K, tb, DHW = 0, periods$DailyMeans)
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+epochEnergyPre <- epochEnergy(subset(goodPeriods, When == "PRE" & Good))
+\end_layout
+
+\begin_layout Plain Layout
+
+OilPre <- subset(goodPeriods, When == "PRE" & Good)$Oil
+\end_layout
+
+\begin_layout Plain Layout
+
+epochEnergyPost <- epochEnergy(subset(goodPeriods, When == "POST" & Good))
+\end_layout
+
+\begin_layout Plain Layout
+
+OilPost <- subset(goodPeriods, When == "POST" & Good)$Oil
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+nlsfit.before <- nls(OilPre~epochEnergyPre(K,tb), start = list(K = 3, tb
+ = 20))
+\end_layout
+
+\begin_layout Plain Layout
+
+nlsfit.after <- nls(OilPost~epochEnergyPost(K,tb), start = list(K = 3, tb
+ = 20))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+coefs.nls.before <- nlsfit.before %>% summary %>% coef
+\end_layout
+
+\begin_layout Plain Layout
+
+coefs.nls.after <- nlsfit.after %>% summary %>% coef
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Kpre.nls <- coefs.nls.before['K', 'Estimate']
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaKpre.nls <- coefs.nls.before['K', 'Std.
+ Error']
+\end_layout
+
+\begin_layout Plain Layout
+
+baseTempPre.nls <- coefs.nls.before['tb', 'Estimate']
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaBaseTempPre.nls <- coefs.nls.before['tb', 'Std.
+ Error']
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Kpost.nls <- coefs.nls.after['K', 'Estimate']
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaKpost.nls <- coefs.nls.after['K', 'Std.
+ Error']
+\end_layout
+
+\begin_layout Plain Layout
+
+baseTempPost.nls <- coefs.nls.after['tb', 'Estimate']
+\end_layout
+
+\begin_layout Plain Layout
+
+deltaBaseTempPost.nls <- coefs.nls.after['tb', 'Std.
+ Error']
 \end_layout
 
 \end_inset
@@ -3087,6 +3200,23 @@ The building's base temperature and heat loss coefficient are estimated
 \end_inset
 
  while the nonlinear regression yields
+\begin_inset Formula 
+\[
+\theta_{\text{b,pre}}=\Sexpr{p(baseTempPre.nls)}\pm\Sexpr{p(deltaBaseTempPre.nls)}\thinspace\text{℃},\quad K_{\mathrm{pre}}=\Sexpr{p(Kpre.nls)}\pm\Sexpr{p(deltaKpre.nls)}\thinspace\text{L/Kd}.
+\]
+
+\end_inset
+
+ Both approaches yield comparable results, but there is one important difference
+: the Bayesian approach provides a posterior pdf for each parameter, which
+ in turn makes it possible to compute a posterior pdf for quantities derived
+ from these parameters.
+ In particular, we will later have to calculate the pdf of 
+\begin_inset Formula $\kpost/\kpre$
+\end_inset
+
+; this cannot be done easily with the point estimates provided by the nonlinear
+ regression.
 \end_layout
 
 \begin_layout Standard
@@ -3422,25 +3552,27 @@ Each point in this plot represents one day between 1 April 2016, when a
  is the slope of the linear regression through these points, since each
  point represents one day of oil consumption and they all are lower than
  the base temperature.
- We obtain 
-\begin_inset Formula $K_{\mathrm{post}}=\Sexpr{p(Kpost)}\pm\Sexpr{p(deltaKpost)}$
+ The Bayesian approach yields
+\begin_inset Formula 
+\[
+\theta_{\text{b,post}}=\Sexpr{p(baseTempPost)}\pm\Sexpr{p(deltaBaseTempPost)}\thinspace\text{℃}\quad K_{\mathrm{post}}=\Sexpr{p(Kpost)}\pm\Sexpr{p(deltaKpost)}\,\text{L/Kd},
+\]
+
 \end_inset
 
+ while the nonlinear regression yields
+\begin_inset Formula 
+\[
+\theta_{\text{b,post}}=\Sexpr{p(baseTempPost.nls)}\pm\Sexpr{p(deltaBaseTempPost.nls)}\thinspace\text{℃}\quad K_{\mathrm{post}}=\Sexpr{p(Kpost.nls)}\pm\Sexpr{p(deltaKpost.nls)}\,\text{L/Kd}.
+\]
 
-\begin_inset space \thinspace{}
 \end_inset
 
-L/K, or about 30% less than the pre-installation total heat loss coefficient
- 
-\begin_inset Formula $K_{\mathrm{pre}}$
-\end_inset
-
-.
- The post-installation base temperature is now 
-\begin_inset Formula $\theta_{\text{b,post}}=\Sexpr{p(baseTempPost)}\pm\Sexpr{p(deltaBaseTempPost)}\thinspace\text{℃}$
-\end_inset
-
-.
+ Again, both approaches are practically equivalent, and they both find a
+ post-installation heat loss coefficient about 30% smaller than before the
+ installation.
+ Notice also how daily meter readouts improve the precision of the parameter
+ estimation compared with historic oil fill records.
 \end_layout
 
 \begin_layout Section

@@ -756,7 +756,29 @@ sigmaPost <- coef(fit.after)['sigma']
 @
 
 <<>>=
+epochEnergy <- function(periods) {
+  function(K, tb) homeR:::epochEnergy(K, tb, DHW = 0, periods$DailyMeans)
+}
+epochEnergyPre <- epochEnergy(subset(goodPeriods, When == "PRE" & Good))
+OilPre <- subset(goodPeriods, When == "PRE" & Good)$Oil
+epochEnergyPost <- epochEnergy(subset(goodPeriods, When == "POST" & Good))
+OilPost <- subset(goodPeriods, When == "POST" & Good)$Oil
 
+nlsfit.before <- nls(OilPre~epochEnergyPre(K,tb), start = list(K = 3, tb = 20))
+nlsfit.after <- nls(OilPost~epochEnergyPost(K,tb), start = list(K = 3, tb = 20))
+
+coefs.nls.before <- nlsfit.before %>% summary %>% coef
+coefs.nls.after <- nlsfit.after %>% summary %>% coef
+
+Kpre.nls <- coefs.nls.before['K', 'Estimate']
+deltaKpre.nls <- coefs.nls.before['K', 'Std. Error']
+baseTempPre.nls <- coefs.nls.before['tb', 'Estimate']
+deltaBaseTempPre.nls <- coefs.nls.before['tb', 'Std. Error']
+
+Kpost.nls <- coefs.nls.after['K', 'Estimate']
+deltaKpost.nls <- coefs.nls.after['K', 'Std. Error']
+baseTempPost.nls <- coefs.nls.after['tb', 'Estimate']
+deltaBaseTempPost.nls <- coefs.nls.after['tb', 'Std. Error']
 @
 
 Note that two records in the oil readouts are probably erroneous and
@@ -773,6 +795,16 @@ from this data. The Bayesian approach yields
 \theta_{\text{b,pre}}=\Sexpr{p(baseTempPre)}\pm\Sexpr{p(deltaBaseTempPre)}\thinspace\text{\textcelsius},\quad K_{\mathrm{pre}}=\Sexpr{p(Kpre)}\pm\Sexpr{p(deltaKpre)}\thinspace\text{L/Kd},
 \]
  while the nonlinear regression yields
+\[
+\theta_{\text{b,pre}}=\Sexpr{p(baseTempPre.nls)}\pm\Sexpr{p(deltaBaseTempPre.nls)}\thinspace\text{\textcelsius},\quad K_{\mathrm{pre}}=\Sexpr{p(Kpre.nls)}\pm\Sexpr{p(deltaKpre.nls)}\thinspace\text{L/Kd}.
+\]
+ Both approaches yield comparable results, but there is one important
+difference: the Bayesian approach provides a posterior pdf for each
+parameter, which in turn makes it possible to compute a posterior
+pdf for quantities derived from these parameters. In particular, we
+will later have to calculate the pdf of $\kpost/\kpre$; this cannot
+be done easily with the point estimates provided by the nonlinear
+regression.
 
 Now that we have the building's base temperature, we can validate
 it by calculating the number of degree days for each oil consumption
@@ -850,10 +882,19 @@ and 16 May 2016, just before the end of the heating season. The post-installatio
 total heat loss coefficient $K_{\mathrm{post}}$ is the slope of the
 linear regression through these points, since each point represents
 one day of oil consumption and they all are lower than the base temperature.
-We obtain $K_{\mathrm{post}}=\Sexpr{p(Kpost)}\pm\Sexpr{p(deltaKpost)}$\,L/K,
-or about 30\% less than the pre-installation total heat loss coefficient
-$K_{\mathrm{pre}}$. The post-installation base temperature is now
-$\theta_{\text{b,post}}=\Sexpr{p(baseTempPost)}\pm\Sexpr{p(deltaBaseTempPost)}\thinspace\text{\textcelsius}$.
+The Bayesian approach yields
+\[
+\theta_{\text{b,post}}=\Sexpr{p(baseTempPost)}\pm\Sexpr{p(deltaBaseTempPost)}\thinspace\text{\textcelsius}\quad K_{\mathrm{post}}=\Sexpr{p(Kpost)}\pm\Sexpr{p(deltaKpost)}\,\text{L/Kd},
+\]
+ while the nonlinear regression yields
+\[
+\theta_{\text{b,post}}=\Sexpr{p(baseTempPost.nls)}\pm\Sexpr{p(deltaBaseTempPost.nls)}\thinspace\text{\textcelsius}\quad K_{\mathrm{post}}=\Sexpr{p(Kpost.nls)}\pm\Sexpr{p(deltaKpost.nls)}\,\text{L/Kd}.
+\]
+ Again, both approaches are practically equivalent, and they both
+find a post-installation heat loss coefficient about 30\% smaller
+than before the installation. Notice also how daily meter readouts
+improve the precision of the parameter estimation compared with historic
+oil fill records.
 
 \section{Results\label{sec:Results}}
 
