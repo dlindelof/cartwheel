@@ -371,9 +371,35 @@ belong to the Altbau part.}
 
 We need to establish the building's energy efficiency before the installation
 (from oil refill readouts) and after (from oil meter readouts). We
-will describe a fully Bayesian approach to do so, and compire its
-predictions with an approach based on nonlinear regression (the most
-credible alternative we can think of).
+will describe a fully Bayesian approach to do so, because to the best
+of our knowledge, only Bayesian methods maximize the information contained
+in the data, and perhaps more importantly, only Bayesian methods seem
+to us free from arbitrary decisions.
+
+For example, most linear regression problems minimize the squared
+error between the observed and the fitted data. But why do we minimize
+the squared error, and not, say, the absolue value? Bayesian linear
+regression provides an answer to this question, and can also help
+decide when the absolute error is more appropriate.
+
+When it comes to estimating a building's base temperature, the performance
+line method of \citet{Day2003} is frequently used when daily data
+is not available. The method consists in plotting the energy against
+the degree-days for a given base temperature, and fitting a second
+order polynomial. The base temperature is then adjusted until the
+second order coefficient vanishes. This method yields good results,
+but this choice of finding a base temperature such that the relationship
+between energy and degree-days becomes linear seems to us, again,
+rather arbitrary.
+
+We have also seen practitioners use variations of the performance
+line method where the coefficient of determination $R^{2}$ is maximized,
+where the intercept vanishes, or where the sum of unweighted squared
+residuals is minimized. It would seem to us that the best alternative
+to a fully Bayesian approach is a nonlinear regression, where we find
+the set of parameters that minimizes the \emph{weighted} squared residuals.
+This is the approach with which we will compare our fully Bayesian
+one.
 
 Both approaches require a model for the heating demand of the building;
 that model happens to be the same for both approaches. We describe
@@ -393,8 +419,8 @@ use before and after the installation of the ECM, as we do here.
 Under normal conditions, when the indoor temperature follows a desired
 set point, the daily heating demand of a building will balance the
 heat losses. The heat losses on a given day $d$ will, intuitively,
-be larger on colder days than on warmer days. Some days will so warm
-that no heating is required, with all heat losses being compensated
+be larger on colder days than on warmer days. Some days will beso
+warm that no heating is required, with all heat losses being compensated
 by the sun and other free gains; the outdoor temperature threshold
 above which this happens, the building's \emph{base temperature} $\tb$,
 is usually taken to be equal to the indoor temperature set point up
@@ -432,6 +458,18 @@ that period. The load $Q_{p}$ and the period duration $n_{p}$ are
 directly read from utility bills or energy meter readouts, while $DD_{p}$
 must be calculated from historic weather data and the building's estimated
 base temperature.
+
+Our task is to estimate the total heat loss coefficient $K$, the
+base temperature $\tb$, and the daily fluctuations $\sigma$ from
+the data. None of them can be estimated independently of the others;
+underestimating $\tb$ will lead to an overestimated $K$ and vice-versa.
+This is why one cannot use a ``one size fits all'' base temperature,
+as currently recommended by building regulations and policies. This
+was conclusively shown by an analysis of four years of half-hourly
+gas meter data on 119 buildings by \citet{Meng2017}, who found base
+temperatures ranging from 11.6\,\textcelsius{} to 20.5\,\textcelsius ,
+while the ``standard'' base temperature in the UK is 15.5\,\textcelsius{}
+\citep{CTG075}.
 
 \subsection{Bayesian estimation}
 

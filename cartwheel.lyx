@@ -1444,9 +1444,55 @@ name "sec:Bayesian-energy-model"
 \begin_layout Standard
 We need to establish the building's energy efficiency before the installation
  (from oil refill readouts) and after (from oil meter readouts).
- We will describe a fully Bayesian approach to do so, and compire its prediction
-s with an approach based on nonlinear regression (the most credible alternative
- we can think of).
+ We will describe a fully Bayesian approach to do so, because to the best
+ of our knowledge, only Bayesian methods maximize the information contained
+ in the data, and perhaps more importantly, only Bayesian methods seem to
+ us free from arbitrary decisions.
+\end_layout
+
+\begin_layout Standard
+For example, most linear regression problems minimize the squared error
+ between the observed and the fitted data.
+ But why do we minimize the squared error, and not, say, the absolue value?
+ Bayesian linear regression provides an answer to this question, and can
+ also help decide when the absolute error is more appropriate.
+\end_layout
+
+\begin_layout Standard
+When it comes to estimating a building's base temperature, the performance
+ line method of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Day2003"
+
+\end_inset
+
+ is frequently used when daily data is not available.
+ The method consists in plotting the energy against the degree-days for
+ a given base temperature, and fitting a second order polynomial.
+ The base temperature is then adjusted until the second order coefficient
+ vanishes.
+ This method yields good results, but this choice of finding a base temperature
+ such that the relationship between energy and degree-days becomes linear
+ seems to us, again, rather arbitrary.
+\end_layout
+
+\begin_layout Standard
+We have also seen practitioners use variations of the performance line method
+ where the coefficient of determination 
+\begin_inset Formula $R^{2}$
+\end_inset
+
+ is maximized, where the intercept vanishes, or where the sum of unweighted
+ squared residuals is minimized.
+ It would seem to us that the best alternative to a fully Bayesian approach
+ is a nonlinear regression, where we find the set of parameters that minimizes
+ the 
+\emph on
+weighted
+\emph default
+ squared residuals.
+ This is the approach with which we will compare our fully Bayesian one.
 \end_layout
 
 \begin_layout Standard
@@ -1479,7 +1525,7 @@ Under normal conditions, when the indoor temperature follows a desired set
 \end_inset
 
  will, intuitively, be larger on colder days than on warmer days.
- Some days will so warm that no heating is required, with all heat losses
+ Some days will beso warm that no heating is required, with all heat losses
  being compensated by the sun and other free gains; the outdoor temperature
  threshold above which this happens, the building's 
 \emph on
@@ -1667,6 +1713,78 @@ degree days at base temperature
 
  must be calculated from historic weather data and the building's estimated
  base temperature.
+\end_layout
+
+\begin_layout Standard
+Our task is to estimate the total heat loss coefficient 
+\begin_inset Formula $K$
+\end_inset
+
+, the base temperature 
+\begin_inset Formula $\tb$
+\end_inset
+
+, and the daily fluctuations 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ from the data.
+ None of them can be estimated independently of the others; underestimating
+ 
+\begin_inset Formula $\tb$
+\end_inset
+
+ will lead to an overestimated 
+\begin_inset Formula $K$
+\end_inset
+
+ and vice-versa.
+ This is why one cannot use a 
+\begin_inset Quotes eld
+\end_inset
+
+one size fits all
+\begin_inset Quotes erd
+\end_inset
+
+ base temperature, as currently recommended by building regulations and
+ policies.
+ This was conclusively shown by an analysis of four years of half-hourly
+ gas meter data on 119 buildings by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Meng2017"
+
+\end_inset
+
+, who found base temperatures ranging from 11.6
+\begin_inset space \thinspace{}
+\end_inset
+
+℃ to 20.5
+\begin_inset space \thinspace{}
+\end_inset
+
+℃, while the 
+\begin_inset Quotes eld
+\end_inset
+
+standard
+\begin_inset Quotes erd
+\end_inset
+
+ base temperature in the UK is 15.5
+\begin_inset space \thinspace{}
+\end_inset
+
+℃ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "CTG075"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection
