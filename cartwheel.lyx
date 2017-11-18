@@ -755,9 +755,9 @@ baseline
  The measured energy consumption post-retrofit is then compared with the
  energy consumption predicted by the baseline model, yielding the energy
  savings, either in absolute terms or in relative.
- But many M&V projects ignore the uncertainties surrounding the baseline
- model and report a point estimate for the energy savings, giving a false
- sense of accuracy.
+ But in our experience, it would appear that many M&V projects ignore the
+ uncertainties surrounding the baseline model and report a point estimate
+ for the energy savings, giving a false sense of accuracy.
 \end_layout
 
 \begin_layout Standard
@@ -1172,8 +1172,8 @@ key "neurobat2017"
  not allow for the measurement of a baseline.
  All that was available was a record of oil tank refills, stretching back
  to 2011.
- The poor baseline data made Bayesian methods particularly attractive for
- this project.
+ The poor baseline data made Bayesian methods, which maximize the use of
+ the available information, particularly attractive for this project.
 \end_layout
 
 \begin_layout Standard
@@ -1947,14 +1947,13 @@ Strict Bayesians would now write a full probability model involving all
  the pre- and post-installation parameters, work out the joint posterior
  probability density function, draw samples from that function and make
  inferences.
- There's nothing wrong with this, but we believe the pre- and post-installation
- parameters should be taken as conditionally independent; for example, the
- pre-retrofit heating loss coefficient 
+ That would be correct, but the problem can be considerably simplified by
+ noting that the pre- and post-installation parameters are conditionally
+ independent; the pre-retrofit heating loss coefficient 
 \begin_inset Formula $K_{\text{pre}}$
 \end_inset
 
- should be considered as completely independent from its post-retrofit counterpa
-rt 
+ is independent from its post-retrofit counterpart 
 \begin_inset Formula $K_{\text{post}}$
 \end_inset
 
@@ -1963,12 +1962,24 @@ rt
 \end_inset
 
 .
- But if the pre- and post-retrofit parameters are independent, then we are
- effectively dealing with two independent experiments: one before the installati
-on, and one after.
- The Bayesian analysis can therefore be simplified by considering separately
- the data before and after the installation.
- (One could argue that the measurement noise 
+ Furthermore, the likelihood of the pre-retrofit data 
+\begin_inset Formula $D_{\text{pre}}$
+\end_inset
+
+ depends only on the pre-retrofit parameters, and similarly for the post-retrofi
+t data 
+\begin_inset Formula $D_{\text{post}}$
+\end_inset
+
+.
+ So we are effectively dealing with two independent experiments: one before
+ the installation, and one after.
+ The pre- and post-retrofit parameters' probability distribution functions
+ can, without loss of information, be derived independently of each others.
+\end_layout
+
+\begin_layout Standard
+(One could argue that the measurement noise 
 \begin_inset Formula $\sigma$
 \end_inset
 
@@ -3383,7 +3394,67 @@ status open
 
 \begin_layout Plain Layout
 OilVsDD, fig.cap="Oil consumption vs heating degree days, calculated with
- different base temperatures.
+ different base temperatures as follows.
+ Bayesian: calculated from the data as described in the main text; ASHRAE:
+ 65
+\backslash
+
+\backslash
+,
+\backslash
+
+\backslash
+textdegree{}F (18.3
+\backslash
+
+\backslash
+,
+\backslash
+
+\backslash
+textcelsius) as recommended by the ASHRAE Handbook 
+\backslash
+
+\backslash
+citep{ashrae2013}; SIA 380:2015: 12
+\backslash
+
+\backslash
+,
+\backslash
+
+\backslash
+textcelsius, the standard used in Switzerland; Carbon Trust: 15.5
+\backslash
+
+\backslash
+,
+\backslash
+
+\backslash
+textcelsius, the standard used in the UK 
+\backslash
+
+\backslash
+citep{CTG075}; SIA 381/3: a retired Swiss norm, where the base temperature
+ is 20
+\backslash
+
+\backslash
+,
+\backslash
+
+\backslash
+textcelsius{} but only for those days whose average temperature is below
+ 12
+\backslash
+
+\backslash
+,
+\backslash
+
+\backslash
+textcelsius.
  Unfilled circles indicate the two records that have been excluded from
  the analysis.
  The heat loss coefficient $K$ is given in L/K.
@@ -3937,7 +4008,14 @@ reference "fig:RhoDensity"
  For example, 75% of the mass of this histogram lies to the right of 0.14;
  this can be reported to decision makers by saying that the heat loss coefficien
 t has been reduced by at least 14% with 75% confidence.
- The `best' estimate of the effect is obtained by finding the narrowest
+ 
+\end_layout
+
+\begin_layout Standard
+But this distribution clearly does not follow a normal distribution, so
+ it would be misleading to merely report the distribution's mean and standard
+ deviation.
+ The `best' estimate of the effect is obtained instead by finding the narrowest
  range of 
 \begin_inset Formula $\rho$
 \end_inset
@@ -3975,6 +4053,17 @@ where the
 \end_inset
 
  sign is understood to represent the 67% credible interval.
+\end_layout
+
+\begin_layout Standard
+What would we have done differently if we had estimated the building parameters
+ from nonlinear regression? We have point estimates of the total heat loss
+ coefficients before and after the installation, together with their standard
+ error.
+ But we don't know their distribution (since a nonlinear regression does
+ not yield pdfs), so we are forced to assume normal distributions.
+ The ratio of two normally distributed random variables has a closed form
+ but
 \end_layout
 
 \begin_layout Standard

@@ -172,9 +172,10 @@ involves the establishment of a ``baseline'' model of the building's
 energy consumption, ideally over at least one year. The measured energy
 consumption post-retrofit is then compared with the energy consumption
 predicted by the baseline model, yielding the energy savings, either
-in absolute terms or in relative. But many M\&V projects ignore the
-uncertainties surrounding the baseline model and report a point estimate
-for the energy savings, giving a false sense of accuracy.
+in absolute terms or in relative. But in our experience, it would
+appear that many M\&V projects ignore the uncertainties surrounding
+the baseline model and report a point estimate for the energy savings,
+giving a false sense of accuracy.
 
 Lack of confidence in the effectiveness of ECMs hinders their adoption
 \citep{Ma2012}. To convince building owners to undertake more building
@@ -310,8 +311,9 @@ locality in the canton of St Gall. Like many buildings, the pre-installation
 energy efficiency of this building was not well understood by the
 building's owner, and the project plan did not allow for the measurement
 of a baseline. All that was available was a record of oil tank refills,
-stretching back to 2011. The poor baseline data made Bayesian methods
-particularly attractive for this project.
+stretching back to 2011. The poor baseline data made Bayesian methods,
+which maximize the use of the available information, particularly
+attractive for this project.
 
 We first describe the test installation in section \ref{sec:Experimental-building},
 followed by a review in section \ref{sec:Bayesian-energy-model} of
@@ -515,16 +517,19 @@ are then given by $100\times(1-\rho)$.
 Strict Bayesians would now write a full probability model involving
 all the pre- and post-installation parameters, work out the joint
 posterior probability density function, draw samples from that function
-and make inferences. There's nothing wrong with this, but we believe
-the pre- and post-installation parameters should be taken as conditionally
-independent; for example, the pre-retrofit heating loss coefficient
-$K_{\text{pre}}$ should be considered as completely independent from
-its post-retrofit counterpart $K_{\text{post}}$, and the same holds
-for the base temperature $\theta_{\text{b}}$. But if the pre- and
-post-retrofit parameters are independent, then we are effectively
-dealing with two independent experiments: one before the installation,
-and one after. The Bayesian analysis can therefore be simplified by
-considering separately the data before and after the installation.
+and make inferences. That would be correct, but the problem can be
+considerably simplified by noting that the pre- and post-installation
+parameters are conditionally independent; the pre-retrofit heating
+loss coefficient $K_{\text{pre}}$ is independent from its post-retrofit
+counterpart $K_{\text{post}}$, and the same holds for the base temperature
+$\theta_{\text{b}}$. Furthermore, the likelihood of the pre-retrofit
+data $D_{\text{pre}}$ depends only on the pre-retrofit parameters,
+and similarly for the post-retrofit data $D_{\text{post}}$. So we
+are effectively dealing with two independent experiments: one before
+the installation, and one after. The pre- and post-retrofit parameters'
+probability distribution functions can, without loss of information,
+be derived independently of each others.
+
 (One could argue that the measurement noise $\sigma$ should \emph{not}
 be considered as independent; in fact, it would be reasonable to consider
 it as the same before and after the retrofit. We would normally agree
@@ -858,7 +863,7 @@ is satisfactorily linear, with the exception of the two outliers identified
 above, and possibly a third point with 2300 liters of oil for about
 750 degree days. 
 
-<<OilVsDD, fig.cap="Oil consumption vs heating degree days, calculated with different base temperatures. Unfilled circles indicate the two records that have been excluded from the analysis. The heat loss coefficient $K$ is given in L/K. The Bayesian base temperature yields the highest coefficient of determination $R^2$, suggesting that it fits the data best.", fig.width=one_and_half_columns, fig.height=4, fig.env="figure*">>=
+<<OilVsDD, fig.cap="Oil consumption vs heating degree days, calculated with different base temperatures as follows. Bayesian: calculated from the data as described in the main text; ASHRAE: 65\\,\\textdegree{}F (18.3\\,\\textcelsius) as recommended by the ASHRAE Handbook \\citep{ashrae2013}; SIA 380:2015: 12\\,\\textcelsius, the standard used in Switzerland; Carbon Trust: 15.5\\,\\textcelsius, the standard used in the UK \\citep{CTG075}; SIA 381/3: a retired Swiss norm, where the base temperature is 20\\,\\textcelsius{} but only for those days whose average temperature is below 12\\,\\textcelsius. Unfilled circles indicate the two records that have been excluded from the analysis. The heat loss coefficient $K$ is given in L/K. The Bayesian base temperature yields the highest coefficient of determination $R^2$, suggesting that it fits the data best.", fig.width=one_and_half_columns, fig.height=4, fig.env="figure*">>=
 
 pos <- function(x) pmax(0, x)
 DD <- function(dailyTemps, base) sum(pos(base - dailyTemps))
@@ -987,18 +992,30 @@ statement about the energy savings can now be made with its associated
 confidence. For example, 75\% of the mass of this histogram lies to
 the right of 0.14; this can be reported to decision makers by saying
 that the heat loss coefficient has been reduced by at least 14\% with
-75\% confidence. The `best' estimate of the effect is obtained by
-finding the narrowest range of $\rho$ values such that they encompass
-$N$\% of the mass of the histogram, also known as the $N$\% credible
-interval, for any desired $N$. Since one standard error of a normal
-distribution corresponds to a 67\% credible interval, we agreed with
-the building owner that the uncertainty on the effect should be reported
-with the same $N$. We obtain:
+75\% confidence. 
+
+But this distribution clearly does not follow a normal distribution,
+so it would be misleading to merely report the distribution's mean
+and standard deviation. The `best' estimate of the effect is obtained
+instead by finding the narrowest range of $\rho$ values such that
+they encompass $N$\% of the mass of the histogram, also known as
+the $N$\% credible interval, for any desired $N$. Since one standard
+error of a normal distribution corresponds to a 67\% credible interval,
+we agreed with the building owner that the uncertainty on the effect
+should be reported with the same $N$. We obtain:
 \[
 \text{Reduction of heat losses (\%)}=\Sexpr{p(savingsPercent)}\pm\Sexpr{p(savingsError)},
 \]
 where the $\pm$ sign is understood to represent the 67\% credible
 interval.
+
+What would we have done differently if we had estimated the building
+parameters from nonlinear regression? We have point estimates of the
+total heat loss coefficients before and after the installation, together
+with their standard error. But we don't know their distribution (since
+a nonlinear regression does not yield pdfs), so we are forced to assume
+normal distributions. The ratio of two normally distributed random
+variables has a closed form but
 
 An uncertainty of $\Sexpr{p(savingsError)}$ percentage points may
 sound large and it is tempting to try and reduce that error by letting
