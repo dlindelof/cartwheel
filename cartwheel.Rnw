@@ -976,6 +976,16 @@ savingsPercent <- 100 * (1 - rho)
 savingsError <- 100 * Drho
 @
 
+<<>>=
+drationorm <- function (x, meanx = 0, sdx = 1, meany = 0, sdy = 1) {
+    a <- function(x) sqrt(x^2/sdx^2 + 1/sdy^2)
+    b <- function(x) meanx / sdx^2 * x + meany / sdy^2
+    c <- meanx^2 / sdx^2 + meany^2 / sdy^2
+    d <- function(x) exp((b(x)^2 - c * a(x)^2) / (2 * a(x)^2))
+    b(x) * d(x) / a(x)^3 * 1 / (sqrt(2 * pi) * sdx * sdy) * (pnorm(b(x) / a(x)) - pnorm(- b(x) / a(x))) + 1 / (a(x)^2 * pi * sdx * sdy) * exp(-c^2/2)
+}
+@
+
 The effect on the building's heat loss coefficient (and its uncertainty),
 defined as $\rho=K/K_{\mathrm{pre}}$, can now be evaluated. From
 a Bayesian point of view, $\rho$ is a function of two random variables
@@ -1014,8 +1024,11 @@ parameters from nonlinear regression? We have point estimates of the
 total heat loss coefficients before and after the installation, together
 with their standard error. But we don't know their distribution (since
 a nonlinear regression does not yield pdfs), so we are forced to assume
-normal distributions. The ratio of two normally distributed random
-variables has a closed form but
+Gaussian distributions. The ratio of two Gaussian random variables
+has a closed form (if one is willing to accept the error function
+as an elementary function), and the probability density computed by
+this closed form, using the moments calculated by the nonlinear regression,
+is shown as a solid line on Fig.~\ref{BROKEN: Ref: fig:RhoDensity}.
 
 An uncertainty of $\Sexpr{p(savingsError)}$ percentage points may
 sound large and it is tempting to try and reduce that error by letting
@@ -1032,8 +1045,12 @@ percentage points. After $\Sexpr{nrow(subset(goodPeriods,When=='POST'))}$
 days, our accuracy is almost as good as it will ever get. 
 
 <<RhoDensity, fig.cap="Probability density distribution of the heat loss reduction $1-\\rho$.">>=
-q <- qplot(100 * m[, 'savings'], y = ..density.., geom = "histogram", xlab = "Heat losses reduction (\\%)", ylab = "Probability density")
-q + xlim(-100, 100)
+ggplot(data.frame(x = 100 * m[, 'savings']), aes(x)) +
+  geom_histogram(aes(y = ..density..)) +
+  xlab("Heat losses reduction (\\%)") +
+  ylab("Probability density") +
+  xlim(-100, 100) +
+  stat_function(fun = function(x, ...) drationorm(1 - x / 100, ...) / 100, args = list(meanx = Kpost, sdx = deltaKpost, meany = Kpre, sdy = deltaKpre))
 @
 
 The magnitude of the effect is less than twice its uncertainty, so
