@@ -4117,11 +4117,17 @@ What would we have done differently if we had estimated the building parameters
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "BROKEN: Ref: fig:RhoDensity"
+reference "fig:RhoDensity"
 
 \end_inset
 
 .
+ If the two approaches agreed, the solid line would roughly go through the
+ top center of each bar of the histogram.
+ Here they disagree somewhat: the non-linear regression is slightly shifted
+ to the left, towards negative values.
+ The non-linear regression approach would therefore tend to underestimate
+ the effect on the heat loss coefficient.
 \end_layout
 
 \begin_layout Standard
@@ -4398,26 +4404,55 @@ Upgrading the heating control system of the building in Sargans has lowered
 
 \begin_layout Standard
 We have used a Bayesian analysis framework throughout this analysis and
- found it superior to its classical counterpart on at least three points:
+ compared it with a more classical counterpart (a non-linear regression
+ approach).
+ Both approaches were able to:
 \end_layout
 
 \begin_layout Itemize
-its ability to handle a complex probability model, such as the one relating
- the daily energy consumption to the mean outdoor temperature
+handle a complex probability model, such as the one relating the daily energy
+ consumption to the mean outdoor temperature
 \end_layout
 
 \begin_layout Itemize
-its ability to take into account data from very different sources (pre-retrofit
- manual entries and post-retrofit automated daily readouts)
+take into account data from very different sources (pre-retrofit manual
+ entries and post-retrofit automated daily readouts)
+\end_layout
+
+\begin_layout Itemize
+estimate the pre- and post-installation building model parameters
+\end_layout
+
+\begin_layout Standard
+The Bayesian approach had the following advantages over its counterpart:
 \end_layout
 
 \begin_layout Itemize
 the clear interpretability and communicability of its results
 \end_layout
 
+\begin_layout Itemize
+easier to program (we had to work around certain limitations in the non-linear
+ regression package provided by R)
+\end_layout
+
+\begin_layout Itemize
+less ad-hoc assumptions
+\end_layout
+
 \begin_layout Standard
-Because of this choice, we were able to avoid a costly pre-retrofit period
- of measurements.
+Since this is a case study on a real building (with unknown 
+\begin_inset Quotes eld
+\end_inset
+
+real
+\begin_inset Quotes erd
+\end_inset
+
+ parameters) we cannot judge which method is the more accurate.
+ But because of its simplicity, ease of programming, and lack of arbitrary
+ assumptions, our preference goes to the Bayesian method, with which we
+ were able to avoid a costly pre-retrofit period of measurements.
  The owner of the building was aware that the precision of the energy savings
  was going to be limited by the accuracy of the pre-retrofit manual readouts,
  but appreciated the efforts made to communicate them in a way easy to understan

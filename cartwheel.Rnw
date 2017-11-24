@@ -1028,7 +1028,12 @@ Gaussian distributions. The ratio of two Gaussian random variables
 has a closed form (if one is willing to accept the error function
 as an elementary function), and the probability density computed by
 this closed form, using the moments calculated by the nonlinear regression,
-is shown as a solid line on Fig.~\ref{BROKEN: Ref: fig:RhoDensity}.
+is shown as a solid line on Fig.~\ref{fig:RhoDensity}. If the two
+approaches agreed, the solid line would roughly go through the top
+center of each bar of the histogram. Here they disagree somewhat:
+the non-linear regression is slightly shifted to the left, towards
+negative values. The non-linear regression approach would therefore
+tend to underestimate the effect on the heat loss coefficient.
 
 An uncertainty of $\Sexpr{p(savingsError)}$ percentage points may
 sound large and it is tempting to try and reduce that error by letting
@@ -1103,20 +1108,31 @@ a probability density function in all the building's parameters, from
 which the effect on the heat loss coefficient were estimated.
 
 We have used a Bayesian analysis framework throughout this analysis
-and found it superior to its classical counterpart on at least three
-points:
+and compared it with a more classical counterpart (a non-linear regression
+approach). Both approaches were able to:
 \begin{itemize}
-\item its ability to handle a complex probability model, such as the one
-relating the daily energy consumption to the mean outdoor temperature
-\item its ability to take into account data from very different sources
-(pre-retrofit manual entries and post-retrofit automated daily readouts)
-\item the clear interpretability and communicability of its results
+\item handle a complex probability model, such as the one relating the daily
+energy consumption to the mean outdoor temperature
+\item take into account data from very different sources (pre-retrofit manual
+entries and post-retrofit automated daily readouts)
+\item estimate the pre- and post-installation building model parameters
 \end{itemize}
-Because of this choice, we were able to avoid a costly pre-retrofit
-period of measurements. The owner of the building was aware that the
-precision of the energy savings was going to be limited by the accuracy
-of the pre-retrofit manual readouts, but appreciated the efforts made
-to communicate them in a way easy to understand for decision-makers.
+The Bayesian approach had the following advantages over its counterpart:
+\begin{itemize}
+\item the clear interpretability and communicability of its results
+\item easier to program (we had to work around certain limitations in the
+non-linear regression package provided by R)
+\item less ad-hoc assumptions
+\end{itemize}
+Since this is a case study on a real building (with unknown ``real''
+parameters) we cannot judge which method is the more accurate. But
+because of its simplicity, ease of programming, and lack of arbitrary
+assumptions, our preference goes to the Bayesian method, with which
+we were able to avoid a costly pre-retrofit period of measurements.
+The owner of the building was aware that the precision of the energy
+savings was going to be limited by the accuracy of the pre-retrofit
+manual readouts, but appreciated the efforts made to communicate them
+in a way easy to understand for decision-makers.
 
 Not all buildings will enjoy the luxury of automated energy consumption
 readouts, and it is likely that future projects will have no choice
