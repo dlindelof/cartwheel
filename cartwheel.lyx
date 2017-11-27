@@ -770,10 +770,21 @@ key "Ma2012"
 
 .
  To convince building owners to undertake more building retrofit projects
- we must address two concerns: 1) the risk that the ECM might not be as
- effective as advertised, and 2) the risk that, although effective, the
- benefits will turn out to be difficult to prove.
- The latter is the goal of M&V, currently perceived as 
+ we must address three concerns: 1) the risk that the ECM might not be as
+ effective as advertised, 2) the risk that, although effective, the benefits
+ will turn out to be difficult to prove, and 3) the risk of a poor return
+ on investment.
+ The latter risk is a function not only of the effectiveness of the ECM,
+ but also of the fluctuating energy prices throughout the lifetime of the
+ building, and has been addressed by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Kumbaroglu2012"
+
+\end_inset
+
+.
+ Risks 1) and 2) are the goal of M&V, currently perceived as 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1496,6 +1507,27 @@ weighted
 \end_layout
 
 \begin_layout Standard
+Bayesian methods have recently been employed by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "ChongKheePohLamMatteoPozziJunjingYang2017"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Heine2017"
+
+\end_inset
+
+ who have shown how to infer building parameters from measurements; perhaps
+ the only flaw in their approach is their choice of prior distribution,
+ which tended to remain unaffected by the data.
+ It would perhaps have been better to start with uninformative priors.
+\end_layout
+
+\begin_layout Standard
 Both approaches require a model for the heating demand of the building;
  that model happens to be the same for both approaches.
  We describe that model first, and then show how both approaches deal with
@@ -1757,7 +1789,14 @@ key "Meng2017"
 
 \end_inset
 
-, who found base temperatures ranging from 11.6
+, who used an algorithm due to 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Paulus2016"
+
+\end_inset
+
+ and found base temperatures ranging from 11.6
 \begin_inset space \thinspace{}
 \end_inset
 
@@ -4387,6 +4426,10 @@ a
 Conclusion
 \end_layout
 
+\begin_layout Subsection
+Summary of results
+\end_layout
+
 \begin_layout Standard
 Upgrading the heating control system of the building in Sargans has lowered
  the total heat loss coefficient of that building by 
@@ -4482,6 +4525,14 @@ Another vexing point concerns the apparent shift in the building's base
  temperature alone? Or is there something inherent in the new control system
  that also shifts that base temperature? This too remains an interesting
  open question.
+\end_layout
+
+\begin_layout Subsection
+Recommendations
+\end_layout
+
+\begin_layout Standard
+Throughout this work we have tried to 
 \end_layout
 
 \begin_layout Section*

@@ -179,15 +179,19 @@ giving a false sense of accuracy.
 
 Lack of confidence in the effectiveness of ECMs hinders their adoption
 \citep{Ma2012}. To convince building owners to undertake more building
-retrofit projects we must address two concerns: 1) the risk that the
-ECM might not be as effective as advertised, and 2) the risk that,
+retrofit projects we must address three concerns: 1) the risk that
+the ECM might not be as effective as advertised, 2) the risk that,
 although effective, the benefits will turn out to be difficult to
-prove. The latter is the goal of M\&V, currently perceived as ``an
-inaccurate science: an engineering practice relying heavily on professional
-judgement'' \citep{Xia2013}. We must show building owners that assessing
-the effectiveness of ECMs can be a well-defined and well-understood
-process, one that yields not just the estimated energy savings but
-also their accuracy, while complying with existing international norms.
+prove, and 3) the risk of a poor return on investment. The latter
+risk is a function not only of the effectiveness of the ECM, but also
+of the fluctuating energy prices throughout the lifetime of the building,
+and has been addressed by \citet{Kumbaroglu2012}. Risks 1) and 2)
+are the goal of M\&V, currently perceived as ``an inaccurate science:
+an engineering practice relying heavily on professional judgement''
+\citep{Xia2013}. We must show building owners that assessing the
+effectiveness of ECMs can be a well-defined and well-understood process,
+one that yields not just the estimated energy savings but also their
+accuracy, while complying with existing international norms.
 
 \subsection{The International Performance Measurement and Verification Protocol}
 
@@ -403,6 +407,13 @@ the set of parameters that minimizes the \emph{weighted} squared residuals.
 This is the approach with which we will compare our fully Bayesian
 one.
 
+Bayesian methods have recently been employed by \citet{ChongKheePohLamMatteoPozziJunjingYang2017}
+and \citet{Heine2017} who have shown how to infer building parameters
+from measurements; perhaps the only flaw in their approach is their
+choice of prior distribution, which tended to remain unaffected by
+the data. It would perhaps have been better to start with uninformative
+priors.
+
 Both approaches require a model for the heating demand of the building;
 that model happens to be the same for both approaches. We describe
 that model first, and then show how both approaches deal with the
@@ -468,10 +479,10 @@ underestimating $\tb$ will lead to an overestimated $K$ and vice-versa.
 This is why one cannot use a ``one size fits all'' base temperature,
 as currently recommended by building regulations and policies. This
 was conclusively shown by an analysis of four years of half-hourly
-gas meter data on 119 buildings by \citet{Meng2017}, who found base
-temperatures ranging from 11.6\,\textcelsius{} to 20.5\,\textcelsius ,
-while the ``standard'' base temperature in the UK is 15.5\,\textcelsius{}
-\citep{CTG075}.
+gas meter data on 119 buildings by \citet{Meng2017}, who used an
+algorithm due to \citet{Paulus2016} and found base temperatures ranging
+from 11.6\,\textcelsius{} to 20.5\,\textcelsius , while the ``standard''
+base temperature in the UK is 15.5\,\textcelsius{} \citep{CTG075}.
 
 \subsection{Bayesian estimation}
 
@@ -1098,6 +1109,8 @@ to fully reap the energy savings.
 
 \section{Conclusion}
 
+\subsection{Summary of results}
+
 Upgrading the heating control system of the building in Sargans has
 lowered the total heat loss coefficient of that building by $\Sexpr{p(savingsPercent)}\pm\Sexpr{p(savingsError)}$
 \%. This estimate was obtained by fitting a probability model to the
@@ -1149,6 +1162,10 @@ in the average indoor temperature, but can the entire shift be entirely
 attributed to the indoor temperature alone? Or is there something
 inherent in the new control system that also shifts that base temperature?
 This too remains an interesting open question.
+
+\subsection{Recommendations}
+
+Throughout this work we have tried to 
 
 \section*{Acknowledgements}
 
