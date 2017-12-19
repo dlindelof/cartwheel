@@ -1588,6 +1588,18 @@ of mean 0 and whose variance
 \end_inset
 
  will have to be estimated.
+ Such models have been called 
+\emph on
+probabilistic semi-physical models
+\emph default
+ in some papers 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Verhelst2017"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -4169,13 +4181,29 @@ reference "fig:RhoDensity"
  the effect on the heat loss coefficient.
 \end_layout
 
+\begin_layout Section
+Discussion
+\end_layout
+
 \begin_layout Standard
-An uncertainty of 
+We have estimated the reduction of heat losses caused by the installation
+ of a new heating control system and reported that effect in a form familiar
+ to decision makers: a point estimate 
+\begin_inset Formula $\pm$
+\end_inset
+
+ an uncertainty.
+ This form is sufficient for most building owners, provided that pains are
+ taken to clearly explain how the uncertainty should be interpreted.
+\end_layout
+
+\begin_layout Standard
+In our case we have reported an uncertainty of 
 \begin_inset Formula $\Sexpr{p(savingsError)}$
 \end_inset
 
- percentage points may sound large and it is tempting to try and reduce
- that error by letting the experiment run longer.
+ percentage points, which may sound large and it is tempting to try and
+ reduce that error by letting the experiment run longer.
  But doing so will only reduce the error on the post-installation heat loss
  coefficient 
 \begin_inset Formula $K_{\text{post}}$
@@ -4422,6 +4450,25 @@ a
  consider adjusting those set points to fully reap the energy savings.
 \end_layout
 
+\begin_layout Standard
+However, all these caveats (and many more) apply to an equivalent analysis
+ done with classical statistics, such as non-linear regression.
+ In fact, we would cautiously suggest that our approach is much more likely
+ to bring the attention of the analyst to these problems, because we have
+ seldom seen these points being discussed in prior similar works.
+\end_layout
+
+\begin_layout Standard
+Finally, it should be noted that our approach was focused on reducing the
+ heating energy demand of a building.
+ But there are many energy conservation measures whose purpose is to reduce
+ other forms of energy: cooling loads and artificial lighting are two obvious
+ examples.
+ A Bayesian approach similar to the one presented here can deal with such
+ situations, provided a suitable model is developed—which must also be done
+ done for classical approaches anyway.
+\end_layout
+
 \begin_layout Section
 Conclusion
 \end_layout
@@ -4532,7 +4579,62 @@ Recommendations
 \end_layout
 
 \begin_layout Standard
-Throughout this work we have tried to 
+Throughout this work we have tried to satisfy two classes of readers: the
+ academics, who wish to know about the theory, and the energy profressionals,
+ who want to apply this method in practice.
+\end_layout
+
+\begin_layout Standard
+We would suggest that the latter might be interested in the (partial) implementa
+tion of this method provided by the homeR package 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "homeR"
+
+\end_inset
+
+ for the R Programming Environment 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "Rcore2015"
+
+\end_inset
+
+.
+ We say 
+\begin_inset Quotes eld
+\end_inset
+
+partial
+\begin_inset Quotes erd
+\end_inset
+
+, because the software currently estimates the building parameters and the
+ (log-)posterior probability density functions only before or after the
+ ECM installation; it doesn't (yet) carry out the whole analysis before
+ and after.
+ That must be done 
+\begin_inset Quotes eld
+\end_inset
+
+by hand
+\begin_inset Quotes erd
+\end_inset
+
+, as was done for this paper.
+\end_layout
+
+\begin_layout Standard
+But we plan to improve that software package and recommend that anyone intereste
+d should get in touch with the authors listed on that package's website
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "homeR"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section*

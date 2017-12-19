@@ -441,6 +441,8 @@ to a constant offset. We should also allow for day-to-day random fluctuations
 in the heating demand, which we will model by Gaussian noise $\mathcal{N}(0,\sigma^{2})$
 \nomenclature[090]{$\mathcal{N}(0,\sigma^{2})$}{Gaussian white noise of mean 0 and variance $\sigma^2$}of
 mean 0 and whose variance $\sigma^{2}$ will have to be estimated.
+Such models have been called \emph{probabilistic semi-physical models}
+in some papers \citep{Verhelst2017}.
 
 Putting it all together, the daily losses $Q_{d}$\nomenclature[030]{$Q_{d}$}{energy demand on day $d$}
 on a day $d$ is the sum of something proportional to the positive
@@ -1046,14 +1048,22 @@ the non-linear regression is slightly shifted to the left, towards
 negative values. The non-linear regression approach would therefore
 tend to underestimate the effect on the heat loss coefficient.
 
-An uncertainty of $\Sexpr{p(savingsError)}$ percentage points may
-sound large and it is tempting to try and reduce that error by letting
-the experiment run longer. But doing so will only reduce the error
-on the post-installation heat loss coefficient $K_{\text{post}}$;
-there is nothing we can do about the error on the pre-installation
-heat loss coefficient $K_{\text{pre}}$, which dominates the total
-error. The absolute error on $\rho$ has a lower limit given by the
-relative error on $K_{\text{pre}}$: $\Delta\rho\geq\rho\times\Delta K_{\text{pre}}/K_{\text{pre}}$.
+\section{Discussion}
+
+We have estimated the reduction of heat losses caused by the installation
+of a new heating control system and reported that effect in a form
+familiar to decision makers: a point estimate $\pm$ an uncertainty.
+This form is sufficient for most building owners, provided that pains
+are taken to clearly explain how the uncertainty should be interpreted.
+
+In our case we have reported an uncertainty of $\Sexpr{p(savingsError)}$
+percentage points, which may sound large and it is tempting to try
+and reduce that error by letting the experiment run longer. But doing
+so will only reduce the error on the post-installation heat loss coefficient
+$K_{\text{post}}$; there is nothing we can do about the error on
+the pre-installation heat loss coefficient $K_{\text{pre}}$, which
+dominates the total error. The absolute error on $\rho$ has a lower
+limit given by the relative error on $K_{\text{pre}}$: $\Delta\rho\geq\rho\times\Delta K_{\text{pre}}/K_{\text{pre}}$.
 In our case, $\rho=\Sexpr{p(rho)}$, $\Delta K_{\text{pre}}=\Sexpr{p(sd(m[,'Kpre']))}$,
 $K_{\text{pre}}=\Sexpr{p(mean(m[,'Kpre']))}$ and therefore $\Delta\rho\geq\Sexpr{p(mean(m[,'Kpost']/m[,'Kpre'])*sd(m[,'Kpre'])/mean(m[,'Kpre']))}$,
 very close to the current uncertainty of $\Sexpr{p(savingsError)}$
@@ -1106,6 +1116,20 @@ really desired by the user. This does not invalidate the above analysis,
 but the building manager should consider adjusting those set points
 to fully reap the energy savings.
 \end{itemize}
+However, all these caveats (and many more) apply to an equivalent
+analysis done with classical statistics, such as non-linear regression.
+In fact, we would cautiously suggest that our approach is much more
+likely to bring the attention of the analyst to these problems, because
+we have seldom seen these points being discussed in prior similar
+works.
+
+Finally, it should be noted that our approach was focused on reducing
+the heating energy demand of a building. But there are many energy
+conservation measures whose purpose is to reduce other forms of energy:
+cooling loads and artificial lighting are two obvious examples. A
+Bayesian approach similar to the one presented here can deal with
+such situations, provided a suitable model is developed\textemdash which
+must also be done done for classical approaches anyway.
 
 \section{Conclusion}
 
@@ -1165,7 +1189,22 @@ This too remains an interesting open question.
 
 \subsection{Recommendations}
 
-Throughout this work we have tried to 
+Throughout this work we have tried to satisfy two classes of readers:
+the academics, who wish to know about the theory, and the energy profressionals,
+who want to apply this method in practice.
+
+We would suggest that the latter might be interested in the (partial)
+implementation of this method provided by the homeR package \citep{homeR}
+for the R Programming Environment \citep{Rcore2015}. We say ``partial'',
+because the software currently estimates the building parameters and
+the (log-)posterior probability density functions only before or after
+the ECM installation; it doesn't (yet) carry out the whole analysis
+before and after. That must be done ``by hand'', as was done for
+this paper.
+
+But we plan to improve that software package and recommend that anyone
+interested should get in touch with the authors listed on that package's
+website \citep{homeR}.
 
 \section*{Acknowledgements}
 
