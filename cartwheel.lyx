@@ -1442,7 +1442,7 @@ name "fig:composite"
 \end_layout
 
 \begin_layout Section
-Estimating the building's energy efficiency
+Estimating the building's heating demand
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Bayesian-energy-model"
@@ -1453,85 +1453,17 @@ name "sec:Bayesian-energy-model"
 \end_layout
 
 \begin_layout Standard
-We need to establish the building's energy efficiency before the installation
- (from oil refill readouts) and after (from oil meter readouts).
- We will describe a fully Bayesian approach to do so, because to the best
- of our knowledge, only Bayesian methods maximize the information contained
- in the data, and perhaps more importantly, only Bayesian methods seem to
- us free from arbitrary decisions.
-\end_layout
-
-\begin_layout Standard
-For example, most linear regression problems minimize the squared error
- between the observed and the fitted data.
- But why do we minimize the squared error, and not, say, the absolue value?
- Bayesian linear regression provides an answer to this question, and can
- also help decide when the absolute error is more appropriate.
-\end_layout
-
-\begin_layout Standard
-When it comes to estimating a building's base temperature, the performance
- line method of 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Day2003"
-
-\end_inset
-
- is frequently used when daily data is not available.
- The method consists in plotting the energy against the degree-days for
- a given base temperature, and fitting a second order polynomial.
- The base temperature is then adjusted until the second order coefficient
- vanishes.
- This method yields good results, but this choice of finding a base temperature
- such that the relationship between energy and degree-days becomes linear
- seems to us, again, rather arbitrary.
-\end_layout
-
-\begin_layout Standard
-We have also seen practitioners use variations of the performance line method
- where the coefficient of determination 
-\begin_inset Formula $R^{2}$
-\end_inset
-
- is maximized, where the intercept vanishes, or where the sum of unweighted
- squared residuals is minimized.
- It would seem to us that the best alternative to a fully Bayesian approach
- is a nonlinear regression, where we find the set of parameters that minimizes
- the 
-\emph on
-weighted
-\emph default
- squared residuals.
- This is the approach with which we will compare our fully Bayesian one.
-\end_layout
-
-\begin_layout Standard
-Bayesian methods have recently been employed by 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "ChongKheePohLamMatteoPozziJunjingYang2017"
-
-\end_inset
-
- and 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "Heine2017"
-
-\end_inset
-
- who have shown how to infer building parameters from measurements; perhaps
- the only flaw in their approach is their choice of prior distribution,
- which tended to remain unaffected by the data.
- It would perhaps have been better to start with uninformative priors.
-\end_layout
-
-\begin_layout Standard
-Both approaches require a model for the heating demand of the building;
- that model happens to be the same for both approaches.
- We describe that model first, and then show how both approaches deal with
- the problem.
+To verify the effectiveness of the new heating control system, we need to
+ establish two models for the building's heating energy demand: one before
+ the installation, one after.
+ Both models will have the same structure, but different parameters.
+ The parameters must be estimated from the available data: the model before
+ the installation will be estimated from the oil fill readouts, while the
+ model after the installation will be estimated from the automated oil meter
+ readouts.
+ We begin by defining the structure of the model, and then we discuss how
+ the parameters can be estimated from the data.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -1539,27 +1471,24 @@ Heating energy model
 \end_layout
 
 \begin_layout Standard
-The energy consumed by a building is rarely constant but varies over time
+A building's heating energy demand is rarely constant but varies over time
  due to so-called routine factors (expected to vary, such as the climate)
  and non-routine factors (normally constant, such as the indoor temperature's
  set point or the activity inside the building).
- These factors must be accounted for when assessing the effectiveness of
- an ECM.
- This is normally done by establishing a model for the energy use before
- and after the installation of the ECM, as we do here.
 \end_layout
 
 \begin_layout Standard
 Under normal conditions, when the indoor temperature follows a desired set
- point, the daily heating demand of a building will balance the heat losses.
+ point, the daily heating energy demand of a building will balance the heat
+ losses.
  The heat losses on a given day 
 \begin_inset Formula $d$
 \end_inset
 
  will, intuitively, be larger on colder days than on warmer days.
- Some days will beso warm that no heating is required, with all heat losses
+ Some days will be so warm that no heating is required, all heat losses
  being compensated by the sun and other free gains; the outdoor temperature
- threshold above which this happens, the building's 
+ above which this happens (called the building's 
 \emph on
 base temperature
 \emph default
@@ -1567,7 +1496,7 @@ base temperature
 \begin_inset Formula $\tb$
 \end_inset
 
-, is usually taken to be equal to the indoor temperature set point up to
+) is usually taken to be equal to the indoor temperature set point up to
  a constant offset.
  We should also allow for day-to-day random fluctuations in the heating
  demand, which we will model by Gaussian noise 
@@ -1603,6 +1532,13 @@ key "Verhelst2017"
 \end_layout
 
 \begin_layout Standard
+(This assumes that the variance of the daily heating energy demand is constant,
+ which is of course not true: above the base temperature, the daily heating
+ energy demand will be stabler than below the base temperature.
+ But we do not believe the model needs this extra complexity.)
+\end_layout
+
+\begin_layout Standard
 Putting it all together, the daily losses 
 \begin_inset Formula $Q_{d}$
 \end_inset
@@ -1620,7 +1556,7 @@ description "energy demand on day $d$"
 \begin_inset Formula $d$
 \end_inset
 
- is the sum of something proportional to the positive difference 
+ is proportional to the positive difference 
 \begin_inset CommandInset nomenclature
 LatexCommand nomenclature
 prefix "100"
@@ -1646,7 +1582,7 @@ description "mean outdoor temperature on day $d$"
 \begin_inset Formula $\tb$
 \end_inset
 
-, and random noise: 
+, plus random noise: 
 \begin_inset Formula 
 \begin{equation}
 Q_{d}=K\times(\tb-\tout)^{+}+\mathcal{N}(0,\sigma^{2}),
@@ -1673,8 +1609,8 @@ total heat loss coefficient
 \emph default
 , is the quantity of extra heat required per day to maintain indoor comfort
  for each extra degree of cold.
- We agreed with the customer that the effectiveness of the new control system
- would be uniquerely defined by changes to 
+ We agreed with the customer that the effectiveness of the new heating control
+ system would be uniquerely determined from changes to 
 \begin_inset Formula $K$
 \end_inset
 
@@ -1736,7 +1672,7 @@ description "heating degree days during period $p$"
 
 is the number of 
 \emph on
-degree days at base temperature 
+degree-days at base temperature 
 \begin_inset Formula $\tb$
 \end_inset
 
@@ -1783,7 +1719,7 @@ Our task is to estimate the total heat loss coefficient
 \end_inset
 
  and vice-versa.
- This is why one cannot use a 
+ This is partially why one cannot use a 
 \begin_inset Quotes eld
 \end_inset
 
@@ -2117,25 +2053,139 @@ key "Lindelof2016"
 .
 \end_layout
 
+\begin_layout Standard
+A fully Bayesian approach like the one just described is mathematically
+ straightforward.
+ Perhaps its only drawback is its computational cost, when drawing randomly
+ from the pdf of a parameter of interest, but excellent algorithms exist
+ to make this process highly efficient.
+ We have reasons to believe that only a fully Bayesian approach will maximize
+ the information contained in the data, which is a desirable trait when
+ dealing with high quality data but an essential one when dealing with incomplet
+e or inaccurate data.
+\end_layout
+
+\begin_layout Standard
+Perhaps more significantly, it would also appear that only Bayesian methods
+ are free from certain arbitrary assumptions commonly encountered in classical
+ statistics.
+ For example, most linear regression problems minimize the squared error
+ between the observed and the fitted data.
+ But why minimize the squared error, and not, say, the absolue error? It
+ turns out that this choice depends on how errors are modelled, and Bayesian
+ linear regression methods make this dependency explicit.
+\end_layout
+
+\begin_layout Standard
+There are other methods for estimating the parameters of this model.
+ The performance line method of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Day2003"
+
+\end_inset
+
+ is frequently used for estimating the base temperature when daily data
+ is not available.
+ The method consists in plotting the energy against the degree-days for
+ a given base temperature, and fitting a second order polynomial.
+ The base temperature is then adjusted until the second order coefficient
+ of that polynomial vanishes.
+ This method yields good results, but this choice of finding a base temperature
+ such that the relationship between energy and degree-days becomes linear
+ seems to us, again, rather arbitrary.
+\end_layout
+
+\begin_layout Standard
+In our experience, we have also seen practitioners use variations of the
+ performance line method where the coefficient of determination 
+\begin_inset Formula $R^{2}$
+\end_inset
+
+ is maximized, where the intercept vanishes, or where the sum of unweighted
+ squared residuals is minimized.
+ Again, all of these non-Bayesian methods suffer from arbitrary assumptions.
+ It seems to us that the most credible alternative to a fully Bayesian approach
+ is a non-linear regression method, described below.
+\end_layout
+
+\begin_layout Standard
+We should also mention that Bayesian methods have recently been employed
+ by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "ChongKheePohLamMatteoPozziJunjingYang2017"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Heine2017"
+
+\end_inset
+
+ to infer other kinds of building parameters from measurements; perhaps
+ the only flaw in their approach is their choice of prior distribution,
+ which tended to remain unaffected by the data.
+ It would perhaps have been better to start with uninformative priors.
+\end_layout
+
 \begin_layout Subsection
 Nonlinear regression
 \end_layout
 
 \begin_layout Standard
-In nonlinear regression we search for the set of parameters 
-\begin_inset Formula $\{K,\tb,\sigma\}$
+To the best of our knowledge, the best classical approach for estimating
+ the parameters of our model is non-linear regression, which we will compare
+ to a fully Bayesian method.
+\end_layout
+
+\begin_layout Standard
+In non-linear regression we search for the set of parameters 
+\begin_inset Formula $\{K,\tb\}$
 \end_inset
 
  that minimizes the sum of weighted squared residuals
 \begin_inset Formula 
-\[
-\sum_{p}(Q_{p}-K\times DD_{p})^{2}/n_{p}(?).
-\]
+\begin{equation}
+\sum_{p}(Q_{p}-K\times DD_{p})^{2}/n_{p},\label{eq:sumresiduals}
+\end{equation}
 
 \end_inset
 
- This can be handled by off-the-shelf funciton optimization routines, which
- will find the 
+where 
+\begin_inset Formula $DD_{p}$
+\end_inset
+
+ depends on 
+\begin_inset Formula $\tb$
+\end_inset
+
+.
+ The 
+\begin_inset Formula $1/n_{p}$
+\end_inset
+
+ weights are proportional to the inverse variance of the energy demand of
+ each period 
+\begin_inset Formula $p$
+\end_inset
+
+.
+ Intuitively, all we're doing here is to normalize the heating energy demand
+ of each period by its number of days.
+ But notice that the daily fluctuations 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ do not enter this sum.
+ They must be estimated from the sample variance of the residuals.
+\end_layout
+
+\begin_layout Standard
+Minimizing this sum of weighted squared residuals can be handled by off-the-shel
+f function optimization routines, which will find the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -2144,7 +2194,7 @@ best
 \end_inset
 
  estimate of the 
-\begin_inset Formula $\{K,\tb,\sigma\}$
+\begin_inset Formula $\{K,\tb\}$
 \end_inset
 
  parameters.
@@ -2152,23 +2202,27 @@ best
  its minimum, approximating it with a quadratic function of the parameters,
  and use the curvature of that approximation to estimate the uncertainty
  on the parameters.
-\end_layout
-
-\begin_layout Standard
-This is indeed what was done by 
+ This is indeed what was done by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Lindelof2016"
 
 \end_inset
 
-, where the log-likelihood was to be maximized.
- In fact, findint the set of parameters that maximizes the posterior probability
- density function is in fact itself a nonlinear regression problem.
- Bayesian methods, however, yield (through the posteriod pdf) more information
- than a single pdf maximum.
- And as we will see, the uncertainty on the estimated parameters will be
- different.
+ in a first attempt at estimating the parameters of a building by Bayesian
+ methods, although he did not minimize the sum of weighted squared residuals
+ but maximized a quantity called the likelihood (which, unlike the sum 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:sumresiduals"
+
+\end_inset
+
+, includes the daily fluctuations 
+\begin_inset Formula $\sigma$
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Section
@@ -4671,6 +4725,24 @@ Switzerland - Single Color
 \end_inset
 
  vector map by FreeVectorMaps.com.
+\end_layout
+
+\begin_layout Section*
+Source code
+\end_layout
+
+\begin_layout Standard
+This paper was prepared with LyX, exported to the Rnw format, and processed
+ by knitr 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "knitr17"
+
+\end_inset
+
+.
+ The source LyX file and the generated Rnw file are available from https://githu
+b.com/dlindelof/cartwheel.
 \end_layout
 
 \begin_layout Section*

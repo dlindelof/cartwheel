@@ -373,69 +373,32 @@ belong to the Altbau part.}
 \end{figure}
 
 
-\section{Estimating the building's energy efficiency\label{sec:Bayesian-energy-model}}
+\section{Estimating the building's heating demand\label{sec:Bayesian-energy-model}}
 
-We need to establish the building's energy efficiency before the installation
-(from oil refill readouts) and after (from oil meter readouts). We
-will describe a fully Bayesian approach to do so, because to the best
-of our knowledge, only Bayesian methods maximize the information contained
-in the data, and perhaps more importantly, only Bayesian methods seem
-to us free from arbitrary decisions.
-
-For example, most linear regression problems minimize the squared
-error between the observed and the fitted data. But why do we minimize
-the squared error, and not, say, the absolue value? Bayesian linear
-regression provides an answer to this question, and can also help
-decide when the absolute error is more appropriate.
-
-When it comes to estimating a building's base temperature, the performance
-line method of \citet{Day2003} is frequently used when daily data
-is not available. The method consists in plotting the energy against
-the degree-days for a given base temperature, and fitting a second
-order polynomial. The base temperature is then adjusted until the
-second order coefficient vanishes. This method yields good results,
-but this choice of finding a base temperature such that the relationship
-between energy and degree-days becomes linear seems to us, again,
-rather arbitrary.
-
-We have also seen practitioners use variations of the performance
-line method where the coefficient of determination $R^{2}$ is maximized,
-where the intercept vanishes, or where the sum of unweighted squared
-residuals is minimized. It would seem to us that the best alternative
-to a fully Bayesian approach is a nonlinear regression, where we find
-the set of parameters that minimizes the \emph{weighted} squared residuals.
-This is the approach with which we will compare our fully Bayesian
-one.
-
-Bayesian methods have recently been employed by \citet{ChongKheePohLamMatteoPozziJunjingYang2017}
-and \citet{Heine2017} who have shown how to infer building parameters
-from measurements; perhaps the only flaw in their approach is their
-choice of prior distribution, which tended to remain unaffected by
-the data. It would perhaps have been better to start with uninformative
-priors.
-
-Both approaches require a model for the heating demand of the building;
-that model happens to be the same for both approaches. We describe
-that model first, and then show how both approaches deal with the
-problem.
+To verify the effectiveness of the new heating control system, we
+need to establish two models for the building's heating energy demand:
+one before the installation, one after. Both models will have the
+same structure, but different parameters. The parameters must be estimated
+from the available data: the model before the installation will be
+estimated from the oil fill readouts, while the model after the installation
+will be estimated from the automated oil meter readouts. We begin
+by defining the structure of the model, and then we discuss how the
+parameters can be estimated from the data. 
 
 \subsection{Heating energy model}
 
-The energy consumed by a building is rarely constant but varies over
+A building's heating energy demand is rarely constant but varies over
 time due to so-called routine factors (expected to vary, such as the
 climate) and non-routine factors (normally constant, such as the indoor
-temperature's set point or the activity inside the building). These
-factors must be accounted for when assessing the effectiveness of
-an ECM. This is normally done by establishing a model for the energy
-use before and after the installation of the ECM, as we do here.
+temperature's set point or the activity inside the building).
 
 Under normal conditions, when the indoor temperature follows a desired
-set point, the daily heating demand of a building will balance the
-heat losses. The heat losses on a given day $d$ will, intuitively,
-be larger on colder days than on warmer days. Some days will beso
-warm that no heating is required, with all heat losses being compensated
-by the sun and other free gains; the outdoor temperature threshold
-above which this happens, the building's \emph{base temperature} $\tb$,
+set point, the daily heating energy demand of a building will balance
+the heat losses. The heat losses on a given day $d$ will, intuitively,
+be larger on colder days than on warmer days. Some days will be so
+warm that no heating is required, all heat losses being compensated
+by the sun and other free gains; the outdoor temperature above which
+this happens (called the building's \emph{base temperature} $\tb$)
 is usually taken to be equal to the indoor temperature set point up
 to a constant offset. We should also allow for day-to-day random fluctuations
 in the heating demand, which we will model by Gaussian noise $\mathcal{N}(0,\sigma^{2})$
@@ -444,11 +407,15 @@ mean 0 and whose variance $\sigma^{2}$ will have to be estimated.
 Such models have been called \emph{probabilistic semi-physical models}
 in some papers \citep{Verhelst2017}.
 
+(This assumes that the variance of the daily heating energy demand
+is constant, which is of course not true: above the base temperature,
+the daily heating energy demand will be stabler than below the base
+temperature. But we do not believe the model needs this extra complexity.)
+
 Putting it all together, the daily losses $Q_{d}$\nomenclature[030]{$Q_{d}$}{energy demand on day $d$}
-on a day $d$ is the sum of something proportional to the positive
-difference \nomenclature[100]{$(.)^{+}$}{positive part}between the
-average outdoor temperature $\tout$ \nomenclature[070]{$\tout$}{mean outdoor temperature on day $d$}
-and the building's base temperature $\tb$, and random noise: 
+on a day $d$ is proportional to the positive difference \nomenclature[100]{$(.)^{+}$}{positive part}between
+the average outdoor temperature $\tout$ \nomenclature[070]{$\tout$}{mean outdoor temperature on day $d$}
+and the building's base temperature $\tb$, plus random noise: 
 \begin{equation}
 Q_{d}=K\times(\tb-\tout)^{+}+\mathcal{N}(0,\sigma^{2}),
 \end{equation}
@@ -456,10 +423,10 @@ where the constant of proportionality $K$\nomenclature[050]{$K$}{total heat loss
 called the building's \emph{total heat loss coefficient}, is the quantity
 of extra heat required per day to maintain indoor comfort for each
 extra degree of cold. We agreed with the customer that the effectiveness
-of the new control system would be uniquerely defined by changes to
-$K$, since the base temperature $\theta_{\text{b}}$ might change
-if the indoor temperature set point is not the same before and after
-the installation.
+of the new heating control system would be uniquerely determined from
+changes to $K$, since the base temperature $\theta_{\text{b}}$ might
+change if the indoor temperature set point is not the same before
+and after the installation.
 
 Over a period $p$ made up of $n_{p}$ \nomenclature[045]{$n_{p}$}{number of days in period $p$}days,
 the total heating load \nomenclature[040]{$Q_{p}$}{energy demand during reporting period $p$}will
@@ -468,7 +435,7 @@ be
 Q_{p}=\sum_{d\in p}Q_{d}=K\times DD_{p}+\mathcal{N}(0,n_{p}\sigma^{2}),\label{eq:Qp}
 \end{equation}
 where $DD_{p}=\sum_{d\in p}(\tb-\tout)^{+}$ \nomenclature[110]{$DD_{p}$}{heating degree days during period $p$}is
-the number of \emph{degree days at base temperature $\tb$} during
+the number of \emph{degree-days at base temperature $\tb$} during
 that period. The load $Q_{p}$ and the period duration $n_{p}$ are
 directly read from utility bills or energy meter readouts, while $DD_{p}$
 must be calculated from historic weather data and the building's estimated
@@ -478,13 +445,14 @@ Our task is to estimate the total heat loss coefficient $K$, the
 base temperature $\tb$, and the daily fluctuations $\sigma$ from
 the data. None of them can be estimated independently of the others;
 underestimating $\tb$ will lead to an overestimated $K$ and vice-versa.
-This is why one cannot use a ``one size fits all'' base temperature,
-as currently recommended by building regulations and policies. This
-was conclusively shown by an analysis of four years of half-hourly
-gas meter data on 119 buildings by \citet{Meng2017}, who used an
-algorithm due to \citet{Paulus2016} and found base temperatures ranging
-from 11.6\,\textcelsius{} to 20.5\,\textcelsius , while the ``standard''
-base temperature in the UK is 15.5\,\textcelsius{} \citep{CTG075}.
+This is partially why one cannot use a ``one size fits all'' base
+temperature, as currently recommended by building regulations and
+policies. This was conclusively shown by an analysis of four years
+of half-hourly gas meter data on 119 buildings by \citet{Meng2017},
+who used an algorithm due to \citet{Paulus2016} and found base temperatures
+ranging from 11.6\,\textcelsius{} to 20.5\,\textcelsius , while
+the ``standard'' base temperature in the UK is 15.5\,\textcelsius{}
+\citep{CTG075}.
 
 \subsection{Bayesian estimation}
 
@@ -573,26 +541,79 @@ pdf on the left-hand side of the equation, inferences about $\rho=K_{\text{post}
 can be made by drawing random pairs of $\{\kpre,\kpost\}$ values
 from this pdf and looking at the distribution of $\rho$.
 
+A fully Bayesian approach like the one just described is mathematically
+straightforward. Perhaps its only drawback is its computational cost,
+when drawing randomly from the pdf of a parameter of interest, but
+excellent algorithms exist to make this process highly efficient.
+We have reasons to believe that only a fully Bayesian approach will
+maximize the information contained in the data, which is a desirable
+trait when dealing with high quality data but an essential one when
+dealing with incomplete or inaccurate data.
+
+Perhaps more significantly, it would also appear that only Bayesian
+methods are free from certain arbitrary assumptions commonly encountered
+in classical statistics. For example, most linear regression problems
+minimize the squared error between the observed and the fitted data.
+But why minimize the squared error, and not, say, the absolue error?
+It turns out that this choice depends on how errors are modelled,
+and Bayesian linear regression methods make this dependency explicit.
+
+There are other methods for estimating the parameters of this model.
+The performance line method of \citet{Day2003} is frequently used
+for estimating the base temperature when daily data is not available.
+The method consists in plotting the energy against the degree-days
+for a given base temperature, and fitting a second order polynomial.
+The base temperature is then adjusted until the second order coefficient
+of that polynomial vanishes. This method yields good results, but
+this choice of finding a base temperature such that the relationship
+between energy and degree-days becomes linear seems to us, again,
+rather arbitrary.
+
+In our experience, we have also seen practitioners use variations
+of the performance line method where the coefficient of determination
+$R^{2}$ is maximized, where the intercept vanishes, or where the
+sum of unweighted squared residuals is minimized. Again, all of these
+non-Bayesian methods suffer from arbitrary assumptions. It seems to
+us that the most credible alternative to a fully Bayesian approach
+is a non-linear regression method, described below.
+
+We should also mention that Bayesian methods have recently been employed
+by \citet{ChongKheePohLamMatteoPozziJunjingYang2017} and \citet{Heine2017}
+to infer other kinds of building parameters from measurements; perhaps
+the only flaw in their approach is their choice of prior distribution,
+which tended to remain unaffected by the data. It would perhaps have
+been better to start with uninformative priors.
+
 \subsection{Nonlinear regression}
 
-In nonlinear regression we search for the set of parameters $\{K,\tb,\sigma\}$
-that minimizes the sum of weighted squared residuals
-\[
-\sum_{p}(Q_{p}-K\times DD_{p})^{2}/n_{p}(?).
-\]
- This can be handled by off-the-shelf funciton optimization routines,
-which will find the ``best'' estimate of the $\{K,\tb,\sigma\}$
-parameters. Most solvers will also evaluate the Hessian of the objective
-function around its minimum, approximating it with a quadratic function
-of the parameters, and use the curvature of that approximation to
-estimate the uncertainty on the parameters.
+To the best of our knowledge, the best classical approach for estimating
+the parameters of our model is non-linear regression, which we will
+compare to a fully Bayesian method.
 
-This is indeed what was done by \citet{Lindelof2016}, where the log-likelihood
-was to be maximized. In fact, findint the set of parameters that maximizes
-the posterior probability density function is in fact itself a nonlinear
-regression problem. Bayesian methods, however, yield (through the
-posteriod pdf) more information than a single pdf maximum. And as
-we will see, the uncertainty on the estimated parameters will be different.
+In non-linear regression we search for the set of parameters $\{K,\tb\}$
+that minimizes the sum of weighted squared residuals
+\begin{equation}
+\sum_{p}(Q_{p}-K\times DD_{p})^{2}/n_{p},\label{eq:sumresiduals}
+\end{equation}
+where $DD_{p}$ depends on $\tb$. The $1/n_{p}$ weights are proportional
+to the inverse variance of the energy demand of each period $p$.
+Intuitively, all we're doing here is to normalize the heating energy
+demand of each period by its number of days. But notice that the daily
+fluctuations $\sigma$ do not enter this sum. They must be estimated
+from the sample variance of the residuals.
+
+Minimizing this sum of weighted squared residuals can be handled by
+off-the-shelf function optimization routines, which will find the
+``best'' estimate of the $\{K,\tb\}$ parameters. Most solvers will
+also evaluate the Hessian of the objective function around its minimum,
+approximating it with a quadratic function of the parameters, and
+use the curvature of that approximation to estimate the uncertainty
+on the parameters. This is indeed what was done by \citet{Lindelof2016}
+in a first attempt at estimating the parameters of a building by Bayesian
+methods, although he did not minimize the sum of weighted squared
+residuals but maximized a quantity called the likelihood (which, unlike
+the sum \eqref{eq:sumresiduals}, includes the daily fluctuations
+$\sigma$).
 
 \section{Data analysis\label{sec:Data-analysis}}
 
@@ -1216,6 +1237,12 @@ for her meticulous review of early versions of this paper.
 
 The inset map of Switzerland in Fig.~\ref{fig:stations} is the ``Switzerland
 - Single Color'' vector map by FreeVectorMaps.com.
+
+\section*{Source code}
+
+This paper was prepared with LyX, exported to the Rnw format, and
+processed by knitr \citep{knitr17}. The source LyX file and the generated
+Rnw file are available from https://github.com/dlindelof/cartwheel.
 
 \section*{Appendix}
 
