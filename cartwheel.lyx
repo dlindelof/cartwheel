@@ -702,7 +702,7 @@ description "Energy Conservation Measure"
 
 \end_inset
 
-) can reduce the energy consumption by existing buildings, but they vary
+) can reduce the energy consumption of existing buildings, but they vary
  widely in cost and effectiveness.
  Faced with a variety of options, ranging from trivial (replacing light
  bulbs) to major (better façade insulation), building owners need to know
@@ -990,7 +990,7 @@ Other examples of retrofit assessments found in the literature include:
 An analysis of 32 retrofit projects, ranging in size from three to 30 000
  houses, in order to rank the cost-effectiveness of different energy conservatio
 n measures.
- The space heating energy was normalised to a fixed base temperature of
+ The space heating energy was normalized to a fixed base temperature of
  18.3
 \begin_inset space \thinspace{}
 \end_inset
@@ -1119,7 +1119,7 @@ Swisscom, a leading Swiss telecommunications company, owns and operates
  and non-production buildings.
  They are one of the largest building owners in Switzerland in number of
  buildings.
- Their yearly energy bills for their buildings is estimated at CHF 70 million.
+ The yearly energy bill for their buildings is estimated at CHF 70 million.
  They are publicly committed to 
 \begin_inset Quotes eld
 \end_inset
@@ -1392,7 +1392,7 @@ a
 
 \end_inset
 
- system included an oil meter that could read out automatically.
+ system included an oil meter that could be read out automatically.
  All sensors attached to the NOL
 \begin_inset script superscript
 
@@ -1469,7 +1469,7 @@ To verify the effectiveness of the new heating control system, we need to
  the installation, one after.
  Both models will have the same structure, but different parameters.
  The parameters must be estimated from the available data: the model before
- the installation will be estimated from the oil fill readouts, while the
+ the installation will be estimated from the oil fill records, while the
  model after the installation will be estimated from the automated oil meter
  readouts.
  We begin by defining the structure of the model, and then we discuss how
@@ -1617,6 +1617,15 @@ total heat loss coefficient
 \emph default
 , is the quantity of extra heat required per day to maintain indoor comfort
  for each extra degree of cold.
+ 
+\begin_inset Formula $\mathcal{N}(0,\sigma^{2})$
+\end_inset
+
+ stands for Gaussian noise of mean 0 and variance 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+.
  We agreed with the customer that the effectiveness of the new heating control
  system would be determined from changes to 
 \begin_inset Formula $K$
@@ -2160,21 +2169,12 @@ In non-linear regression we search for the set of parameters
  that minimizes the sum of weighted squared residuals
 \begin_inset Formula 
 \begin{equation}
-\sum_{p}(Q_{p}-K\times DD_{p})^{2}/n_{p},\label{eq:sumresiduals}
+\sum_{p}(Q_{p}-K\times DD_{p})^{2}/n_{p}.\label{eq:sumresiduals}
 \end{equation}
 
 \end_inset
 
-where 
-\begin_inset Formula $DD_{p}$
-\end_inset
-
- depends on 
-\begin_inset Formula $\tb$
-\end_inset
-
-.
- The 
+The 
 \begin_inset Formula $1/n_{p}$
 \end_inset
 
@@ -2183,8 +2183,8 @@ where
 \begin_inset Formula $p$
 \end_inset
 
-: intuitively, we normalize the noise on the heating energy demand of each
- period by its number of days.
+: intuitively, we normalize the noise of each period's energy demand by
+ the number of days in that period.
  But notice that the daily fluctuations 
 \begin_inset Formula $\sigma$
 \end_inset
@@ -3508,7 +3508,10 @@ key "ashrae2013,CTG075"
  The relationship between the oil consumption and the degree days using
  the estimated base temperature is satisfactorily linear, with the exception
  of the two outliers identified above, and possibly a third point with 2300
- liters of oil for about 750 degree days.
+\begin_inset space \thinspace{}
+\end_inset
+
+L of oil for about 750 degree days.
  
 \end_layout
 
@@ -3868,8 +3871,8 @@ Each point in this plot represents one day between 1 April 2016, when a
 \end_inset
 
  could also be obtained by fitting a straight line through these points,
- since each point represents one day of oil consumption and they all are
- lower than the base temperature.
+ since each point represents one day of oil consumption and they are all
+ below the base temperature.
  But we keep our Bayesian approach, which yields
 \begin_inset Formula 
 \[
