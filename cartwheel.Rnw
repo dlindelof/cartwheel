@@ -60,7 +60,7 @@
 
 \author[nb]{David~Lindelöf\corref{cor1}}
 
-\ead{david.lindelof@neurobat.net}
+\ead{lindelof@ieee.org}
 
 \author[nb]{Mohammad~Alisafaee}
 
