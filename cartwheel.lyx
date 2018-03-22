@@ -346,7 +346,7 @@ cor1
 \end_layout
 
 \begin_layout Address
-Neurobat AG, Rue de Veyrot 9, 1217 Meyrin, +41 22 552.11.62
+Neurobat AG, Rue de Veyrot 9, 1217 Meyrin, +41 79 415.66.41
 \begin_inset Argument 1
 status open
 
@@ -365,9 +365,9 @@ Most building owners eventually invest in energy conservation measures for
  Faced with a variety of options, ranging from trivial (replacing light
  bulbs) to major (better façade insulation), they want to know which measure
  will yield the highest return on investment—and with what confidence.
- Moreover, once the measure has been applied, they want to know how well
- it performs and whether their money was well spent—also known as Measurement
- & Verification.
+ Moreover, once the measure has been applied, they will want to know how
+ well it performs and whether their money was well spent—also known as Measureme
+nt & Verification (M&V).
 \end_layout
 
 \begin_layout Abstract
@@ -1181,7 +1181,11 @@ key "neurobat2017"
 \end_inset
 
  was chosen for a building in Sargans, a Swiss locality in the canton of
- St Gall.
+ St.
+\begin_inset space ~
+\end_inset
+
+Gallen.
  Like many buildings, the pre-installation energy efficiency of this building
  was not well understood by the building's owner, and the project plan did
  not allow for the measurement of a baseline.
@@ -1816,9 +1820,18 @@ reference "eq:Qp"
  model that are the most consistent with the observed data, or more precisely
  finding the 
 \emph on
-probability distribution functions
+probability density functions
 \emph default
- of these parameters 
+ (pdf
+\begin_inset CommandInset nomenclature
+LatexCommand nomenclature
+prefix "025"
+symbol "pdf"
+description "Probability density function"
+
+\end_inset
+
+) of these parameters 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "Gelman2013"
@@ -1874,10 +1887,10 @@ key "homeR"
 \end_inset
 
 .
- But unlike that prior work, where the focus was on the determination of
- a building's base temperature, here we will perform this estimation twice
- (before and after the installation), and be interested in the change to
- the building's heat loss coefficient 
+ But unlike that prior work, which focused on the determination of a building's
+ base temperature, here we will perform this estimation twice (before and
+ after the installation), and be interested in the change to the building's
+ heat loss coefficient 
 \begin_inset Formula $K$
 \end_inset
 
@@ -2058,17 +2071,13 @@ key "Lindelof2016"
 .
  The second equality holds because the post-installation parameters do not
  depend on the pre-installation data, and vice-versa.
- Once we have the pdf on the left-hand side of the equation, inferences
- about 
-\begin_inset Formula $\rho=K_{\text{post}}/K_{\text{pre}}$
-\end_inset
-
- can be made by drawing random pairs of 
+ Once we have the probability density function on the left-hand side of
+ the equation, we can draw random pairs of 
 \begin_inset Formula $\{\kpre,\kpost\}$
 \end_inset
 
- values from this pdf and looking at the distribution of 
-\begin_inset Formula $\rho$
+ values from it and make inferences about 
+\begin_inset Formula $\rho=K_{\text{post}}/K_{\text{pre}}$
 \end_inset
 
 .

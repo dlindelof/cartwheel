@@ -72,15 +72,16 @@
 
 \cortext[cor1]{Corresponding author}
 
-\address[nb]{Neurobat AG, Rue de Veyrot 9, 1217 Meyrin, +41 22 552.11.62}
+\address[nb]{Neurobat AG, Rue de Veyrot 9, 1217 Meyrin, +41 79 415.66.41}
 \begin{abstract}
 Most building owners eventually invest in energy conservation measures
 for their buildings. Faced with a variety of options, ranging from
 trivial (replacing light bulbs) to major (better façade insulation),
 they want to know which measure will yield the highest return on investment\textemdash and
 with what confidence. Moreover, once the measure has been applied,
-they want to know how well it performs and whether their money was
-well spent\textemdash also known as Measurement \& Verification.
+they will want to know how well it performs and whether their money
+was well spent\textemdash also known as Measurement \& Verification
+(M\&V).
 
 But conventional M\&V mandates the establishment of a baseline. The
 building should be instrumented during a year or more before applying
@@ -313,7 +314,7 @@ the effectiveness of model-predictive control for space heating.
 A commercial adaptive model-predictive controller based on artificial
 neural networks called NOL\textsuperscript{a} (Neurobat OnLine\textemdash analog)
 \citep{neurobat2017} was chosen for a building in Sargans, a Swiss
-locality in the canton of St Gall. Like many buildings, the pre-installation
+locality in the canton of St.~Gallen. Like many buildings, the pre-installation
 energy efficiency of this building was not well understood by the
 building's owner, and the project plan did not allow for the measurement
 of a baseline. All that was available was a record of oil tank refills,
@@ -462,8 +463,8 @@ constitutes the data we have at hand, while Eq.~\eqref{eq:Qp} is
 a probability model from which that data is drawn. Bayesian inference
 consists in finding the parameters of that probability model that
 are the most consistent with the observed data, or more precisely
-finding the \emph{probability distribution functions} of these parameters
-\citep{Gelman2013}.
+finding the \emph{probability density functions} (pdf\nomenclature[025]{pdf}{Probability density function})
+of these parameters \citep{Gelman2013}.
 
 Let $D$ \nomenclature[120]{$D$}{set of energy consumption and historic weather data}stand
 for the set of reporting periods (for example, a set of monthly gas
@@ -473,8 +474,8 @@ density function for the parameters $\{K,\theta_{\text{b}},\sigma\}$
 conditioned on the information $D$, noted as $p(\{K,\theta_{\text{b}},\sigma\}\mid D)$.
 A method to do so has been described by \citet{Lindelof2016} and
 implemented in a package for the R programming environment \citep{homeR}.
-But unlike that prior work, where the focus was on the determination
-of a building's base temperature, here we will perform this estimation
+But unlike that prior work, which focused on the determination of
+a building's base temperature, here we will perform this estimation
 twice (before and after the installation), and be interested in the
 change to the building's heat loss coefficient $K$.
 
@@ -543,10 +544,10 @@ p(\{K_{\text{pre}},\theta_{\text{b,pre}}, & \sigma_{\text{pre}},K_{\text{post}},
 where each term in the product on the right-hand side can be computed
 by the method proposed by \citet{Lindelof2016}. The second equality
 holds because the post-installation parameters do not depend on the
-pre-installation data, and vice-versa. Once we have the pdf on the
-left-hand side of the equation, inferences about $\rho=K_{\text{post}}/K_{\text{pre}}$
-can be made by drawing random pairs of $\{\kpre,\kpost\}$ values
-from this pdf and looking at the distribution of $\rho$.
+pre-installation data, and vice-versa. Once we have the probability
+density function on the left-hand side of the equation, we can draw
+random pairs of $\{\kpre,\kpost\}$ values from it and make inferences
+about $\rho=K_{\text{post}}/K_{\text{pre}}$.
 
 A fully Bayesian approach like the one just described is mathematically
 straightforward. Perhaps its only drawback is its computational cost,
